@@ -4,388 +4,268 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Freeflow Dispatch Guide 2.0</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --green:#1a6b3a;--green2:#2a8c4e;--green3:#e8f5ed;--green4:#d1ead9;
-  --bg:#f0f2f5;--card:#ffffff;--sidebar:#1e2530;--sidebar2:#252d3a;
-  --border:#e2e8f0;--border2:#cbd5e1;
+  --g:#1a6b3a;--g2:#2a8c4e;--gl:#e8f5ed;--gd:#c6e6d0;
+  --bg:#f0f2f5;--card:#fff;--surf:#f8fafc;
+  --bd:#e2e8f0;--bd2:#cbd5e1;
   --txt:#0f172a;--txt2:#475569;--txt3:#94a3b8;
   --red:#dc2626;--redl:#fef2f2;--redb:#fecaca;
-  --yellow:#b45309;--yellowl:#fffbeb;--yellowb:#fde68a;
-  --blue:#1d4ed8;--bluel:#eff6ff;--blueb:#bfdbfe;
-  --purple:#7c3aed;--purplel:#f5f3ff;--purpleb:#ddd6fe;
-  --teal:#0f766e;--teall:#f0fdfa;--tealb:#99f6e4;
-  --orange:#c2410c;--orangel:#fff7ed;--orangeb:#fed7aa;
-  --shadow:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.04);
-  --shadow2:0 4px 16px rgba(0,0,0,.10);
+  --yel:#b45309;--yell:#fffbeb;--yelb:#fde68a;
+  --blu:#1d4ed8;--blul:#eff6ff;--blub:#bfdbfe;
+  --sb:#1e2530;
 }
-
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;display:flex;font-size:14px;line-height:1.6}
-
-/* ── SIDEBAR ── */
-#sidebar{
-  width:240px;min-height:100vh;background:var(--sidebar);
-  position:fixed;left:0;top:0;display:flex;flex-direction:column;
-  z-index:100;overflow-y:auto;flex-shrink:0;
-}
-.sb-header{padding:20px 16px 16px;background:var(--green);border-bottom:1px solid rgba(255,255,255,.1)}
-.sb-logo{display:flex;align-items:center;gap:10px;margin-bottom:4px}
-.sb-logo-mark{width:32px;height:32px;background:rgba(255,255,255,.2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;color:#fff;flex-shrink:0}
-.sb-logo-name{font-size:13px;font-weight:700;color:#fff;line-height:1.2}
-.sb-logo-sub{font-size:10px;color:rgba(255,255,255,.65);font-family:'JetBrains Mono',monospace;margin-top:2px}
-
-.sb-search{padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.06)}
-.sb-search input{width:100%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:6px;padding:6px 10px 6px 28px;color:#fff;font-size:12px;font-family:'Inter',sans-serif;outline:none}
-.sb-search input::placeholder{color:rgba(255,255,255,.4)}
-.sb-search input:focus{background:rgba(255,255,255,.13);border-color:rgba(255,255,255,.25)}
-.sb-search-wrap{position:relative}
-.sb-search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,.4);font-size:13px;pointer-events:none}
-.search-results{display:none;position:absolute;top:100%;left:14px;right:14px;background:var(--card);border:1px solid var(--border);border-radius:8px;max-height:240px;overflow-y:auto;z-index:200;box-shadow:var(--shadow2);margin-top:4px}
-.search-results.show{display:block}
-.search-item{padding:9px 12px;cursor:pointer;border-bottom:1px solid var(--border);font-size:12px;color:var(--txt2)}
-.search-item:last-child{border-bottom:none}
-.search-item:hover{background:var(--bg);color:var(--txt)}
-.search-item-cat{font-size:10px;color:var(--txt3);font-family:'JetBrains Mono',monospace;margin-bottom:1px}
-
-.sb-nav{flex:1;padding:8px 0}
-.sb-group{margin-bottom:2px}
-.sb-group-label{font-size:9px;font-family:'JetBrains Mono',monospace;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.3);padding:10px 16px 4px;display:block}
-.sb-item{display:flex;align-items:center;gap:9px;padding:8px 16px;cursor:pointer;color:rgba(255,255,255,.6);font-size:12.5px;font-weight:500;transition:all .12s;position:relative;user-select:none;border-left:3px solid transparent}
-.sb-item:hover{color:#fff;background:rgba(255,255,255,.06);border-left-color:rgba(255,255,255,.2)}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;display:flex;font-size:14px;line-height:1.6}
+#sidebar{width:230px;min-height:100vh;background:var(--sb);position:fixed;left:0;top:0;display:flex;flex-direction:column;z-index:100;overflow-y:auto}
+#sidebar::-webkit-scrollbar{width:4px}
+#sidebar::-webkit-scrollbar-thumb{background:#3d4a5c;border-radius:2px}
+.sb-top{padding:16px 14px 12px;background:#1a3a28}
+.sb-brand{display:flex;align-items:center;gap:9px;margin-bottom:12px}
+.sb-mark{width:32px;height:32px;background:rgba(255,255,255,.15);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff}
+.sb-name{font-size:12.5px;font-weight:700;color:#fff;line-height:1.2}
+.sb-sub{font-size:9px;color:rgba(255,255,255,.5);font-family:'Courier New',monospace;margin-top:1px}
+.sb-search{position:relative}
+.sb-search input{width:100%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:7px 10px 7px 28px;color:#fff;font-size:11.5px;outline:none;font-family:inherit}
+.sb-search input::placeholder{color:rgba(255,255,255,.35)}
+.sb-search input:focus{background:rgba(255,255,255,.13)}
+.sb-si{position:absolute;left:9px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,.4);font-size:13px}
+.sb-nav{flex:1;padding:8px 0 14px}
+.sb-grp{font-size:9px;font-family:'Courier New',monospace;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.28);padding:10px 14px 3px;display:block}
+.sb-item{display:flex;align-items:center;gap:8px;padding:7px 14px;cursor:pointer;color:rgba(255,255,255,.55);font-size:12.5px;font-weight:500;transition:all .1s;border-left:2.5px solid transparent;user-select:none}
+.sb-item:hover{color:#fff;background:rgba(255,255,255,.06)}
 .sb-item.active{color:#fff;background:rgba(255,255,255,.1);border-left-color:#4ade80}
-.sb-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.25);flex-shrink:0}
-.sb-item.active .sb-dot{background:#4ade80}
-
-.sb-footer{padding:12px 14px;border-top:1px solid rgba(255,255,255,.06);background:rgba(0,0,0,.15)}
-.sb-admin-btn{width:100%;padding:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:7px;color:rgba(255,255,255,.7);font-size:12px;font-family:'Inter',sans-serif;cursor:pointer;transition:all .15s;font-weight:500}
-.sb-admin-btn:hover{background:rgba(255,255,255,.14);color:#fff}
-.sb-admin-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.25);display:inline-block;margin-right:6px;transition:background .2s}
-.sb-admin-dot.on{background:#4ade80}
-
-/* ── MAIN ── */
-#main{margin-left:240px;flex:1;min-height:100vh;display:flex;flex-direction:column}
-
-.topbar{background:var(--card);border-bottom:1px solid var(--border);padding:11px 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;box-shadow:var(--shadow)}
-.breadcrumb{font-size:12px;color:var(--txt3);display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace}
-.breadcrumb .active{color:var(--txt2)}
-.topbar-actions{display:flex;gap:8px;align-items:center}
-.btn{padding:6px 14px;border-radius:7px;font-size:12px;font-family:'Inter',sans-serif;cursor:pointer;border:1.5px solid var(--border2);background:var(--card);color:var(--txt2);font-weight:500;transition:all .15s;display:inline-flex;align-items:center;gap:5px}
-.btn:hover{border-color:var(--green);color:var(--green);background:var(--green3)}
-.btn-primary{background:var(--green);border-color:var(--green2);color:#fff}
-.btn-primary:hover{background:var(--green2);color:#fff}
-.btn-danger{background:var(--redl);border-color:var(--redb);color:var(--red)}
-.btn-danger:hover{background:#fee2e2}
-
-.admin-bar{display:none;background:#f0fdf4;border-bottom:2px solid var(--green4);padding:9px 28px;align-items:center;justify-content:space-between;font-size:12.5px;color:var(--green);font-weight:500}
+.sb-foot{padding:10px 12px;border-top:1px solid rgba(255,255,255,.06);background:rgba(0,0,0,.1)}
+.admin-btn{width:100%;padding:7px 10px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:6px;color:rgba(255,255,255,.6);font-size:11.5px;font-family:inherit;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:6px;justify-content:center}
+.admin-btn:hover{background:rgba(255,255,255,.12);color:#fff}
+.adot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.25);transition:background .2s}
+.adot.on{background:#4ade80}
+#main{margin-left:230px;flex:1;display:flex;flex-direction:column;min-height:100vh}
+.topbar{background:var(--card);border-bottom:1px solid var(--bd);padding:11px 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.crumb{font-size:11.5px;color:var(--txt3);font-family:'Courier New',monospace;display:flex;align-items:center;gap:6px}
+.crumb .ca{color:var(--txt2)}
+.admin-bar{display:none;background:#f0fdf4;border-bottom:2px solid var(--gd);padding:8px 28px;align-items:center;justify-content:space-between;font-size:12.5px;color:var(--g);font-weight:500}
 .admin-bar.show{display:flex}
-
 .content{padding:24px 32px 60px;flex:1}
-
-/* ── SECTIONS ── */
-.section{display:none}
-.section.active{display:block;animation:fadeIn .15s ease}
-@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
-
-.sec-header{margin-bottom:20px;padding-bottom:16px;border-bottom:2px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.sec{display:none}
+.sec.active{display:block;animation:fi .15s ease}
+@keyframes fi{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.sec-hdr{margin-bottom:20px;padding-bottom:16px;border-bottom:2px solid var(--bd);display:flex;align-items:flex-start;justify-content:space-between}
 .sec-title{font-size:22px;font-weight:700;color:var(--txt);letter-spacing:-.02em}
 .sec-desc{font-size:13px;color:var(--txt3);margin-top:3px}
-
-/* ── CARDS ── */
-.card{background:var(--card);border:1.5px solid var(--border);border-radius:10px;padding:18px 20px;margin-bottom:14px;box-shadow:var(--shadow)}
+.card{background:var(--card);border:1.5px solid var(--bd);border-radius:10px;padding:18px 20px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
 .card-title{font-size:13px;font-weight:700;color:var(--txt);margin-bottom:12px;display:flex;align-items:center;gap:8px}
-.card-icon{width:22px;height:22px;background:var(--green3);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--green)}
-.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
-.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-
-/* ── CONTACT CARDS ── */
-.contact-card{background:var(--card);border:1.5px solid var(--border);border-radius:9px;padding:14px 16px;transition:border-color .15s;position:relative}
-.contact-card:hover{border-color:var(--green4)}
-.cc-name{font-weight:700;color:var(--txt);font-size:13px}
-.cc-role{font-size:10.5px;font-family:'JetBrains Mono',monospace;color:var(--green);margin:2px 0 6px;letter-spacing:.02em}
+.ci{width:22px;height:22px;background:var(--gl);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--g)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.cc{background:var(--card);border:1.5px solid var(--bd);border-radius:10px;padding:14px 16px;transition:border-color .15s;position:relative}
+.cc:hover{border-color:var(--gd)}
+.cc-name{font-weight:700;color:var(--txt);font-size:13.5px}
+.cc-role{font-size:10px;font-family:'Courier New',monospace;color:var(--g);margin:2px 0 6px}
 .cc-info{font-size:12px;color:var(--txt2);line-height:1.9}
-.cc-info a{color:var(--blue);text-decoration:none}
-
-/* ── DATA TABLE ── */
-.data-table{width:100%;border-collapse:collapse;font-size:12.5px}
-.data-table th{background:#f8fafc;color:var(--txt3);font-size:9.5px;font-family:'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;padding:8px 12px;text-align:left;border-bottom:1.5px solid var(--border);border-top:1px solid var(--border)}
-.data-table td{padding:9px 12px;border-bottom:1px solid var(--border);color:var(--txt2);vertical-align:top}
-.data-table tr:last-child td{border-bottom:none}
-.data-table tr:hover td{background:#fafafa}
-.data-table td:first-child{color:var(--txt);font-weight:600}
-
-/* ── STEPS ── */
+.cc-info a{color:var(--blu);text-decoration:none}
+.cc-actions{display:none;position:absolute;top:8px;right:8px;gap:4px}
+.admin-on .cc:hover .cc-actions{display:flex}
+.tbl{width:100%;border-collapse:collapse;font-size:12.5px}
+.tbl th{background:var(--surf);color:var(--txt3);font-size:9.5px;font-family:'Courier New',monospace;letter-spacing:.08em;text-transform:uppercase;padding:8px 12px;text-align:left;border-bottom:1.5px solid var(--bd)}
+.tbl td{padding:9px 12px;border-bottom:1px solid var(--bd);color:var(--txt2);vertical-align:top}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:var(--surf)}
+.tbl td:first-child{color:var(--txt);font-weight:600}
 .steps{display:flex;flex-direction:column;gap:8px}
 .step{display:flex;gap:12px;align-items:flex-start}
-.step-num{width:24px;height:24px;background:var(--green3);border:1.5px solid var(--green4);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;color:var(--green);flex-shrink:0;margin-top:2px}
-.step-content{flex:1;padding-top:2px}
-.step-title{font-weight:600;color:var(--txt);font-size:13px;line-height:1.4}
-.step-body{color:var(--txt2);font-size:12.5px;margin-top:2px}
-
-/* ── ALERTS ── */
+.sn{width:24px;height:24px;background:var(--gl);border:1.5px solid var(--gd);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Courier New',monospace;font-size:11px;font-weight:500;color:var(--g);flex-shrink:0;margin-top:1px}
+.sc{flex:1;padding-top:2px}
+.st{font-weight:700;color:var(--txt);font-size:13px}
+.sb2{color:var(--txt2);font-size:12.5px;margin-top:2px}
 .alert{border-radius:8px;padding:11px 14px;margin:10px 0;font-size:12.5px;display:flex;gap:10px;align-items:flex-start;border:1px solid}
-.alert-urgent{background:var(--redl);border-color:var(--redb);color:var(--red)}
-.alert-note{background:var(--yellowl);border-color:var(--yellowb);color:var(--yellow)}
-.alert-info{background:var(--bluel);border-color:var(--blueb);color:var(--blue)}
-.alert-ok{background:var(--green3);border-color:var(--green4);color:var(--green)}
-.alert-icon{font-weight:700;flex-shrink:0;margin-top:1px}
-
-/* ── TAGS ── */
-.tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-family:'JetBrains Mono',monospace;font-weight:500;border:1px solid}
-.tag-green{background:var(--green3);color:var(--green);border-color:var(--green4)}
-.tag-red{background:var(--redl);color:var(--red);border-color:var(--redb)}
-.tag-yellow{background:var(--yellowl);color:var(--yellow);border-color:var(--yellowb)}
-.tag-blue{background:var(--bluel);color:var(--blue);border-color:var(--blueb)}
-.tag-gray{background:#f8fafc;color:var(--txt3);border-color:var(--border)}
-
-/* ── EMAIL BLOCK ── */
-.email-block{background:#f8fafc;border:1.5px solid var(--border);border-radius:8px;padding:14px 16px;font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--txt2);line-height:1.9;position:relative;white-space:pre-wrap}
-.email-label{font-size:9.5px;font-family:'JetBrains Mono',monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--txt3);margin-bottom:5px}
-.copy-btn{position:absolute;top:8px;right:8px;padding:3px 10px;background:var(--card);border:1px solid var(--border2);border-radius:4px;font-size:10.5px;font-family:'Inter',sans-serif;font-weight:600;color:var(--txt3);cursor:pointer;transition:all .15s}
-.copy-btn:hover{color:var(--green);border-color:var(--green)}
-
-/* ── CHECKLIST ── */
-.checklist{list-style:none}
-.check-item{display:flex;align-items:flex-start;gap:9px;padding:8px 0;border-bottom:1px solid var(--border);font-size:12.5px;color:var(--txt2);cursor:pointer}
-.check-item:last-child{border-bottom:none}
-.check-box{width:17px;height:17px;border:1.5px solid var(--border2);border-radius:4px;flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;transition:all .15s;background:var(--card)}
-.check-item.done .check-box{background:var(--green);border-color:var(--green)}
-.check-item.done .check-box::after{content:'✓';font-size:10px;color:#fff;font-weight:700}
-.check-item.done span{text-decoration:line-through;color:var(--txt3)}
-
-/* ── COLLAPSIBLE ── */
-.coll-head{display:flex;align-items:center;justify-content:space-between;cursor:pointer;padding:13px 16px;background:var(--card);border:1.5px solid var(--border);border-radius:8px;margin-bottom:6px;user-select:none;transition:all .15s}
-.coll-head:hover{background:#fafafa;border-color:var(--border2)}
-.coll-head.open{border-color:var(--green4);background:var(--green3);border-radius:8px 8px 0 0;margin-bottom:0}
-.coll-head-title{font-weight:700;font-size:13px;color:var(--txt)}
-.coll-head.open .coll-head-title{color:var(--green)}
-.coll-arrow{font-size:10px;color:var(--txt3);transition:transform .2s}
-.coll-head.open .coll-arrow{transform:rotate(180deg)}
-.coll-body{display:none;padding:16px;background:var(--card);border:1.5px solid var(--green4);border-top:none;border-radius:0 0 8px 8px;margin-bottom:6px}
-.coll-body.open{display:block}
-
-/* ── PRIORITY LIST ── */
-.priority-list{list-style:none}
-.priority-item{display:flex;align-items:center;gap:10px;padding:8px 12px;background:#fafafa;border:1px solid var(--border);border-radius:7px;margin-bottom:6px;font-size:12.5px;font-weight:500}
-.priority-rank{width:22px;height:22px;background:var(--green3);border:1px solid var(--green4);border-radius:5px;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;color:var(--green);flex-shrink:0}
-
-/* ── SLA ── */
-.sla-badge{display:inline-flex;align-items:center;gap:7px;background:#fafafa;border:1.5px solid var(--border2);border-radius:20px;padding:6px 14px;font-size:12px;font-family:'JetBrains Mono',monospace;font-weight:500;margin:4px 8px 4px 0}
-.sla-dot{width:8px;height:8px;border-radius:50%}
-
-/* ── MATRIX ── */
-.matrix-wrap{overflow-x:auto}
-.matrix-table{min-width:700px;width:100%;border-collapse:collapse;font-size:11.5px}
-.matrix-table th{background:#f8fafc;color:var(--txt3);font-size:9px;font-family:'JetBrains Mono',monospace;letter-spacing:.06em;text-transform:uppercase;padding:8px 10px;text-align:center;border:1px solid var(--border);white-space:nowrap}
-.matrix-table th:first-child{text-align:left;min-width:130px}
-.matrix-table td{padding:8px 10px;border:1px solid var(--border);text-align:center;color:var(--txt2)}
-.matrix-table td:first-child{text-align:left;font-weight:700;color:var(--txt)}
-.matrix-table tr:hover td{background:#fafafa}
-.ck-y{color:var(--green);font-size:14px;font-weight:700}
-.ck-n{color:var(--txt3)}
-
-/* ── MODALS ── */
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:500;align-items:center;justify-content:center;backdrop-filter:blur(3px)}
-.modal-overlay.open{display:flex}
-.modal{background:var(--card);border:1.5px solid var(--border);border-radius:14px;width:560px;max-width:96vw;max-height:90vh;overflow-y:auto;padding:26px;box-shadow:0 20px 60px rgba(0,0,0,.15);animation:modalIn .2s ease}
-@keyframes modalIn{from{opacity:0;transform:scale(.96) translateY(6px)}to{opacity:1;transform:none}}
+.a-urgent{background:var(--redl);border-color:var(--redb);color:var(--red)}
+.a-note{background:var(--yell);border-color:var(--yelb);color:var(--yel)}
+.a-info{background:var(--blul);border-color:var(--blub);color:var(--blu)}
+.a-ok{background:var(--gl);border-color:var(--gd);color:var(--g)}
+.ai{font-weight:700;flex-shrink:0}
+.tag{display:inline-block;padding:2px 8px;border-radius:5px;font-size:11px;font-family:'Courier New',monospace;font-weight:500;border:1px solid;margin:2px 3px 2px 0}
+.tg{background:var(--gl);color:var(--g);border-color:var(--gd)}
+.tr{background:var(--redl);color:var(--red);border-color:var(--redb)}
+.ty{background:var(--yell);color:var(--yel);border-color:var(--yelb)}
+.tb{background:var(--blul);color:var(--blu);border-color:var(--blub)}
+.tgr{background:var(--surf);color:var(--txt3);border-color:var(--bd)}
+.email-block{background:var(--surf);border:1.5px solid var(--bd);border-radius:8px;padding:14px 16px;font-family:'Courier New',monospace;font-size:11.5px;color:var(--txt2);line-height:1.9;position:relative;white-space:pre-wrap}
+.elbl{font-size:9.5px;font-family:'Courier New',monospace;letter-spacing:.09em;text-transform:uppercase;color:var(--txt3);margin-bottom:5px}
+.cbtn{position:absolute;top:8px;right:8px;padding:3px 10px;background:var(--card);border:1px solid var(--bd2);border-radius:4px;font-size:10.5px;font-family:inherit;font-weight:600;color:var(--txt3);cursor:pointer}
+.cbtn:hover{color:var(--g);border-color:var(--g)}
+.coll-h{display:flex;align-items:center;justify-content:space-between;cursor:pointer;padding:13px 16px;background:var(--card);border:1.5px solid var(--bd);border-radius:10px;margin-bottom:6px;user-select:none}
+.coll-h:hover{background:var(--surf)}
+.coll-h.open{border-color:var(--gd);background:var(--gl);border-radius:10px 10px 0 0;margin-bottom:0}
+.coll-ht{font-weight:700;font-size:13px;color:var(--txt)}
+.coll-h.open .coll-ht{color:var(--g)}
+.coll-arr{font-size:10px;color:var(--txt3);transition:transform .2s}
+.coll-h.open .coll-arr{transform:rotate(180deg)}
+.coll-b{display:none;padding:16px;background:var(--card);border:1.5px solid var(--gd);border-top:none;border-radius:0 0 10px 10px;margin-bottom:6px}
+.coll-b.open{display:block}
+.pl{list-style:none}
+.pi{display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--surf);border:1px solid var(--bd);border-radius:7px;margin-bottom:6px;font-size:12.5px;font-weight:500;color:var(--txt2)}
+.pr{width:22px;height:22px;background:var(--gl);border:1px solid var(--gd);border-radius:5px;display:flex;align-items:center;justify-content:center;font-family:'Courier New',monospace;font-size:11px;font-weight:700;color:var(--g);flex-shrink:0}
+.cl{list-style:none}
+.ci2{display:flex;align-items:flex-start;gap:9px;padding:8px 0;border-bottom:1px solid var(--bd);font-size:12.5px;color:var(--txt2);cursor:pointer}
+.ci2:last-child{border-bottom:none}
+.cbox{width:17px;height:17px;border:1.5px solid var(--bd2);border-radius:5px;flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;background:var(--card)}
+.ci2.done .cbox{background:var(--g);border-color:var(--g)}
+.ci2.done .cbox::after{content:'✓';font-size:10px;color:#fff;font-weight:700}
+.ci2.done span{text-decoration:line-through;color:var(--txt3)}
+.sla{display:inline-flex;align-items:center;gap:7px;background:var(--surf);border:1.5px solid var(--bd2);border-radius:20px;padding:6px 14px;font-size:12px;font-family:'Courier New',monospace;font-weight:500;margin:4px 8px 4px 0}
+.sdot{width:8px;height:8px;border-radius:50%}
+.mtrx{overflow-x:auto}
+.mt{min-width:650px;width:100%;border-collapse:collapse;font-size:11.5px}
+.mt th{background:var(--surf);color:var(--txt3);font-size:9px;font-family:'Courier New',monospace;letter-spacing:.06em;text-transform:uppercase;padding:8px 10px;text-align:center;border:1px solid var(--bd);white-space:nowrap}
+.mt th:first-child{text-align:left;min-width:120px}
+.mt td{padding:8px 10px;border:1px solid var(--bd);text-align:center;color:var(--txt2)}
+.mt td:first-child{text-align:left;font-weight:700;color:var(--txt)}
+.mt tr:hover td{background:var(--surf)}
+.ck{color:var(--g);font-size:14px;font-weight:700}
+.xk{color:var(--txt3)}
+.btn{padding:6px 14px;border-radius:7px;font-size:12.5px;font-family:inherit;cursor:pointer;border:1.5px solid var(--bd2);background:var(--card);color:var(--txt2);font-weight:600;transition:all .15s;display:inline-flex;align-items:center;gap:5px}
+.btn:hover{border-color:var(--g);color:var(--g);background:var(--gl)}
+.btn-p{background:var(--g);border-color:var(--g2);color:#fff}
+.btn-p:hover{background:var(--g2);color:#fff}
+.btn-d{background:var(--redl);border-color:var(--redb);color:var(--red)}
+.btn-sm{padding:4px 10px;font-size:11.5px}
+.overlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:500;align-items:center;justify-content:center;backdrop-filter:blur(3px)}
+.overlay.open{display:flex}
+.modal{background:var(--card);border:1.5px solid var(--bd);border-radius:14px;width:560px;max-width:96vw;max-height:90vh;overflow-y:auto;padding:26px;box-shadow:0 20px 60px rgba(0,0,0,.15)}
 .modal-lg{width:720px}
-.modal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.modal-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
 .modal-title{font-size:17px;font-weight:800;color:var(--txt)}
-.modal-close{width:28px;height:28px;border-radius:6px;border:1px solid var(--border);background:#f8fafc;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--txt3);transition:all .15s}
-.modal-close:hover{background:var(--redl);color:var(--red);border-color:var(--redb)}
-.modal-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:20px;padding-top:16px;border-top:1px solid var(--border)}
-.form-group{margin-bottom:14px}
-.form-label{display:block;font-size:10.5px;font-family:'JetBrains Mono',monospace;color:var(--txt3);letter-spacing:.06em;text-transform:uppercase;margin-bottom:5px}
-.form-input,.form-textarea,.form-select{width:100%;background:var(--card);border:1.5px solid var(--border2);border-radius:7px;padding:8px 12px;color:var(--txt);font-size:13px;font-family:'Inter',sans-serif;outline:none;transition:border-color .2s,box-shadow .2s}
-.form-input:focus,.form-textarea:focus,.form-select:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(26,107,58,.08)}
-.form-textarea{min-height:100px;resize:vertical;line-height:1.6;font-family:'JetBrains Mono',monospace;font-size:12px}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.form-hint{font-size:11px;color:var(--txt3);margin-top:4px}
-
-h3{font-size:14px;font-weight:700;color:var(--txt);margin:18px 0 10px}
+.modal-close{width:28px;height:28px;border-radius:6px;border:1px solid var(--bd);background:var(--surf);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--txt3)}
+.modal-close:hover{background:var(--redl);color:var(--red)}
+.modal-foot{display:flex;gap:8px;justify-content:flex-end;margin-top:20px;padding-top:16px;border-top:1px solid var(--bd)}
+.fg{margin-bottom:14px}
+.fl{display:block;font-size:11px;font-family:'Courier New',monospace;color:var(--txt3);letter-spacing:.06em;text-transform:uppercase;margin-bottom:5px}
+.fi,.fta{width:100%;background:var(--card);border:1.5px solid var(--bd2);border-radius:7px;padding:8px 12px;color:var(--txt);font-size:13px;font-family:inherit;outline:none;transition:border-color .2s}
+.fi:focus,.fta:focus{border-color:var(--g)}
+.fta{min-height:90px;resize:vertical;line-height:1.6;font-family:'Courier New',monospace;font-size:12px}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+h3{font-size:15px;font-weight:700;color:var(--txt);margin:18px 0 10px}
 h4{font-size:13px;font-weight:600;color:var(--txt2);margin:12px 0 8px}
 p{font-size:12.5px;color:var(--txt2);margin-bottom:8px}
 ul,ol{margin:6px 0 10px 18px;font-size:12.5px;color:var(--txt2)}
 li{margin-bottom:4px}
 strong{color:var(--txt)}
-a{color:var(--blue);text-decoration:none}
+a{color:var(--blu);text-decoration:none}
 a:hover{text-decoration:underline}
-
 ::-webkit-scrollbar{width:5px;height:5px}
-::-webkit-scrollbar-track{background:#f1f5f9}
-::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+::-webkit-scrollbar-track{background:var(--surf)}
+::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:3px}
 </style>
 </head>
 <body>
-
 <nav id="sidebar">
-  <div class="sb-header">
-    <div class="sb-logo">
-      <div class="sb-logo-mark">FF</div>
-      <div>
-        <div class="sb-logo-name">Freeflow Beverage</div>
-        <div class="sb-logo-sub">Dispatch Guide v2.0</div>
-      </div>
+  <div class="sb-top">
+    <div class="sb-brand">
+      <div class="sb-mark">FF</div>
+      <div><div class="sb-name">Freeflow Beverage</div><div class="sb-sub">Dispatch Guide v2.0</div></div>
+    </div>
+    <div class="sb-search">
+      <span class="sb-si">⌕</span>
+      <input type="text" id="srch" placeholder="Search..." autocomplete="off" oninput="doSearch(this.value)">
     </div>
   </div>
-  <div class="sb-search">
-    <div class="sb-search-wrap">
-      <span class="sb-search-icon">⌕</span>
-      <input type="text" id="searchInput" placeholder="Search anything..." autocomplete="off">
-      <div id="searchResults" class="search-results"></div>
-    </div>
-  </div>
-  <div class="sb-nav" id="navContainer"></div>
-  <div class="sb-footer">
-    <button class="sb-admin-btn" onclick="openAdminLogin()">
-      <span class="sb-admin-dot" id="adminDot"></span>
-      <span id="adminLabel">Admin Edit Mode</span>
+  <div class="sb-nav" id="nav"></div>
+  <div class="sb-foot">
+    <button class="admin-btn" onclick="openLogin()">
+      <span class="adot" id="adot"></span><span id="albl">Admin Edit Mode</span>
     </button>
   </div>
 </nav>
-
 <div id="main">
   <div class="topbar">
-    <div class="breadcrumb">Dispatch Guide <span style="color:var(--border2)">›</span> <span class="active" id="breadcrumb">Loading...</span></div>
-    <div class="topbar-actions">
-      <span id="lastSaved" style="font-size:11px;color:var(--txt3);font-family:'JetBrains Mono',monospace"></span>
-      <button class="btn" onclick="window.print()">Print</button>
+    <div class="crumb">Dispatch Guide <span style="color:var(--bd2)">›</span> <span class="ca" id="crumb">Contacts</span></div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <span id="savedlbl" style="font-size:11px;color:var(--txt3);font-family:'Courier New',monospace"></span>
+      <button class="btn btn-sm" onclick="window.print()">🖨 Print</button>
     </div>
   </div>
-  <div class="admin-bar" id="adminBar">
-    <span>✏ Edit mode — click any pencil icon to edit, + to add, trash to remove</span>
-    <div style="display:flex;gap:8px">
-      <button class="btn btn-danger" style="font-size:11px;padding:4px 10px" onclick="exitAdmin()">Exit Admin</button>
-    </div>
+  <div class="admin-bar" id="abar">
+    <span>✏ Edit mode — hover any contact/tech/sub to see edit buttons</span>
+    <button class="btn btn-d btn-sm" onclick="exitAdmin()">Exit Admin</button>
   </div>
-  <div class="content" id="contentArea"></div>
-</div>
-
-<!-- Admin Login -->
-<div class="modal-overlay" id="loginModal">
-  <div class="modal" style="width:420px">
-    <div class="modal-header"><div class="modal-title">Admin Access</div><button class="modal-close" onclick="closeModal('loginModal')">✕</button></div>
-    <div class="form-group">
-      <label class="form-label">Password</label>
-      <input type="password" class="form-input" id="loginPass" placeholder="Enter admin password" onkeydown="if(event.key==='Enter')checkLogin()">
-      <div id="loginErr" style="color:var(--red);font-size:12px;margin-top:6px;display:none">Incorrect password</div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn" onclick="closeModal('loginModal')">Cancel</button>
-      <button class="btn btn-primary" onclick="checkLogin()">Unlock</button>
-    </div>
-  </div>
-</div>
-
-<!-- Edit Contact Modal -->
-<div class="modal-overlay" id="contactModal">
-  <div class="modal">
-    <div class="modal-header"><div class="modal-title" id="contactModalTitle">Edit Contact</div><button class="modal-close" onclick="closeModal('contactModal')">✕</button></div>
-    <div class="form-row">
-      <div class="form-group"><label class="form-label">Name</label><input type="text" class="form-input" id="cName"></div>
-      <div class="form-group"><label class="form-label">Role / Title</label><input type="text" class="form-input" id="cRole"></div>
-    </div>
-    <div class="form-row">
-      <div class="form-group"><label class="form-label">Phone</label><input type="text" class="form-input" id="cPhone"></div>
-      <div class="form-group"><label class="form-label">Email</label><input type="text" class="form-input" id="cEmail"></div>
-    </div>
-    <div class="form-group"><label class="form-label">Notes</label><input type="text" class="form-input" id="cNotes"></div>
-    <div class="modal-footer">
-      <button class="btn" onclick="closeModal('contactModal')">Cancel</button>
-      <button class="btn btn-primary" id="contactSaveBtn">Save</button>
-    </div>
+  <div class="content" id="page">
+    <div id="sec-contacts" class="sec active"></div>
+    <div id="sec-techs" class="sec"></div>
+    <div id="sec-subs" class="sec"></div>
+    <div id="sec-morning" class="sec"></div>
+    <div id="sec-dispatch" class="sec"></div>
+    <div id="sec-weekends" class="sec"></div>
+    <div id="sec-coverage" class="sec"></div>
+    <div id="sec-sfwo" class="sec"></div>
+    <div id="sec-sfcust" class="sec"></div>
+    <div id="sec-ccna" class="sec"></div>
+    <div id="sec-ccnacalls" class="sec"></div>
+    <div id="sec-dupes" class="sec"></div>
+    <div id="sec-installs" class="sec"></div>
+    <div id="sec-esc" class="sec"></div>
+    <div id="sec-global" class="sec"></div>
+    <div id="sec-freshpet" class="sec"></div>
+    <div id="sec-ncd" class="sec"></div>
+    <div id="sec-atw" class="sec"></div>
+    <div id="sec-monclus" class="sec"></div>
+    <div id="sec-bluestar" class="sec"></div>
+    <div id="sec-brookstone" class="sec"></div>
+    <div id="sec-templates" class="sec"></div>
   </div>
 </div>
-
-<!-- Edit Tech Modal -->
-<div class="modal-overlay" id="techModal">
-  <div class="modal modal-lg">
-    <div class="modal-header"><div class="modal-title" id="techModalTitle">Edit Technician</div><button class="modal-close" onclick="closeModal('techModal')">✕</button></div>
-    <div class="form-row">
-      <div class="form-group"><label class="form-label">Name</label><input type="text" class="form-input" id="tName"></div>
-      <div class="form-group"><label class="form-label">Title</label><input type="text" class="form-input" id="tTitle"></div>
-    </div>
-    <div class="form-row">
-      <div class="form-group"><label class="form-label">Vehicle</label><input type="text" class="form-input" id="tVehicle"></div>
-      <div class="form-group"><label class="form-label">Phone</label><input type="text" class="form-input" id="tPhone"></div>
-    </div>
-    <div class="form-row">
-      <div class="form-group"><label class="form-label">Email</label><input type="text" class="form-input" id="tEmail"></div>
-      <div class="form-group"><label class="form-label">Schedule</label><input type="text" class="form-input" id="tSchedule"></div>
-    </div>
-    <div class="form-row">
-      <div class="form-group"><label class="form-label">Location</label><input type="text" class="form-input" id="tLocation"></div>
-      <div class="form-group"></div>
-    </div>
-    <div class="form-group"><label class="form-label">Can Do (one per line)</label><textarea class="form-textarea" id="tCanDo"></textarea></div>
-    <div class="form-group"><label class="form-label">Cannot Do (one per line)</label><textarea class="form-textarea" id="tCannotDo"></textarea></div>
-    <div class="modal-footer">
-      <button class="btn" onclick="closeModal('techModal')">Cancel</button>
-      <button class="btn btn-primary" id="techSaveBtn">Save</button>
-    </div>
-  </div>
-</div>
-
-<!-- Edit Sub Modal -->
-<div class="modal-overlay" id="subModal">
-  <div class="modal">
-    <div class="modal-header"><div class="modal-title" id="subModalTitle">Edit Subcontractor</div><button class="modal-close" onclick="closeModal('subModal')">✕</button></div>
-    <div class="form-row">
-      <div class="form-group"><label class="form-label">Company Name</label><input type="text" class="form-input" id="sName"></div>
-      <div class="form-group"><label class="form-label">SF Name</label><input type="text" class="form-input" id="sSFName"></div>
-    </div>
-    <div class="form-group"><label class="form-label">Territory / Where They Service</label><input type="text" class="form-input" id="sTerritory"></div>
-    <div class="form-group"><label class="form-label">POC / Contact Info</label><input type="text" class="form-input" id="sPOC"></div>
-    <div class="form-group"><label class="form-label">Notes</label><input type="text" class="form-input" id="sNotes"></div>
-    <div class="modal-footer">
-      <button class="btn" onclick="closeModal('subModal')">Cancel</button>
-      <button class="btn btn-primary" id="subSaveBtn">Save</button>
-    </div>
-  </div>
-</div>
-
-<!-- Edit Section Modal -->
-<div class="modal-overlay" id="sectionModal">
-  <div class="modal modal-lg">
-    <div class="modal-header"><div class="modal-title" id="sectionModalTitle">Edit Section</div><button class="modal-close" onclick="closeModal('sectionModal')">✕</button></div>
-    <div class="alert alert-info" style="margin-bottom:14px"><div class="alert-icon">ℹ</div><div>Use plain text. Start a line with <strong>STEP:</strong> for numbered steps, <strong>ALERT:</strong> for alerts, <strong>NOTE:</strong> for notes, <strong>URGENT:</strong> for warnings, <strong>##</strong> for sub-headings, <strong>-</strong> for bullets.</div></div>
-    <div class="form-row">
-      <div class="form-group"><label class="form-label">Section Title</label><input type="text" class="form-input" id="secTitle"></div>
-      <div class="form-group"><label class="form-label">Description</label><input type="text" class="form-input" id="secDesc"></div>
-    </div>
-    <div class="form-group"><label class="form-label">Content</label><textarea class="form-textarea" id="secContent" style="min-height:280px"></textarea></div>
-    <div class="modal-footer">
-      <button class="btn" onclick="closeModal('sectionModal')">Cancel</button>
-      <button class="btn btn-primary" id="sectionSaveBtn">Save</button>
-    </div>
-  </div>
-</div>
-
-<!-- Confirm Delete -->
-<div class="modal-overlay" id="confirmModal">
+<!-- MODALS -->
+<div class="overlay" id="loginMo">
   <div class="modal" style="width:400px">
-    <div class="modal-header"><div class="modal-title">Confirm Delete</div><button class="modal-close" onclick="closeModal('confirmModal')">✕</button></div>
-    <p id="confirmMsg" style="margin-bottom:4px">Are you sure?</p>
-    <div class="modal-footer">
-      <button class="btn" onclick="closeModal('confirmModal')">Cancel</button>
-      <button class="btn btn-danger" id="confirmBtn">Delete</button>
-    </div>
+    <div class="modal-hdr"><div class="modal-title">Admin Access</div><button class="modal-close" onclick="closeM('loginMo')">✕</button></div>
+    <div class="fg"><label class="fl">Password</label><input type="password" class="fi" id="lpass" placeholder="Enter password" onkeydown="if(event.key==='Enter')doLogin()"></div>
+    <div id="lerr" style="color:var(--red);font-size:12px;display:none;margin-bottom:8px">Incorrect password</div>
+    <div class="modal-foot"><button class="btn" onclick="closeM('loginMo')">Cancel</button><button class="btn btn-p" onclick="doLogin()">Unlock</button></div>
   </div>
 </div>
-
+<div class="overlay" id="contactMo">
+  <div class="modal">
+    <div class="modal-hdr"><div class="modal-title" id="cmt">Edit Contact</div><button class="modal-close" onclick="closeM('contactMo')">✕</button></div>
+    <div class="frow"><div class="fg"><label class="fl">Name</label><input class="fi" id="cN"></div><div class="fg"><label class="fl">Role</label><input class="fi" id="cR"></div></div>
+    <div class="frow"><div class="fg"><label class="fl">Phone</label><input class="fi" id="cP"></div><div class="fg"><label class="fl">Email</label><input class="fi" id="cE"></div></div>
+    <div class="fg"><label class="fl">Notes</label><input class="fi" id="cNt"></div>
+    <div class="modal-foot"><button class="btn" onclick="closeM('contactMo')">Cancel</button><button class="btn btn-p" id="cSv">Save</button></div>
+  </div>
+</div>
+<div class="overlay" id="techMo">
+  <div class="modal modal-lg">
+    <div class="modal-hdr"><div class="modal-title" id="tmt">Edit Technician</div><button class="modal-close" onclick="closeM('techMo')">✕</button></div>
+    <div class="frow"><div class="fg"><label class="fl">Name</label><input class="fi" id="tN"></div><div class="fg"><label class="fl">Title</label><input class="fi" id="tT"></div></div>
+    <div class="frow"><div class="fg"><label class="fl">Vehicle</label><input class="fi" id="tV"></div><div class="fg"><label class="fl">Phone</label><input class="fi" id="tPh"></div></div>
+    <div class="frow"><div class="fg"><label class="fl">Email</label><input class="fi" id="tE"></div><div class="fg"><label class="fl">Schedule</label><input class="fi" id="tSc"></div></div>
+    <div class="fg"><label class="fl">Location</label><input class="fi" id="tLo"></div>
+    <div class="fg"><label class="fl">Can Do (one per line)</label><textarea class="fta" id="tCD"></textarea></div>
+    <div class="fg"><label class="fl">Cannot Do (one per line)</label><textarea class="fta" id="tCN"></textarea></div>
+    <div class="modal-foot"><button class="btn" onclick="closeM('techMo')">Cancel</button><button class="btn btn-p" id="tSv">Save</button></div>
+  </div>
+</div>
+<div class="overlay" id="subMo">
+  <div class="modal">
+    <div class="modal-hdr"><div class="modal-title" id="smt">Edit Sub</div><button class="modal-close" onclick="closeM('subMo')">✕</button></div>
+    <div class="frow"><div class="fg"><label class="fl">Company</label><input class="fi" id="sN"></div><div class="fg"><label class="fl">SF Name</label><input class="fi" id="sSF"></div></div>
+    <div class="fg"><label class="fl">Territory</label><input class="fi" id="sTr"></div>
+    <div class="fg"><label class="fl">POC / Contact</label><input class="fi" id="sPOC"></div>
+    <div class="fg"><label class="fl">Notes</label><input class="fi" id="sNt"></div>
+    <div class="modal-foot"><button class="btn" onclick="closeM('subMo')">Cancel</button><button class="btn btn-p" id="sSv">Save</button></div>
+  </div>
+</div>
+<div class="overlay" id="confirmMo">
+  <div class="modal" style="width:380px">
+    <div class="modal-hdr"><div class="modal-title">Confirm Delete</div><button class="modal-close" onclick="closeM('confirmMo')">✕</button></div>
+    <p id="confMsg">Are you sure?</p>
+    <div class="modal-foot"><button class="btn" onclick="closeM('confirmMo')">Cancel</button><button class="btn btn-d" id="confBtn">Delete</button></div>
+  </div>
+</div>
 <script>
-// ═══════════════════════════════════════════════════════════════
-// DATA — all content lives here, persisted to localStorage
-// ═══════════════════════════════════════════════════════════════
-const ADMIN_PASS = 'freeflow2025';
-let isAdmin = false;
-
-const DEFAULT_DATA = {
-  lastSaved: '',
-  contacts: [
+const PASS='freeflow2025';
+let isAdmin=false,editId=null,editType=null;
+let D={
+  contacts:[
     {id:'c1',name:'Sky Pace',role:'CEO',phone:'413-713-3318',email:'',notes:''},
     {id:'c2',name:'Dani Weinstock',role:'CIO',phone:'917-842-2346',email:'',notes:''},
     {id:'c3',name:'Sam Katz',role:'CSO',phone:'413-426-4308',email:'',notes:''},
@@ -404,42 +284,395 @@ const DEFAULT_DATA = {
     {id:'c16',name:'Kyle Finch',role:'Warehouse',phone:'203-808-2081',email:'',notes:''},
     {id:'c17',name:'SPARE PHONE',role:'Refrigeration Tech',phone:'413-867-1590',email:'',notes:''},
     {id:'c18',name:'SPARE PHONE',role:'Refrigeration Tech',phone:'413-867-0448',email:'',notes:''},
-    {id:'c19',name:"F'Real Tech Support",role:'Tech Support Line',phone:'(816) 759-2249',email:'',notes:'Parts CS: (800) 483-3218 opt 3'},
-    {id:'c20',name:'BUNN',role:'Tech Support Line',phone:'(800) 286-6070',email:'',notes:'CS: (217) 529-6601'},
-    {id:'c21',name:'Coca-Cola Dispatch',role:'CCNA Line',phone:'1-800-528-2537',email:'',notes:'Acct Coord: 1-800-304-2653 | Flagging: 1-800-528-253'},
+    {id:'c19',name:"F'Real Tech Support",role:'Tech Support',phone:'(816) 759-2249',email:'',notes:'Parts CS: (800) 483-3218 opt 3'},
+    {id:'c20',name:'BUNN',role:'Tech Support',phone:'(800) 286-6070',email:'',notes:'CS: (217) 529-6601'},
+    {id:'c21',name:'Coca-Cola Dispatch',role:'CCNA Line',phone:'1-800-528-2537',email:'',notes:'Acct Coord: 1-800-304-2653'},
     {id:'c22',name:'Craig Merluzzi (Follet)',role:'Dir. Technical Services',phone:'484-456-2422',email:'cmerluzzi@follettice.com',notes:'Mobile: 610-438-7817'},
   ],
-  techs: [
+  techs:[
     {id:'t1',name:'Bobby Danker',title:'Technician II',vehicle:'FIT/7',phone:'518-819-6835',email:'Rdanker@freeflowbev.com',schedule:'Mon-Fri 7am-4pm',location:'NY/VT',canDo:['CCNE Albany calls','Route calls for him'],cannotDo:['Non-Albany territory']},
     {id:'t2',name:'Devin',title:'Technician III',vehicle:'FIT/9',phone:'413-807-0929',email:'dchichakly@freeflowbev.com',schedule:'Mon-Fri 7:30am-4pm',location:'Ludlow',canDo:['CCNA Reactive (frozen bev/abs/multiplex)','CCNA BK/CFA PMs','Global ice machines & soda fountains','Vivreau','Natura','Ice maker','Slushie/Bunn/Sure-Shot',"F'Real"],cannotDo:['No Freshpet PMs','No Coolers','No Refrigerant']},
-    {id:'t3',name:'Erik Stadlander',title:'Technician II',vehicle:'FIT/3',phone:'413-867-1551',email:'estadlander@freeflowbev.com',schedule:'Mon-Fri 7am-3:30pm',location:'Ludlow',canDo:['CCNA Reactive (frozen bev/abs)','CCNA BK/CFA PMs','Global ice machines & soda fountains','Vivreau','Natura','Ice maker','Slushie/Bunn/Sure-Shot',"F'Real"],cannotDo:['No Freshpet PMs','No Coolers','No Refrigerant']},
+    {id:'t3',name:'Erik Stadlander',title:'Technician II',vehicle:'FIT/3',phone:'413-867-1551',email:'estadlander@freeflowbev.com',schedule:'Mon-Fri 7am-3:30pm',location:'Ludlow',canDo:['CCNA Reactive','CCNA BK/CFA PMs','Global ice machines & soda fountains','Vivreau','Ice maker','Slushie/Bunn/Sure-Shot',"F'Real"],cannotDo:['No Freshpet PMs','No Coolers','No Refrigerant']},
     {id:'t4',name:'Kameron',title:'Technician III',vehicle:'FIT/5',phone:'413-867-0334',email:'kwillson@freeflowbev.com',schedule:'Mon-Fri 10am-6pm',location:'Ludlow',canDo:['Refrigerant','Botrista Installs','Slushie/Bunn/Sure-Shot','Vivreau','Global ice makers',"F'Real",'Natura'],cannotDo:['No Soda Fountains','No CCNA','No Freshpet PMs']},
     {id:'t5',name:'Mark',title:'Technician II',vehicle:'FIT/6',phone:'413-867-0917',email:'',schedule:'Mon-Fri 10am-6pm',location:'Ludlow',canDo:['Install','Reactive','Service'],cannotDo:['No Freshpet PMs','No Coolers','No Refrigerant']},
-    {id:'t6',name:'Phil',title:'Technician II',vehicle:'FIT/8',phone:'413-867-1490',email:'',schedule:'Tue-Sat 2pm-10pm',location:'Worcester',canDo:['Reactive services - anything'],cannotDo:['No installs']},
+    {id:'t6',name:'Phil',title:'Technician II',vehicle:'FIT/8',phone:'413-867-1490',email:'',schedule:'Tue-Sat 2pm-10pm',location:'Worcester',canDo:['Reactive - anything'],cannotDo:['No installs']},
     {id:'t7',name:'Jose',title:'Technician I',vehicle:'KIA NIRO PM2',phone:'413-867-1466',email:'',schedule:'TBD',location:'Ludlow',canDo:[],cannotDo:[]},
     {id:'t8',name:'Nicholas Almeida',title:'Technician I (PM)',vehicle:'KIA NIRO PM1',phone:'413-807-0927',email:'nalmeida@freeflowbev.com',schedule:'Mon-Fri 8am-4:30pm',location:'Ludlow',canDo:['Freshpet PMs','Freshpet Reactive','Sureshot swaps','Ice maker swap outs (with 2nd person)'],cannotDo:['No reactive calls (non-Freshpet)']},
     {id:'t9',name:'Humam Almafraji',title:'Technician I (PM)',vehicle:'FIT/4',phone:'413-867-1590',email:'halmafraji@freeflowbev.com',schedule:'Mon-Fri 8am-4:30pm',location:'Ludlow',canDo:['Freshpet PMs','Freshpet Reactive','Sureshot swaps','Ice maker swap outs (with 2nd person)'],cannotDo:['No reactive calls (non-Freshpet)']},
     {id:'t10',name:'Robert Pexton',title:'Technician II',vehicle:'FIT/2',phone:'413-484-7476',email:'',schedule:'Tue-Fri 10am-6pm / Sat 9:30am-5pm',location:'Ludlow',canDo:['Freshpet PMs','Freshpet Reactive',"F'Real Units",'Ice makers','IDW/Minus Forty Coolers'],cannotDo:['No CCNA Calls']},
     {id:'t11',name:'Andres',title:'Technician I',vehicle:'FIT/1',phone:'413-867-0410',email:'Acastro@freeflowbev.com',schedule:'TBD',location:'Ludlow',canDo:[],cannotDo:[]},
-    {id:'t12',name:'Ben',title:'Service Technician I',vehicle:'Toyota Sienna',phone:'781-866-0537',email:'',schedule:'TBD',location:'',canDo:[],cannotDo:[]},
+    {id:'t12',name:'Ben',title:'Service Tech I',vehicle:'Toyota Sienna',phone:'781-866-0537',email:'',schedule:'TBD',location:'',canDo:[],cannotDo:[]},
   ],
-  subs: [
+  subs:[
     {id:'s1',name:"B&B Vending",sfName:'B&B VENDING',territory:'Costco Vending - PA (Allentown)',poc:'Bob (717)648-9211',notes:''},
     {id:'s2',name:'Bev Pro',sfName:'BEV PRO',territory:'Pepsi Service Advantage: Ice makers PA',poc:'',notes:''},
-    {id:'s3',name:'Blue Star',sfName:'BLUE STAR',territory:'Texas - Spring Partners',poc:'Brenda (713)766-6570 | brenda@bluestarbeveragesupply.com',notes:'Robert Guy (Gus) dedicated tech: (713)632-7573 | guy@bluestarbeveragesupply.com'},
-    {id:'s4',name:'Brookstone Mechanical',sfName:'FREEFLOW GA',territory:'GA - Freshpet Reactive / PMs',poc:'Quentin (404)425-6028 | calls@brookestonemechanical.com',notes:'Jasmine (Dispatcher): 347-939-2263'},
-    {id:'s5',name:'ATW',sfName:'FREEFLOW NY TECHS',territory:'Pepsi Service Advantage: NYC Tropicana',poc:'Abe (516)805-3324 | atwref@gmail.com',notes:'Rich (Svc Mgr): (516)805-0342'},
-    {id:'s6',name:'Miguel Monclus',sfName:'MONCLUS',territory:'Costco Vending: NY/PA/NJ',poc:'Dharina (929)519-8291 | drojas@monclusvs.com',notes:'Communicates via group text'},
+    {id:'s3',name:'Blue Star',sfName:'BLUE STAR',territory:'Texas - Spring Partners',poc:'Brenda (713)766-6570',notes:'Robert Guy (Gus): (713)632-7573'},
+    {id:'s4',name:'Brookstone Mechanical',sfName:'FREEFLOW GA',territory:'GA - Freshpet Reactive / PMs',poc:'Quentin (404)425-6028',notes:'Jasmine (Dispatcher): 347-939-2263'},
+    {id:'s5',name:'ATW',sfName:'FREEFLOW NY TECHS',territory:'Pepsi Service Advantage: NYC Tropicana',poc:'Abe (516)805-3324',notes:'Rich (Svc Mgr): (516)805-0342'},
+    {id:'s6',name:'Miguel Monclus',sfName:'MONCLUS',territory:'Costco Vending: NY/PA/NJ',poc:'Dharina (929)519-8291',notes:'Group text communication'},
     {id:'s7',name:'Pepsi Equipment Service',sfName:'NE TECHS',territory:'Out of Territory NY - mainly',poc:'support@pepsiequipmentservice.com',notes:''},
     {id:'s8',name:'New England Vending',sfName:'NEW ENGLAND TECHS',territory:'Maine',poc:'Sam will handle',notes:''},
     {id:'s9',name:'Prestige Vending',sfName:'PRESTIGE VENDING',territory:'Sam handles dispatching',poc:'Sam will handle',notes:''},
     {id:'s10',name:'Robert Roman',sfName:'ROBERT ROMAN',territory:'PMs when bringing in a Technician',poc:'',notes:''},
     {id:'s11',name:'Vital Vending',sfName:'VITAL VENDING',territory:'Costco Vending: MA/CT',poc:'Nick (413)310-5751',notes:''},
-  ],
-  sections: [
-    {id:'morning',label:'Morning Routine',group:'Daily Operations',desc:'Daily checklist to run through every morning.',content:'NOTE: Check dispatch board first thing every morning before anything else.\n\nSTEP: Check dispatch board for unscheduled calls\nSTEP: Dispatch CCNA Reactive calls to our techs\nSTEP: Dispatch Global Montello (NE area) to our techs\nSTEP: Dispatch Spring Partners (Texas) to Robert Guy\nSTEP: Dispatch Georgia calls to Freeflow Georgia\nSTEP: Review Daily Missed Scheduled Call Report (arrives 6:00 AM)\nSTEP: Review email — Pepsi Equipment Services Reactive Repair\nSTEP: Review email — Tropicana ATW (Abe)\nSTEP: Review email — Minus Forty NE Area\nSTEP: Review email — NCD NE Area\nSTEP: Review email — Vivreau NE Area\nSTEP: Review Texas calls for Robert Guy after 8am (TX is 1 hour behind us)\nSTEP: Review overnight emails and respond accordingly\nSTEP: Review Dispatch Review in SF — close out calls that need it\nSTEP: Review Service Channel calls — add info as needed\n\n## Key Rules\n- All scheduled calls must be moved to Dispatched if not dispatching on the grid directly\n- More than 1 piece of equipment on a work request = CREATE A SECOND CALL for the tech\n- Vague calls = reach out to the store directly to ask more questions\n- Gulf Express locations (MA Pike) = Global best selling stores — PRIORITIZE'},
-    {id:'dispatchmap',label:'Dispatch Map Reports',group:'Daily Operations',desc:'Sent 4x daily. Goal: zero unscheduled calls at all times.',content:'NOTE: Goal is ZERO unscheduled calls at all times. Every call must be scheduled or in the correct status.\n\n## Report Schedule\n- 5:00 AM — Unscheduled calls that came in overnight\n- 7:00 AM — Confirm all overnight calls have been dispatched\n- 5:00 PM — Unscheduled calls that came in from 4pm onward\n- 9:00 PM — Unscheduled calls that came in from 5pm onward\n\nALERT: If unscheduled calls appear on the 7am report — dispatch BEFORE doing anything else.\n\n## Daily Missed Scheduled Call Report\nArrives at 6:00 AM via email Mon-Fri. Review every call on the report.\n\nOur techs appear if: call was not completed from the day before OR there are multiple visits on the call (must manually update status).\n\nSubcontractor updates: email Sam with the job number and ask for help.\nCalls open over 1 month: investigate — ask questions — add updated notes so everyone knows why.'},
-    {id:'weekends',label:'Weekend Dispatching',group:'Daily Operations',desc:'Saturday and Sunday on-call procedures.',content:'URGENT: Do NOT give approximate arrival times to callers. Status ONLY — when the tech will arrive or if completed.\n\n## Dispatcher Steps\nSTEP: Log into Service Fusion and Email between 8:00am–9:00am\nSTEP: Review all unscheduled reactive service calls\nSTEP: Dispatch in priority order — McDonalds Non-Viper first, then Viper, then Wendys, then BK, then all others\nSTEP: Escalation calls — give WO status only. Add note on WO: "Escalations called — [what you told them]"\nSTEP: If ETA cannot be met — email spbeverageservices@coca-cola.com AND qalmafrachi@freeflowbev.com AND joy@freeflowbev.com with WO info and new ETA\nSTEP: Check Thirsty for cancellations. If we already went — call 1-800-528-2537 and ask for Pause and Go WO\n\n## Schedule\n- Dispatcher ends by 6pm Friday\n- Dispatcher ends by 5pm Saturday — check in with Phil before logging off, keep work phone\n- Sunday rotation: Angel, Mark, Phil\n- Phil: Saturday 2pm–10pm (normal shift)\n- Devin: Sunday 8am–4pm (normal shift)\n\n## Priority Order\n- 1. McDonalds CCNA — Non-Viper\n- 2. McDonalds CCNA — Viper\n- 3. Wendys\n- 4. Burger King\n- 5. All other National and Regional Customers'},
-    {id:'coverage',label:'Coverage Responsibilities',group:'Daily Operations',desc:'Who owns what for dispatching and account coverage.',content:'## QAIS\n- Unscheduled calls: dispatch to Sodamedic, Robert Guy, our techs\n- PSA: create calls for ICE / Vending / Tropicana — inform Sam via email\n- CCNA: Dispatch / Closing / Flagging / T9 Requests\n- Vivreau\n\n## WILL\n- Create calls for: NCD, Follet, Donastar, Minus Forty, Private Companies\n- Service Channel: add photos / manager signature to close calls\n- Service Channel: updates for Global + Freshpet\n- Installs: schedule and confirm readiness\n\n## ANDY\n- Parts\n\n## SAM\n- PSA — ICE / Vending Dispatching\n\nNOTE: Gulf Express locations on the MA Pike = Global best selling stores. Prioritize.\nALERT: More than 1 piece of equipment on a work request = create a second call for the tech.'},
-    {id:'sfnewwo',label:'Creating Work Orders',group:'Service Fusion',desc:'Step-by-step for building a new WO in Service Fusion.',content:'STEP: Click Jobs then click +New\nSTEP: Go to Customer — enter location name or number\nSTEP: Fill out Job Category\nSTEP: Fill out Job Description\nSTEP: Add PO# if applicable\nSTEP: Go to Job Info:\n  - Fill out Status\n  - Leave Date and Time BLANK\n  - Assign Tech\n  - Add notes the tech needs to know\nSTEP: Click Save Job\n\nNOTE: Full process for different customers is in Scribe'},
-    {id:'sfnewcust',label:'New Customers',group:'Service Fusion',desc:'Full intake process from first call to scheduling.',content:'STEP: On the call — collect: name, equipment type (ask for tag photo), business name, location, phone, email\nSTEP: Send welcome email (add Dalia and Qais). Include new customer form link. Rates will follow shortly.\nSTEP: Text Sam for pricing — provide location/distance from shop + the issue (texting gets faster response)\nSTEP: Send pricing follow-up on same email thread:\n  Travel: $___  |  Labor: $___\n  Card required for 1 hour travel + 1 hour labor before dispatch. Goes toward first visit.\n  Second visit requires a quote — 50% down, balance collected day of job.\nSTEP: Wait for Dalia to confirm form is filled out (she will email you the info)\nSTEP: Create customer in Service Fusion (see Creating Customer in SF)\nSTEP: Create invoice for 1 hour travel + 1 hour labor\nSTEP: Call customer to schedule\nSTEP: Transfer to billing to collect payment\n\n## Creating Customer in SF\nSTEP: Ask Dalia / Jessica for info
+  ]
+};
+
+function uid(){return 'i'+Math.random().toString(36).slice(2,9)}
+function save(){try{localStorage.setItem('ff_v4',JSON.stringify(D));document.getElementById('savedlbl').textContent='Saved '+new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}catch(e){}}
+function load(){try{const s=localStorage.getItem('ff_v4');if(s)D=JSON.parse(s)}catch(e){}}
+load();
+
+const NAV=[
+  {group:'Quick Access',items:[{id:'contacts',label:'Contacts',icon:'👥'},{id:'techs',label:'Technicians',icon:'🔧'},{id:'subs',label:'Subcontractors',icon:'🏢'}]},
+  {group:'Daily Operations',items:[{id:'morning',label:'Morning Routine',icon:'☀'},{id:'dispatch',label:'Dispatch Map Reports',icon:'📍'},{id:'weekends',label:'Weekend Dispatching',icon:'📅'},{id:'coverage',label:'Coverage Responsibilities',icon:'📋'}]},
+  {group:'Service Fusion',items:[{id:'sfwo',label:'Creating Work Orders',icon:'📄'},{id:'sfcust',label:'New Customers',icon:'👤'}]},
+  {group:'CCNA — Coca-Cola',items:[{id:'ccna',label:'CCNA Overview & SLAs',icon:'🛡'},{id:'ccnacalls',label:'Building CCNA Calls',icon:'📞'},{id:'dupes',label:'Duplicates & Cancellations',icon:'⧉'},{id:'installs',label:'Installs & Removals',icon:'🔩'},{id:'esc',label:'Escalations & T9',icon:'⚠'}]},
+  {group:'Accounts We Service',items:[{id:'global',label:'Global Partners',icon:'🌎'},{id:'freshpet',label:'Freshpet',icon:'♥'},{id:'ncd',label:'NCD / Follet / Minus Forty / Vivreau',icon:'🏪'}]},
+  {group:'Subcontractor SOPs',items:[{id:'atw',label:'ATW — Pepsi/Tropicana',icon:'🚛'},{id:'monclus',label:'Monclus Vending',icon:'🖥'},{id:'bluestar',label:'BlueStar — Texas',icon:'★'},{id:'brookstone',label:'Brookstone — Georgia',icon:'🏠'}]},
+  {group:'Email Templates',items:[{id:'templates',label:'All Email Templates',icon:'✉'}]},
+];
+let curSec='contacts';
+
+function buildNav(){
+  document.getElementById('nav').innerHTML=NAV.map(g=>`<span class="sb-grp">${g.group}</span>${g.items.map(i=>`<div class="sb-item${i.id===curSec?' active':''}" id="nav-${i.id}" onclick="showSec('${i.id}')">${i.icon} ${i.label}</div>`).join('')}`).join('');
+}
+function showSec(id){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.sb-item').forEach(b=>b.classList.remove('active'));
+  const el=document.getElementById('sec-'+id);if(el)el.classList.add('active');
+  const nb=document.getElementById('nav-'+id);if(nb)nb.classList.add('active');
+  curSec=id;
+  document.getElementById('crumb').textContent=NAV.flatMap(g=>g.items).find(i=>i.id===id)?.label||id;
+  document.getElementById('page').scrollTop=0;
+  renderSec(id);
+}
+function renderSec(id){
+  const el=document.getElementById('sec-'+id);if(!el)return;
+  const map={contacts:rContacts,techs:rTechs,subs:rSubs,morning:rMorning,dispatch:rDispatch,weekends:rWeekends,coverage:rCoverage,sfwo:rSFWO,sfcust:rSFCust,ccna:rCCNA,ccnacalls:rCCNACalls,dupes:rDupes,installs:rInstalls,esc:rEsc,global:rGlobal,freshpet:rFreshpet,ncd:rNCD,atw:rATW,monclus:rMonclus,bluestar:rBluestar,brookstone:rBrookstone,templates:rTemplates};
+  if(map[id])el.innerHTML=map[id]();
+}
+const hdr=(t,d)=>`<div class="sec-hdr"><div><div class="sec-title">${t}</div><div class="sec-desc">${d}</div></div></div>`;
+const card=(t,b,ic='📋')=>`<div class="card"><div class="card-title"><div class="ci">${ic}</div>${t}</div>${b}</div>`;
+const step=(n,t,b='')=>`<div class="step"><div class="sn">${n}</div><div class="sc"><div class="st">${t}</div>${b?`<div class="sb2">${b}</div>`:''}</div></div>`;
+const al=(tp,ic,tx)=>`<div class="alert a-${tp}"><div class="ai">${ic}</div><div>${tx}</div></div>`;
+const ebtns=(tp,id)=>isAdmin?`<div style="display:flex;gap:4px"><button class="btn btn-sm" onclick="openEdit('${tp}','${id}')">✏</button><button class="btn btn-d btn-sm" onclick="confirmDel('${tp}','${id}')">🗑</button></div>`:'';
+const addB=(tp,lbl)=>isAdmin?`<button class="btn btn-p btn-sm" onclick="openAdd('${tp}')" style="margin-bottom:12px">+ ${lbl}</button>`:'';
+const coll=(t,b)=>`<div class="coll-h" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')"><span class="coll-ht">${t}</span><span class="coll-arr">▼</span></div><div class="coll-b">${b}</div>`;
+const tmpl=(t,s,b)=>coll(t,`<div class="elbl">Subject: ${s}</div><div class="email-block"><button class="cbtn" onclick="copyText(this)">Copy</button>${b}</div>`);
+
+function rContacts(){
+  return hdr('Office & Staff Contacts','Current office team, warehouse, and tech support lines.')+addB('contact','Add Contact')+
+  `<div class="g3">${D.contacts.map(c=>`<div class="cc"><div class="cc-actions">${ebtns('contact',c.id)}</div><div class="cc-name">${c.name}</div><div class="cc-role">${c.role}</div><div class="cc-info">${c.phone||'—'}${c.email?`<br><a href="mailto:${c.email}">${c.email}</a>`:''}${c.notes?`<br><span style="color:var(--txt3);font-size:11px">${c.notes}</span>`:''}</div></div>`).join('')}</div>`;
+}
+function rTechs(){
+  let h=hdr('Technician Directory','Full roster with schedule, vehicle, and capabilities.')+addB('tech','Add Technician');
+  h+=`<div class="card"><div class="card-title"><div class="ci">📊</div>Roster</div><div style="overflow-x:auto"><table class="tbl"><thead><tr><th>Name</th><th>Title</th><th>Vehicle</th><th>Phone</th><th>Schedule</th><th>Location</th>${isAdmin?'<th></th>':''}</tr></thead><tbody>`;
+  D.techs.forEach(t=>{h+=`<tr><td>${t.name}</td><td>${t.title}</td><td>${t.vehicle}</td><td>${t.phone}</td><td>${t.schedule}</td><td>${t.location||'—'}</td>${isAdmin?`<td>${ebtns('tech',t.id)}</td>`:''}</tr>`;});
+  h+=`</tbody></table></div></div><h3>Capabilities</h3>`;
+  D.techs.filter(t=>t.canDo.length||t.cannotDo.length).forEach(t=>{
+    h+=`<div class="card" style="margin-bottom:10px"><div class="card-title" style="justify-content:space-between"><span><strong>${t.name}</strong> <span style="font-weight:400;color:var(--txt3);font-size:11px">— ${t.schedule}</span></span>${isAdmin?ebtns('tech',t.id):''}</div><div class="g2">${t.canDo.length?`<div><strong style="font-size:11px;color:var(--g)">CAN DO</strong><ul style="margin-top:4px">${t.canDo.map(x=>`<li>${x}</li>`).join('')}</ul></div>`:''}${t.cannotDo.length?`<div><strong style="font-size:11px;color:var(--red)">CANNOT DO</strong><ul style="margin-top:4px">${t.cannotDo.map(x=>`<li style="color:var(--red)">${x}</li>`).join('')}</ul></div>`:''}</div></div>`;
+  });
+  const caps={'Bobby Danker':[0,0,0,0,0,0,0,0,0,0],'Devin':[1,1,1,1,1,0,0,0,1,1],'Erik Stadlander':[1,1,1,1,1,0,0,0,1,1],'Kameron':[0,0,1,1,0,0,0,1,1,1],'Mark':[1,0,0,0,0,0,0,0,1,0],'Phil':[1,0,0,0,0,0,0,0,0,0],'Nicholas Almeida':[0,0,0,0,0,1,1,0,0,0],'Humam Almafraji':[0,0,0,0,0,1,1,0,0,0],'Robert Pexton':[0,0,0,0,1,1,1,0,0,1]};
+  h+=`<h3>Quick Capability Matrix</h3><div class="card"><div class="mtrx"><table class="mt"><thead><tr><th>Tech</th><th>CCNA Reactive</th><th>CCNA BK/CFA PM</th><th>Global Ice/Soda</th><th>Vivreau</th><th>Ice Maker</th><th>Freshpet PM</th><th>Freshpet Reactive</th><th>Refrigerant</th><th>Installs</th><th>F'Real</th></tr></thead><tbody>`;
+  Object.entries(caps).forEach(([n,v])=>{h+=`<tr><td>${n}</td>${v.map(x=>`<td>${x?'<span class="ck">✓</span>':'<span class="xk">—</span>'}</td>`).join('')}</tr>`;});
+  h+=`</tbody></table></div></div>`;return h;
+}
+function rSubs(){
+  let h=hdr('Subcontractor Directory','All subcontractors, territories, and contacts.')+addB('sub','Add Subcontractor');
+  h+=`<div class="card"><div style="overflow-x:auto"><table class="tbl"><thead><tr><th>Company</th><th>SF Name</th><th>Territory</th><th>POC / Contact</th><th>Notes</th>${isAdmin?'<th></th>':''}</tr></thead><tbody>`;
+  D.subs.forEach(s=>{h+=`<tr><td>${s.name}</td><td>${s.sfName}</td><td>${s.territory}</td><td>${s.poc||'—'}</td><td>${s.notes||'—'}</td>${isAdmin?`<td>${ebtns('sub',s.id)}</td>`:''}</tr>`;});
+  h+=`</tbody></table></div></div>`;return h;
+}
+function rMorning(){
+  return hdr('Morning Routine','Daily checklist — run through every morning before anything else.')+
+  al('note','★','Check dispatch board FIRST every morning.')+
+  `<div class="card"><div class="card-title"><div class="ci">☑</div>Morning Checklist</div><ul class="cl" onclick="toggleCheck(event)">${['Check dispatch board for unscheduled calls','Dispatch CCNA Reactive calls to our techs','Dispatch Global Montello (NE area) to our techs','Dispatch Spring Partners (Texas) to Robert Guy','Dispatch Georgia calls to Freeflow Georgia','Review Daily Missed Scheduled Call Report (arrives 6:00 AM)','Review email — Pepsi Equipment Services Reactive Repair','Review email — Tropicana ATW (Abe)','Review email — Minus Forty NE Area','Review email — NCD NE Area','Review email — Vivreau NE Area','Review Texas calls for Robert Guy after 8am (TX is 1 hour behind)','Review overnight emails and respond','Review Dispatch Review in SF — close out calls that need it','Review Service Channel calls — add info as needed'].map(t=>`<li class="ci2"><div class="cbox"></div><span>${t}</span></li>`).join('')}</ul><div style="margin-top:10px"><button class="btn btn-sm" onclick="document.querySelectorAll('.ci2').forEach(i=>i.classList.remove('done'))">Reset Checklist</button></div></div>`+
+  card('Key Rules','<ul><li>All scheduled calls must be moved to <strong>Dispatched</strong> if not dispatching on the grid directly</li><li>More than 1 piece of equipment on a work request → <strong>CREATE A SECOND CALL</strong> for the tech</li><li>Vague calls → reach out to the store directly for more info</li><li>Gulf Express locations (MA Pike) = Global\'s best selling stores — <strong>PRIORITIZE</strong></li></ul>','✓');
+}
+function rDispatch(){
+  return hdr('Dispatch Map Reports','Sent 4x daily. Goal: zero unscheduled calls at all times.')+
+  al('urgent','⚠','GOAL: Zero unscheduled calls at all times.')+
+  `<div class="g2" style="margin:12px 0"><div class="card"><div class="card-title"><div class="ci">⏰</div>Report Schedule</div><div style="display:flex;flex-direction:column;gap:8px">${[['5:00 AM','tb','Overnight calls — dispatch before 7am'],['7:00 AM','tg','Confirm all overnight calls dispatched'],['5:00 PM','ty','Calls from 4pm onward'],['9:00 PM','tgr','Final check — calls from 5pm onward']].map(([t,c,d])=>`<div style="display:flex;align-items:center;gap:9px;font-size:12.5px"><span class="tag ${c}">${t}</span><span style="color:var(--txt2)">${d}</span></div>`).join('')}</div></div><div class="card"><div class="card-title"><div class="ci">📃</div>Daily Missed Call Report</div><p>Arrives at <strong>6:00 AM</strong> Mon-Fri. Review every call.</p><p>Our techs appear if call not completed prior day OR multiple visits exist (must manually update status).</p><p>Sub update needed → email Sam with job # and ask for help.</p><p>Open over 1 month → investigate, add notes so everyone knows why.</p></div></div>`;
+}
+function rWeekends(){
+  return hdr('Weekend Dispatching','Saturday and Sunday on-call procedures.')+
+  al('urgent','⛔','Do NOT give approximate arrival times. Status ONLY — when the tech will arrive or if completed.')+
+  `<div class="g2" style="margin:12px 0"><div class="card"><div class="card-title"><div class="ci">①</div>Priority Order</div><ul class="pl">${['McDonalds (CCNA) — Non-Viper','McDonalds (CCNA) — Viper',"Wendy's (CCNA)",'Burger King (CCNA)','All other National and Regional'].map((t,i)=>`<li class="pi"><div class="pr">${i+1}</div>${t}</li>`).join('')}</ul></div><div class="card"><div class="card-title"><div class="ci">📊</div>Schedule</div><ul><li>Dispatcher ends by <strong>6pm Friday</strong></li><li>Dispatcher ends by <strong>5pm Saturday</strong> — check in with Phil, keep work phone</li><li>Sunday rotation: Angel, Mark, Phil</li><li>Phil: Saturday 2pm–10pm</li><li>Devin: Sunday 8am–4pm</li></ul></div></div>`+
+  card('Dispatcher Steps',`<div class="steps">${step(1,'Log into SF and Email between 8:00–9:00am')}${step(2,'Review all unscheduled reactive calls')}${step(3,'Dispatch in priority order')}${step(4,'Escalation calls — status only. Note on WO what you told them.')}${step(5,'If ETA cannot be met','Email: spbeverageservices@coca-cola.com AND qalmafrachi@freeflowbev.com AND joy@freeflowbev.com')}${step(6,'Check Thirsty for cancellations. If we already went → call 1-800-528-2537 → Pause and Go WO')}</div>`,'→');
+}
+function rCoverage(){
+  return hdr('Coverage Responsibilities','Who owns what for dispatching and account coverage.')+
+  `<div class="card"><table class="tbl"><thead><tr><th>Person</th><th>Responsibilities</th></tr></thead><tbody><tr><td><span class="tag tg">QAIS</span></td><td>Unscheduled calls: Sodamedic / Robert Guy / our techs<br>PSA: create calls for ICE/Vending/Tropicana — inform Sam<br>CCNA: Dispatch / Closing / Flagging / T9<br>Vivreau</td></tr><tr><td><span class="tag tb">WILL</span></td><td>Create calls: NCD, Follet, Donastar, Minus Forty, Private Companies<br>Service Channel: photos & manager sig to close calls<br>Service Channel: updates for Global + Freshpet<br>Installs: schedule and confirm readiness</td></tr><tr><td><span class="tag ty">ANDY</span></td><td>Parts</td></tr><tr><td><span class="tag tgr">SAM</span></td><td>PSA — ICE / Vending Dispatching</td></tr></tbody></table></div>`+
+  al('note','★',"Gulf Express on the MA Pike = Global's best selling stores. Prioritize.")+al('info','ℹ','More than 1 piece of equipment on a work request = create a SECOND call for the tech.');
+}
+function rSFWO(){
+  return hdr('Creating Work Orders','Step-by-step for building a new WO in Service Fusion.')+
+  card('Steps',`<div class="steps">${step(1,'Click Jobs → Click +New')}${step(2,'Go to Customer — enter location name or number')}${step(3,'Fill out Job Category')}${step(4,'Fill out Job Description')}${step(5,'Add PO# if applicable')}${step(6,'Go to Job Info','Fill out Status | Leave Date & Time BLANK | Assign Tech | Add notes for tech')}${step(7,'Click Save Job')}</div>${al('note','📌','Full process for specific customers is in Scribe')}`,'📄')+
+  `<h3>Attach Equipment to Call</h3>`+card('Linking Secondary Job Number',`<div class="steps">${step(1,'Go to rack → write down the re-man job number')}${step(2,'Open service call → Click Edit')}${step(3,'Job Category → On-Site Installation Service')}${step(4,'Custom Fields → enter the re-man job number')}${step(5,'Notes → type: Job Related ID: [re-man job number]')}${step(6,'Save → Open re-man WO → Click Edit → repeat in reverse')}${step(7,'Save — jobs are now linked')}</div>`,'🔗');
+}
+function rSFCust(){
+  return hdr('New Customers','Full intake process from first call to scheduling.')+
+  card('Intake Steps',`<div class="steps">${step(1,'On call — collect name, equipment type (ask for tag photo), business name, location, phone, email')}${step(2,'Send welcome email (add Dalia & Qais) — include new customer form link')}${step(3,'Text Sam for pricing — location/distance from shop + the issue')}${step(4,'Send pricing follow-up on same thread','Travel: $___ | Labor: $___<br>Card required for 1hr travel + 1hr labor before dispatch. Second visit = quote — 50% down.')}${step(5,'Wait for Dalia to confirm form is filled out')}${step(6,'Create customer in SF')}${step(7,'Create invoice for 1hr travel + 1hr labor')}${step(8,'Call customer to schedule')}${step(9,'Transfer to billing to collect payment')}</div>`,'📞')+
+  `<h3>Creating Customer in SF</h3>`+card('Steps',`<div class="steps">${step(1,'Ask Dalia / Jessica for customer info from ZOHO')}${step(2,'SF → Customer tab → Click New (light blue box)')}${step(3,'Fill out using ZOHO form: Customer Name = Business Name | Primary contact | Stored Service Location | Gated Property → store number and hours')}${step(4,'Click Save Customer Account')}${step(5,'Click Financial Data → Labor: Hourly → Add Rate (ask Sam)')}${step(6,'Click Save')}${step(7,'Inform Dalia / Jessica — they collect payment')}</div>`,'👤');
+}
+function rCCNA(){
+  return hdr('CCNA Overview & SLAs','Coca-Cola North America — SLAs, priorities, flagging codes.')+
+  al('urgent','⚠','Past 36 hours = MISSED SLA unless T9 is in progress. T4 WOs for parts ONLY do not count (per Joe Barile).')+
+  `<div class="g2" style="margin:12px 0"><div class="card"><div class="card-title"><div class="ci">⚡</div>SLA Requirements</div><div class="sla"><div class="sdot" style="background:var(--g)"></div><strong>12 HOURS</strong> — Priority target</div><div class="sla"><div class="sdot" style="background:var(--red)"></div><strong>36 HOURS</strong> — Maximum</div></div><div class="card"><div class="card-title"><div class="ci">①</div>Restaurant Priority</div><ul class="pl">${['McDonalds — Non-Viper (newest first, then oldest)','McDonalds — Viper',"Wendy's",'Burger King','All other restaurants'].map((t,i)=>`<li class="pi"><div class="pr">${i+1}</div>${t}</li>`).join('')}</ul></div></div>`+
+  card('Flagging Codes',`<div style="display:flex;flex-wrap:wrap;gap:5px">${['Hold for Parts','Customer Issue','Deferring Service','Sales Referral','Cannot Reach Customer','Customer Not Ready'].map(f=>`<span class="tag ty">${f}</span>`).join('')}</div>`,'⚑')+
+  `<h3>Coke Contacts — Info Updates & Yearly Survey (Dec 15)</h3><div class="g2">${[['April Smith','aprilsmith01@coca-cola.com'],['Krista','krtoy@coca-cola.com'],['Elizabeth Grimaldo','egrimaldo@coca-cola.com'],['SP Beverage Services','spbeverageservices@coca-cola.com']].map(([n,e])=>`<div class="cc"><div class="cc-name">${n}</div><div class="cc-info"><a href="mailto:${e}">${e}</a></div></div>`).join('')}</div>`;
+}
+function rCCNACalls(){
+  return hdr('Building CCNA Calls Manually','Templates and process when WOs do not auto-build.')+
+  al('note','📌','Dani is building an auto-create system. Manually create for now.')+
+  card('Steps',`<div class="steps">${step(1,'Log into Thirsty')}${step(2,'SF → Click +New Job')}${step(3,'Open Thirsty call → pull info into Notepad template → paste into SF Job Description')}${step(4,'Add PO# | Job Category | Job Source: CCNA Import Automation')}${step(5,'Status: Unscheduled (unless install)')}${step(6,'Click Save Job')}</div>`,'→')+
+  coll('CCNA Reactive Template',`<div class="email-block"><button class="cbtn" onclick="copyText(this)">Copy</button>WO [NUMBER]
+***** CALL WITH ETA REQUESTED *****
+RECEIVED [DATE/TIME]
+CUSTOMER ACN:[NUMBER]
+CONTACT NAME: [NAME]
+CONTACT PHONE: [PHONE]
+HOURS OF OPERATION: [HOURS]
+EQUIPMENT: [CODE + DESCRIPTION]
+EQUIPMENT LOCATION: [IN-STORE LOCATION]
+TROUBLE REPORTED: [CODE]
+COMMENTS: [NOTES]
+PRIORITY: [LEVEL]</div>`)+
+  coll('CCNA Install Template',`<div class="email-block"><button class="cbtn" onclick="copyText(this)">Copy</button>WO# [NUMBER]
+WO TYPE: INSTALLATION
+SERVICE TYPE: 3 - INSTALL DEALER-OWNED DISPENSER EQUIPMENT
+TROUBLE CODE: 500 - INSTALL DISP EQPT
+PRIMARY EQUIPMENT TYPE: [TYPE]
+PROJECT ID: [ID]
+DESCRIPTION: [DESCRIPTION]
+COMMENTS: [COMMENTS]
+CUSTOMER START DATE: [DATE]
+CUSTOMER END DATE: [DATE]
+REQUESTED ACTIVITY DATE: [DATE]
+LINK TO THIRSTY: [URL]</div>`)+
+  coll('CCNA Type 9 Template',`<div class="email-block"><button class="cbtn" onclick="copyText(this)">Copy</button>WO# [NUMBER]
+WO TYPE: Other
+SERVICE TYPE: 9 - SCHEDULED SERVICE
+TROUBLE CODE: 85 - INSTALL PARTS/PM SLS
+PRIMARY EQUIPMENT TYPE: [TYPE]
+PROJECT ID: [ID]
+DESCRIPTION: [DESCRIPTION]
+COMMENTS: [COMMENTS]
+CUSTOMER START DATE: [DATE]
+CUSTOMER END DATE: [DATE]
+REQUESTED ACTIVITY DATE: [DATE]
+LINK TO THIRSTY: [URL]</div>`);
+}
+function rDupes(){
+  return hdr('Duplicates & Cancellations','Handling callbacks under 24 hours.')+`<div class="g2">`+
+  card('Duplicate Under 24 Hours',`<div class="steps">${step(1,'Call 1-800-528-2537')}${step(2,'Give Ref Number: G13 + WO# at the same time')}${step(3,'Answer their questions')}${step(4,'Stay on line until cancellation email received')}${step(5,'Add notes to the call(s)')}</div>`,'📞')+
+  card('Cancel in Service Fusion',`<div class="steps">${step(1,'Go to the Job Order')}${step(2,'Add Notes: "Duplicate call - Refer to Job Number: [######]"')}${step(3,'Change current status to: Cancelled')}</div>`,'✕')+'</div>';
+}
+function rInstalls(){
+  return hdr('Installs & Removals','Confirming CCNA installs and handling issues.')+
+  al('urgent','⛔','Dates scheduled through Thirsty with CCNA. Do NOT swap equipment without notifying CCNA first.')+
+  `<div class="g2" style="margin-top:12px">`+
+  card('Confirming Installations (2 days before)',`<div class="steps">${step(1,'View Calendar in SF → find upcoming installs')}${step(2,'Click job → View Details')}${step(3,'Highlight Customer info → go to Thirsty → paste in search bar')}${step(4,'Click correct location → scroll to Support Teams → get AC email')}${step(5,'Send confirmation email to AC')}${step(6,'Add confirmation note in SF job')}</div>`,'✅')+
+  card('Issues on Installs — Calling AC Line',`<div class="steps">${step(1,'Call the AC line')}${step(2,'Identify: "Service provider, G13, calling about an issue at the install"')}${step(3,'Provide WO# and explain the issue and what is needed')}${step(4,'After call → reach back out to tech with the update')}</div>${al('note','📌','Reference Job 519288 — how to create a service call with warranty')}`,'📞')+'</div>';
+}
+function rEsc(){
+  return hdr('Escalations & Type 9 Requests','T9 usage rules and Providence Place RI protocol.')+
+  card('Type 9 Rules',`<p><strong>T9 is for:</strong> extensive repairs | non-common parts | work requiring multiple techs</p>${al('urgent','⚠','Parts that cannot be tracked due to CCP migration do NOT constitute a T9 (per TMD).')}${al('note','📌','Keep calls open until parts arrive. Email cocacolapartsinquiries@coca-cola.com for shipping updates.')}<h4>CCNE Albany</h4><p>Bobby Danker handles the Albany area. Route unscheduled calls to him.</p>`,'⚠')+
+  `<h3>Providence Place RI — Mall Protocol</h3>`+al('ok','✓','Mall has not required this protocol since April 2025. On file for reference.')+
+  `<div class="g2" style="margin:10px 0"><div class="cc"><div class="cc-name">Mariely Siravo</div><div class="cc-role">Mall Admin</div><div class="cc-info">401-537-6234<br>msiravo@centennialrec.com</div></div><div class="cc"><div class="cc-name">Mall Security</div><div class="cc-info">401-270-1010</div></div></div>`+
+  card('Mall Protocol Steps',`<div class="steps">${step(1,'Reactive call comes in from tenant')}${step(2,'Private entrance? YES → park on street, no form. NO → continue.')}${step(3,'Call location → speak with MOD. Ask if Notice of Work is filled out. If not → get exact date. Recommend 1-week window Thu–Thu for 48-hr approval.')}${step(4,'Email COM / AC / AM → request T9 WO + date we are going out')}${step(5,'Day 2 → contact Mariely to verify clearance')}${step(6,'Verify T9 has come through → put on schedule')}</div>`,'→');
+}
+function rGlobal(){
+  return hdr('Global Partners','Global Montello (NE) and Spring Partners (TX).')+
+  `<div class="g2" style="margin-bottom:12px"><div class="card"><div class="card-title"><div class="ci">📍</div>Global Montello — New England</div><p>Calls come through portal. Email notification on each new call.</p><a href="https://freeflowbev.dronahq.io/globalrequest" target="_blank" class="btn btn-sm" style="margin-top:6px">↗ Open Portal</a></div><div class="card"><div class="card-title"><div class="ci">📍</div>Spring Partners — Texas</div><p>Calls come through Service Channel.</p><div style="display:flex;flex-direction:column;gap:6px;margin-top:8px"><div class="cc"><div class="cc-name">Patrick OConnell</div><div class="cc-info"><a href="mailto:patrick.oconnell@globalp.com">patrick.oconnell@globalp.com</a></div></div><div class="cc"><div class="cc-name">Sean Doyle</div><div class="cc-info"><a href="mailto:sean.doyle@globalp.com">sean.doyle@globalp.com</a></div></div></div>${al('note','★','Always Reply All on Global emails.')}</div></div>`+
+  al('ok','✅','Per Sean Doyle (3/4/25): Jobs under $750 total = auto-approved. No estimate needed.')+
+  `<div class="g2" style="margin-top:12px"><div class="card"><div class="card-title"><div class="ci">✓</div>We DO Work On</div><ul>${["Counter top ice machines","Backroom ice machines","F'Real Machines","Soda Fountains & Ice Maker (if Global owns it)","Cold Brew"].map(i=>`<li style="color:var(--g)">${i}</li>`).join('')}</ul></div><div class="card"><div class="card-title"><div class="ci">✕</div>We Do NOT Work On</div><ul>${["Bean to Cup","Hot Water Dispensers (Install Only exception)","Frazil / Freezing Point","Cappuccino Machine — Royal Cup","FCB / ICEE"].map(i=>`<li style="color:var(--red)">${i}</li>`).join('')}</ul></div></div>`+
+  `<h3>Duplicate Call Response Email</h3><div class="elbl">Reply All to the email</div><div class="email-block"><button class="cbtn" onclick="copyText(this)">Copy</button>Greeting,
+
+I was reviewing this call that has come in. I see our tech was out there [DATE], the tech recommended [PART/REPAIR] on job number [######].
+
+We are working on putting together a quote at this time. [Add context from tech notes.]
+
+I will go ahead and cancel this call but will keep job number [######] open.
+
+Thank you,</div>`;
+}
+function rFreshpet(){
+  return hdr('Freshpet','Service calls come through Service Channel.')+
+  card('Service Managers by Account',`<table class="tbl"><thead><tr><th>Contact</th><th>Email</th><th>Manages</th></tr></thead><tbody><tr><td>Jeannie Rogalla</td><td><a href="mailto:jrogalla@freshpet.com">jrogalla@freshpet.com</a></td><td>Petco, PetSmart, PSP, Pet Independent, Albertson/Safeway group</td></tr><tr><td>Jill Kochanski</td><td><a href="mailto:Jkochanski@freshpet.com">Jkochanski@freshpet.com</a></td><td>Target, Walmart, Costco, Whole Foods, BJ's, HEB, Publix</td></tr><tr><td>Sandra Douris</td><td><a href="mailto:sdouris@freshpet.com">sdouris@freshpet.com</a></td><td>All others</td></tr></tbody></table>`,'👥')+
+  `<div class="g2">`+card('Creating Freshpet PMs',`<div class="steps">${step(1,'New Job → Customer: Freshpet List in Google Docs → store location')}${step(2,'Job Category: Freshpet PM | Description: Perform PM')}${step(3,'Equipment Tab → search by location & store number → add equipment')}${step(4,'Tasklist → Insert Presets → Freshpet-PM')}${step(5,'Job Info: Status = Dispatched | Date/Time | Tech')}${step(6,'2 coolers on site? Note: "2 coolers on site. 2 WOs created." Create 2nd WO.')}${step(7,'Save Job')}</div>`,'→')+
+  card('Service Channel Priority Levels',`<table class="tbl"><thead><tr><th>Level</th><th>Time</th><th>Notes</th></tr></thead><tbody><tr><td><span class="tag tr">P1</span></td><td>4 hours</td><td>⚠ Will keep calling if no exact ETA</td></tr><tr><td><span class="tag ty">P2</span></td><td>24 hours</td><td></td></tr><tr><td><span class="tag tb">P3</span></td><td>48 hours</td><td></td></tr><tr><td><span class="tag tgr">P4</span></td><td>7 days</td><td></td></tr><tr><td><span class="tag tgr">P5</span></td><td>30 days</td><td>Used for PMs</td></tr></tbody></table>${al('note','📌','SF status changes auto-update in Service Channel.')}`,'⚠')+'</div>'+
+  `<h3>Freshpet Reactive Template</h3><div class="email-block"><button class="cbtn" onclick="copyText(this)">Copy</button>WARRANTY STATUS: NON-WARRANTY
+Issue Type: SALES/RETAIL AREA-01 / [type]
+Equipment Type: Refrigerator
+Model: [MODEL#]  |  Brand: [BRAND]
+Additional notes: Model #: [#] / Serial #: [#] / Replenishment ON or OFF / DB Key #: [#]
+[Describe the actual problem in detail]
+PO#: [TRACKING#]
+Job Category: Freshpet Reactive - Non-Warranty
+Job Source: FP Import Automation</div>`+
+  al('info','ℹ',"Cooler Removals (per Sandra Douris): We do NOT handle pickups. Tell them to cancel and forward to logistics.");
+}
+function rNCD(){
+  return hdr('NCD / Follet / Minus Forty / IDW / Vivreau','Workflow for each account type.')+
+  coll('National Convenience Distributors (NCD)',`<p>Calls come in via email. Locations may not exist in SF — link to parent account if needed.</p><div class="steps">${step(1,'Follow Create New Work Order steps in SF')}${step(2,'Reply All: "Good morning, I have created the call job number: [######]. Will get this dispatched. Thank you,"')}</div>`)+
+  coll('Follet Service Calls',`<p><strong>Contact:</strong> Craig Merluzzi — 484-456-2422 | Mobile: 610-438-7817 | cmerluzzi@follettice.com</p><div class="steps">${step(1,'Receive email notification → check portal for service call')}${step(2,"Review what Follet covers vs. what they don't")}${step(3,'Warranty = 1hr travel + 1hr diagnose. May need new customer form — ask Sam for pricing.')}${step(4,'Inform Dalia → create SF customer → create job → schedule → update Follet Portal')}</div>`)+
+  coll('Minus Forty Service Requests',`<p>Via email from Due North / Minus Forty. Review Michael's emails first — parts may be shipping.</p><ul><li>Customer → top LEFT of PDF</li><li>Service Location → "Equipment Location"</li><li>Job Description → "Comment" field</li><li>PO# → "Order #" top RIGHT</li><li>Doc Tab → attach the PDF</li><li>Notes → add Michael's email info + <strong>BILL TO MINUS FORTY (separate note)</strong></li></ul>`)+
+  coll('IDW Service Requests',`<p>Via email with PDF — build similar to Minus Forty.</p><ul><li>Customer = IDW (top RIGHT corner of PDF)</li><li>Service Location = "Cooler Located" on right side</li><li>Job Description = table on PDF (SN / Brand / Cooler type / Problem)</li><li>PO# = "Request#" top right (format: SC-####)</li><li>Notes → <strong>BILL TO MINUS FORTY (separate note)</strong></li></ul>`)+
+  coll('Vivreau',al('note','⚠','Process is still new — things could change. Check with Qais.')+`<p>Calls via email from: <strong>Fieldservice Vivreau</strong>. Talk with Qais to confirm who and when. Reply with tech name and phone.</p><div class="elbl" style="margin-top:10px">Response email</div><div class="email-block"><button class="cbtn" onclick="copyText(this)">Copy</button>Good morning,
+
+We are able to go to the location [DATE].
+
+Technician: [NAME]
+Phone number: [PHONE]
+
+Thank you</div><div class="steps" style="margin-top:10px">${step(1,'Customer: Vivreau USA LP | Service Location: from the email')}${step(2,"Job Category: On-Site Reactive Service | Description: copy ENTIRE Request field from email")}${step(3,"PO#: None | Doc Tab: screenshot and attach the request")}${step(4,'Save Job')}</div>`);
+}
+function rATW(){
+  return hdr('ATW — Pepsi/Tropicana','NYS Techs — job creation, invoicing, and quoting.')+
+  `<div class="g2" style="margin-bottom:12px"><div class="cc"><div class="cc-name">Abe (Owner)</div><div class="cc-role">ATW</div><div class="cc-info">516-805-3324<br>atwref@gmail.com</div></div><div class="cc"><div class="cc-name">Rich (Service Manager)</div><div class="cc-role">ATW</div><div class="cc-info">516-805-0342</div></div></div>`+
+  al('note','★','ATW PO# for SF: 144627290 | Parts margin: Cost ÷ 0.70 = Sell Price (30%) | Min: 1hr Drive + 15min Labor')+
+  card('Creating the Job — Both Systems',`<div class="steps">${step(1,'Review email → click the SECOND email → "BUILD JOB IN SERVICE FUSION"')}${step(2,"Click \"Yes, Build job\" (No only if duplicate or we don't service — ask Sam/Dani if unsure)")}${step(3,'Go to created SF job → Edit → Job Info: Status Dispatched | Dates Today | Techs NY Techs | Save')}${step(4,'Open ATW → + (blue) → enter store info, Repair Manufacturer, Model, problem')}${step(5,'Highlight BOTTOM 2 ROWS from email → paste into Comment → agree Terms → Save in ATW')}${step(6,'Copy Request NO. from ATW → paste into SF Tech Notes → Save')}</div>`,'📄')+
+  card('Invoicing ATW Jobs',al('urgent','⚠','Cannot access ATW? Email Abe directly with ALL information.')+`<div class="steps">${step(1,'Open ATW → find WO → review notes and timing')}${step(2,'SF → job → Edit → verify location, desc, PO# | add equipment if missing')}${step(3,'Download photos from ATW → upload to Pic tab in SF')}${step(4,'Drive & Labor → Add → NY Techs → dates → 15-min increments')}${step(5,'Products & Services → MISC → part name from ATW → 30% margin pricing')}${step(6,'Completion Note → copy ATW tech notes (add date first)')}${step(7,'Status → Ready for Invoicing → Save → Email Jessica')}</div>`,'🧾')+
+  card('Quoting for ATW',`<div class="steps">${step(1,'ATW → Requests → Quote Estimates → Action')}${step(2,'SF → job → Email Template → Quote Template')}${step(3,'Add tech notes where "xxxx" | each part at 30% margin | estimated hours')}${step(4,'Review verbiage and math | add yourself to email for notifications → Send')}</div>`,'💲');
+}
+function rMonclus(){
+  return hdr('Monclus Vending','Costco vending machines — now come in as CCNA calls.')+
+  `<div class="g2" style="margin-bottom:12px"><div class="cc"><div class="cc-name">Miguel Monclus</div><div class="cc-role">Owner</div><div class="cc-info">347-757-7939</div></div><div class="cc"><div class="cc-name">Dharina Rojas</div><div class="cc-role">Asst Operations Manager</div><div class="cc-info">929-519-8291<br>drojas@monclusvs.com</div></div></div>`+
+  al('note','★','Communicates through group text. Costco is now CCNA — calls come in as normal CCNA calls.')+
+  card('Dispatching SOP',`<div class="steps">${step(1,'Open the call → review location → dispatch accordingly')}${step(2,'SF Edit → Status: Dispatched | Techs: Monclus | Check "Notify all Tech(s) assigned" | Leave everything else BLANK')}${step(3,'Click Save Job')}</div>`,'→');
+}
+function rBluestar(){
+  return hdr('BlueStar — Texas','All Texas calls. Robert Guy (Gus) dedicated tech as of 3/11/25.')+
+  `<div class="g2" style="margin-bottom:12px"><div class="cc"><div class="cc-name">Brenda (Operations Manager)</div><div class="cc-role">BlueStar</div><div class="cc-info">713-766-6570<br>brenda@bluestarbeveragesupply.com</div></div><div class="cc"><div class="cc-name">Robert Guy "Gus" (Dedicated Tech)</div><div class="cc-role">BlueStar</div><div class="cc-info">713-632-7573<br>guy@bluestarbeveragesupply.com</div></div></div>`+
+  card('Work They Do For Us',`<ul>${['Freshpet PMs','Freshpet Reactive','Spring Partners — Honey Farms'].map(i=>`<li>${i}</li>`).join('')}</ul><p style="margin-top:8px;font-size:11.5px">All calls come through Service Channel. Unless parts needed, Gus leaves from home.</p>`,'✓')+
+  card('Dispatching SOP',`<div class="steps">${step(1,'Open call → review history for callbacks')}${step(2,'SF Edit → Status: Dispatched | Dates: Today | Techs: Robert Guy B.S. | Check Notify Techs')}${step(3,'Click Save Job')}</div>`,'→')+
+  `<h3>Shipping Address</h3><div class="email-block">Blue Star Beverage Supply
+ATTN: ROBERT GUY
+3731 Creekmont Drive
+Houston, TX 77091</div>`;
+}
+function rBrookstone(){
+  return hdr('Brookstone Mechanical — Georgia','Freshpet Reactive + PMs in Georgia. SF Name: FREEFLOW GA.')+
+  `<div class="g2" style="margin-bottom:12px"><div class="cc"><div class="cc-name">Quentin Byrd (Owner)</div><div class="cc-role">Brookstone Mechanical</div><div class="cc-info">404-425-6028<br>calls@brookestonemechanical.com</div></div><div class="cc"><div class="cc-name">Jasmine (Dispatcher)</div><div class="cc-role">Brookstone Mechanical</div><div class="cc-info">347-939-2263</div></div></div>`+
+  card('Dispatching SOP',`<div class="steps">${step(1,'Go to call → open it')}${step(2,'SF Edit → Status: Dispatched | Dates: Today | Techs: Freeflow GA | Check Notify Techs')}${step(3,'Click Save Job')}</div>`,'→')+
+  `<h3>Shipping Address</h3><div class="email-block">Attn: Quentin Byrd
+2604 Brynlyn Court NE
+Conyers, GA 30013</div>`;
+}
+function rTemplates(){
+  return hdr('Email Templates','Ready-to-copy templates for every situation.')+
+  tmpl('New Customer — Welcome Email','Welcome! FreeFlow New Customer Link',`Good morning / afternoon,
+
+Thank you for reaching out for services.
+
+Before we can go out for service, I would need our new customer form filled out.
+
+I will have the rates for travel and labor to you shortly.
+
+Below is the new customer set up link:
+Forms | National Network for Beverage Equipment Services | Freeflow Beverage Solutions
+
+Any questions please let me know.
+
+[Your Name]
+Freeflow Beverage Solutions`)+
+  tmpl('New Customer — Pricing Email','RE: Welcome! FreeFlow New Customer Link',`Good afternoon,
+
+I have gathered the pricing for you. Just so you are aware, travel is 1 way or 2 way.
+
+Travel: $___
+Labor:  $___
+
+Before we can go out to the location we need a card on file to charge 1 hour travel and 1 hour labor.
+This will go towards your first visit. If a second visit is needed, we would send you a quote.
+If you accept the quote, we would need half down. The final amount would be collected the day the job is done on.
+
+[Your Name]
+Freeflow Beverage Solutions`)+
+  tmpl('Global — Duplicate Call Response','RE: [Service Request]',`Greeting,
+
+I was reviewing this call that has come in. I see our tech was out there [DATE],
+the tech recommended [PART/REPAIR] on job number [######].
+
+We are working on putting together a quote at this time. [Add context from tech notes.]
+
+I will go ahead and cancel this call but will keep job number [######] open.
+
+Thank you,
+[Your Name]`)+
+  tmpl('Vivreau — Scheduling Confirmation','RE: Service Request - [Location]',`Good morning,
+
+We are able to go to the location [DATE].
+
+Technician: [NAME]
+Phone number: [PHONE]
+
+Thank you`)+
+  tmpl('Weekend — ETA Cannot Be Met','WO #[NUMBER] — ETA Update — [LOCATION]',`TO: spbeverageservices@coca-cola.com
+CC: qalmafrachi@freeflowbev.com | joy@freeflowbev.com
+
+Good [morning/afternoon],
+
+I am reaching out regarding Work Order #[WO NUMBER] at [LOCATION NAME].
+
+We are unable to meet the previously communicated ETA.
+
+Updated ETA: [NEW DATE / TIME]
+Technician: [TECH NAME]
+
+We apologize for the inconvenience.
+
+Thank you,
+[Your Name]
+Freeflow Beverage Solutions`)+
+  tmpl('Text to Sam — New Customer Pricing','(Text message)',`Hey Sam,
+
+I have a potential new customer in [CITY, STATE].
+Looking for us to go out to [DESCRIBE ISSUE / EQUIPMENT].
+What would the travel and labor rate be?
+
+Thanks`)+
+  tmpl('NCD — Call Confirmation Reply','RE: [NCD Email Subject]',`Good morning,
+
+I have created the call. Job number: [######].
+
+Will get this dispatched.
+
+Thank you,
+[Your Name]`);
+}
+
+function toggleCheck(e){const i=e.target.closest('.ci2');if(i)i.classList.toggle('done')}
+function copyText(btn){const t=btn.parentElement.innerText.replace(/^Copy\n?/,'').trim();navigator.clipboard.writeText(t).then(()=>{btn.textContent='Copied!';setTimeout(()=>btn.textContent='Copy',1500)})}
+function doSearch(q){if(!q||q.length<2)return;const r=NAV.flatMap(g=>g.items).find(i=>i.label.toLowerCase().includes(q.toLowerCase()));if(r)showSec(r.id)}
+function openLogin(){if(isAdmin){exitAdmin();return}document.getElementById('loginMo').classList.add('open');setTimeout(()=>document.getElementById('lpass').focus(),100)}
+function doLogin(){if(document.getElementById('lpass').value===PASS){document.getElementById('lerr').style.display='none';closeM('loginMo');toggleAdmin(true)}else{document.getElementById('lerr').style.display='block'}}
+function exitAdmin(){toggleAdmin(false)}
+function toggleAdmin(on){isAdmin=on;document.body.classList.toggle('admin-on',on);document.getElementById('abar').classList.toggle('show',on);document.getElementById('adot').classList.toggle('on',on);document.getElementById('albl').textContent=on?'Exit Admin Mode':'Admin Edit Mode';renderSec(curSec)}
+function openM(id){document.getElementById(id).classList.add('open')}
+function closeM(id){document.getElementById(id).classList.remove('open')}
+document.querySelectorAll('.overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open')}));
+function openEdit(type,id){
+  editId=id;editType=type;
+  if(type==='contact'){const c=D.contacts.find(x=>x.id===id);document.getElementById('cmt').textContent='Edit Contact';document.getElementById('cN').value=c.name;document.getElementById('cR').value=c.role;document.getElementById('cP').value=c.phone;document.getElementById('cE').value=c.email;document.getElementById('cNt').value=c.notes;document.getElementById('cSv').onclick=saveContact;openM('contactMo')}
+  else if(type==='tech'){const t=D.techs.find(x=>x.id===id);document.getElementById('tmt').textContent='Edit Technician';document.getElementById('tN').value=t.name;document.getElementById('tT').value=t.title;document.getElementById('tV').value=t.vehicle;document.getElementById('tPh').value=t.phone;document.getElementById('tE').value=t.email;document.getElementById('tSc').value=t.schedule;document.getElementById('tLo').value=t.location;document.getElementById('tCD').value=t.canDo.join('\n');document.getElementById('tCN').value=t.cannotDo.join('\n');document.getElementById('tSv').onclick=saveTech;openM('techMo')}
+  else if(type==='sub'){const s=D.subs.find(x=>x.id===id);document.getElementById('smt').textContent='Edit Sub';document.getElementById('sN').value=s.name;document.getElementById('sSF').value=s.sfName;document.getElementById('sTr').value=s.territory;document.getElementById('sPOC').value=s.poc;document.getElementById('sNt').value=s.notes;document.getElementById('sSv').onclick=saveSub;openM('subMo')}
+}
+function openAdd(type){
+  editId=null;editType=type;
+  if(type==='contact'){document.getElementById('cmt').textContent='Add Contact';['cN','cR','cP','cE','cNt'].forEach(i=>document.getElementById(i).value='');document.getElementById('cSv').onclick=saveContact;openM('contactMo')}
+  else if(type==='tech'){document.getElementById('tmt').textContent='Add Technician';['tN','tT','tV','tPh','tE','tSc','tLo','tCD','tCN'].forEach(i=>document.getElementById(i).value='');document.getElementById('tSv').onclick=saveTech;openM('techMo')}
+  else if(type==='sub'){document.getElementById('smt').textContent='Add Sub';['sN','sSF','sTr','sPOC','sNt'].forEach(i=>document.getElementById(i).value='');document.getElementById('sSv').onclick=saveSub;openM('subMo')}
+}
+function saveContact(){const d={name:document.getElementById('cN').value.trim(),role:document.getElementById('cR').value.trim(),phone:document.getElementById('cP').value.trim(),email:document.getElementById('cE').value.trim(),notes:document.getElementById('cNt').value.trim()};if(!d.name)return;if(editId){const i=D.contacts.findIndex(x=>x.id===editId);if(i>-1)D.contacts[i]={...D.contacts[i],...d}}else D.contacts.push({id:uid(),...d});save();closeM('contactMo');renderSec('contacts')}
+function saveTech(){const d={name:document.getElementById('tN').value.trim(),title:document.getElementById('tT').value.trim(),vehicle:document.getElementById('tV').value.trim(),phone:document.getElementById('tPh').value.trim(),email:document.getElementById('tE').value.trim(),schedule:document.getElementById('tSc').value.trim(),location:document.getElementById('tLo').value.trim(),canDo:document.getElementById('tCD').value.split('\n').map(l=>l.trim()).filter(Boolean),cannotDo:document.getElementById('tCN').value.split('\n').map(l=>l.trim()).filter(Boolean)};if(!d.name)return;if(editId){const i=D.techs.findIndex(x=>x.id===editId);if(i>-1)D.techs[i]={...D.techs[i],...d}}else D.techs.push({id:uid(),...d});save();closeM('techMo');renderSec('techs')}
+function saveSub(){const d={name:document.getElementById('sN').value.trim(),sfName:document.getElementById('sSF').value.trim(),territory:document.getElementById('sTr').value.trim(),poc:document.getElementById('sPOC').value.trim(),notes:document.getElementById('sNt').value.trim()};if(!d.name)return;if(editId){const i=D.subs.findIndex(x=>x.id===editId);if(i>-1)D.subs[i]={...D.subs[i],...d}}else D.subs.push({id:uid(),...d});save();closeM('subMo');renderSec('subs')}
+function confirmDel(type,id){const arr={contact:D.contacts,tech:D.techs,sub:D.subs}[type];const item=arr?.find(x=>x.id===id);document.getElementById('confMsg').textContent=`Delete "${item?.name||id}"? This cannot be undone.`;document.getElementById('confBtn').onclick=()=>{if(type==='contact')D.contacts=D.contacts.filter(x=>x.id!==id);else if(type==='tech')D.techs=D.techs.filter(x=>x.id!==id);else if(type==='sub')D.subs=D.subs.filter(x=>x.id!==id);save();closeM('confirmMo');renderSec({contact:'contacts',tech:'techs',sub:'subs'}[type])};openM('confirmMo')}
+
+buildNav();
+renderSec('contacts');
+</script>
+</body>
+</html>

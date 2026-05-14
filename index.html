@@ -262,6 +262,141 @@ a:hover{text-decoration:underline}
   </div>
 </div>
 <script>
+
+// ═══════════════════════════════════════════════════
+// SUPABASE — Real-time database connection
+// All changes sync to everyone instantly
+// ═══════════════════════════════════════════════════
+const SUPABASE_URL = 'https://bmfoiyesrmkheineqkdp.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJtZm9peWVzcm1raGVpbmVxa2RwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3NzY5MzUsImV4cCI6MjA5NDM1MjkzNX0.IgRpUyjWVTJm3f09IblG9N9kfaCLzoGXcPvZiKrTAko';
+
+const SB = {
+  headers: {
+    'apikey': SUPABASE_KEY,
+    'Authorization': 'Bearer ' + SUPABASE_KEY,
+    'Content-Type': 'application/json',
+    'Prefer': 'return=representation'
+  },
+
+  async get(table) {
+    const r = await fetch(SUPABASE_URL + '/rest/v1/' + table + '?select=*&order=sort_order', {headers: this.headers});
+    if (!r.ok) throw new Error('Failed to fetch ' + table);
+    return r.json();
+  },
+
+  async insert(table, data) {
+    const r = await fetch(SUPABASE_URL + '/rest/v1/' + table, {
+      method: 'POST', headers: this.headers, body: JSON.stringify(data)
+    });
+    if (!r.ok) throw new Error('Failed to insert into ' + table);
+    return r.json();
+  },
+
+  async update(table, id, data) {
+    const r = await fetch(SUPABASE_URL + '/rest/v1/' + table + '?id=eq.' + id, {
+      method: 'PATCH', headers: this.headers, body: JSON.stringify(data)
+    });
+    if (!r.ok) throw new Error('Failed to update ' + table);
+    return r.json();
+  },
+
+  async delete(table, id) {
+    const r = await fetch(SUPABASE_URL + '/rest/v1/' + table + '?id=eq.' + id, {
+      method: 'DELETE', headers: this.headers
+    });
+    if (!r.ok) throw new Error('Failed to delete from ' + table);
+    return r.ok;
+  }
+};
+
+// Load all data from Supabase on startup
+async function loadFromDB() {
+  try {
+    const [contacts, techs, subs] = await Promise.all([
+      SB.get('contacts'),
+      SB.get('techs'),
+      SB.get('subs')
+    ]);
+
+    // Map DB format to app format
+    D.contacts = contacts.map(c => ({
+      id: c.id, name: c.name, role: c.role,
+      phone: c.phone, email: c.email, notes: c.notes
+    }));
+
+    D.techs = techs.map(t => ({
+      id: t.id, name: t.name, title: t.title,
+      vehicle: t.vehicle, phone: t.phone, email: t.email,
+      schedule: t.schedule, location: t.location,
+      canDo: t.can_do ? t.can_do.split('|').map(x=>x.trim()).filter(Boolean) : [],
+      cannotDo: t.cannot_do ? t.cannot_do.split('|').map(x=>x.trim()).filter(Boolean) : []
+    }));
+
+    D.subs = subs.map(s => ({
+      id: s.id, name: s.name, sfName: s.sf_name,
+      territory: s.territory, poc: s.poc, notes: s.notes
+    }));
+
+    buildNav();
+    renderSec(curSec);
+    document.getElementById('savedlbl').textContent = 'Live data loaded ✓';
+  } catch(e) {
+    console.error('DB load error:', e);
+    document.getElementById('savedlbl').textContent = 'Using local data';
+    buildNav();
+    renderSec(curSec);
+  }
+}
+
+// Override save functions to write to Supabase
+async function saveContactToDB(data, id) {
+  try {
+    if (id) {
+      await SB.update('contacts', id, {name:data.name,role:data.role,phone:data.phone,email:data.email,notes:data.notes});
+    } else {
+      const newId = uid();
+      await SB.insert('contacts', {id:newId,name:data.name,role:data.role,phone:data.phone,email:data.email,notes:data.notes,sort_order:D.contacts.length+1});
+      return newId;
+    }
+    document.getElementById('savedlbl').textContent = 'Saved to database ✓';
+  } catch(e) { alert('Save failed: ' + e.message); }
+}
+
+async function saveTechToDB(data, id) {
+  try {
+    const dbData = {name:data.name,title:data.title,vehicle:data.vehicle,phone:data.phone,email:data.email,schedule:data.schedule,location:data.location,can_do:data.canDo.join('|'),cannot_do:data.cannotDo.join('|')};
+    if (id) {
+      await SB.update('techs', id, dbData);
+    } else {
+      const newId = uid();
+      await SB.insert('techs', {id:newId,...dbData,sort_order:D.techs.length+1});
+      return newId;
+    }
+    document.getElementById('savedlbl').textContent = 'Saved to database ✓';
+  } catch(e) { alert('Save failed: ' + e.message); }
+}
+
+async function saveSubToDB(data, id) {
+  try {
+    const dbData = {name:data.name,sf_name:data.sfName,territory:data.territory,poc:data.poc,notes:data.notes};
+    if (id) {
+      await SB.update('subs', id, dbData);
+    } else {
+      const newId = uid();
+      await SB.insert('subs', {id:newId,...dbData,sort_order:D.subs.length+1});
+      return newId;
+    }
+    document.getElementById('savedlbl').textContent = 'Saved to database ✓';
+  } catch(e) { alert('Save failed: ' + e.message); }
+}
+
+async function deleteFromDB(table, id) {
+  try {
+    await SB.delete(table, id);
+    document.getElementById('savedlbl').textContent = 'Deleted ✓';
+  } catch(e) { alert('Delete failed: ' + e.message); }
+}
+
 const PASS='freeflow2025';
 let isAdmin=false,editId=null,editType=null;
 let D={
@@ -666,13 +801,12 @@ function openAdd(type){
   else if(type==='tech'){document.getElementById('tmt').textContent='Add Technician';['tN','tT','tV','tPh','tE','tSc','tLo','tCD','tCN'].forEach(i=>document.getElementById(i).value='');document.getElementById('tSv').onclick=saveTech;openM('techMo')}
   else if(type==='sub'){document.getElementById('smt').textContent='Add Sub';['sN','sSF','sTr','sPOC','sNt'].forEach(i=>document.getElementById(i).value='');document.getElementById('sSv').onclick=saveSub;openM('subMo')}
 }
-function saveContact(){const d={name:document.getElementById('cN').value.trim(),role:document.getElementById('cR').value.trim(),phone:document.getElementById('cP').value.trim(),email:document.getElementById('cE').value.trim(),notes:document.getElementById('cNt').value.trim()};if(!d.name)return;if(editId){const i=D.contacts.findIndex(x=>x.id===editId);if(i>-1)D.contacts[i]={...D.contacts[i],...d}}else D.contacts.push({id:uid(),...d});save();closeM('contactMo');renderSec('contacts')}
-function saveTech(){const d={name:document.getElementById('tN').value.trim(),title:document.getElementById('tT').value.trim(),vehicle:document.getElementById('tV').value.trim(),phone:document.getElementById('tPh').value.trim(),email:document.getElementById('tE').value.trim(),schedule:document.getElementById('tSc').value.trim(),location:document.getElementById('tLo').value.trim(),canDo:document.getElementById('tCD').value.split('\n').map(l=>l.trim()).filter(Boolean),cannotDo:document.getElementById('tCN').value.split('\n').map(l=>l.trim()).filter(Boolean)};if(!d.name)return;if(editId){const i=D.techs.findIndex(x=>x.id===editId);if(i>-1)D.techs[i]={...D.techs[i],...d}}else D.techs.push({id:uid(),...d});save();closeM('techMo');renderSec('techs')}
-function saveSub(){const d={name:document.getElementById('sN').value.trim(),sfName:document.getElementById('sSF').value.trim(),territory:document.getElementById('sTr').value.trim(),poc:document.getElementById('sPOC').value.trim(),notes:document.getElementById('sNt').value.trim()};if(!d.name)return;if(editId){const i=D.subs.findIndex(x=>x.id===editId);if(i>-1)D.subs[i]={...D.subs[i],...d}}else D.subs.push({id:uid(),...d});save();closeM('subMo');renderSec('subs')}
-function confirmDel(type,id){const arr={contact:D.contacts,tech:D.techs,sub:D.subs}[type];const item=arr?.find(x=>x.id===id);document.getElementById('confMsg').textContent=`Delete "${item?.name||id}"? This cannot be undone.`;document.getElementById('confBtn').onclick=()=>{if(type==='contact')D.contacts=D.contacts.filter(x=>x.id!==id);else if(type==='tech')D.techs=D.techs.filter(x=>x.id!==id);else if(type==='sub')D.subs=D.subs.filter(x=>x.id!==id);save();closeM('confirmMo');renderSec({contact:'contacts',tech:'techs',sub:'subs'}[type])};openM('confirmMo')}
+async function saveContact(){const d={name:document.getElementById('cN').value.trim(),role:document.getElementById('cR').value.trim(),phone:document.getElementById('cP').value.trim(),email:document.getElementById('cE').value.trim(),notes:document.getElementById('cNt').value.trim()};if(!d.name)return;if(editId){const i=D.contacts.findIndex(x=>x.id===editId);if(i>-1){D.contacts[i]={...D.contacts[i],...d};await saveContactToDB(d,editId)}}else{const newId=await saveContactToDB(d,null)||uid();D.contacts.push({id:newId,...d})};closeM('contactMo');renderSec('contacts')}
+async function saveTech(){const d={name:document.getElementById('tN').value.trim(),title:document.getElementById('tT').value.trim(),vehicle:document.getElementById('tV').value.trim(),phone:document.getElementById('tPh').value.trim(),email:document.getElementById('tE').value.trim(),schedule:document.getElementById('tSc').value.trim(),location:document.getElementById('tLo').value.trim(),canDo:document.getElementById('tCD').value.split('\n').map(l=>l.trim()).filter(Boolean),cannotDo:document.getElementById('tCN').value.split('\n').map(l=>l.trim()).filter(Boolean)};if(!d.name)return;if(editId){const i=D.techs.findIndex(x=>x.id===editId);if(i>-1){D.techs[i]={...D.techs[i],...d};await saveTechToDB(d,editId)}}else{const newId=await saveTechToDB(d,null)||uid();D.techs.push({id:newId,...d})};closeM('techMo');renderSec('techs')}
+async function saveSub(){const d={name:document.getElementById('sN').value.trim(),sfName:document.getElementById('sSF').value.trim(),territory:document.getElementById('sTr').value.trim(),poc:document.getElementById('sPOC').value.trim(),notes:document.getElementById('sNt').value.trim()};if(!d.name)return;if(editId){const i=D.subs.findIndex(x=>x.id===editId);if(i>-1){D.subs[i]={...D.subs[i],...d};await saveSubToDB(d,editId)}}else{const newId=await saveSubToDB(d,null)||uid();D.subs.push({id:newId,...d})};closeM('subMo');renderSec('subs')}
+function confirmDel(type,id){const arr={contact:D.contacts,tech:D.techs,sub:D.subs}[type];const item=arr?.find(x=>x.id===id);document.getElementById('confMsg').textContent=`Delete "${item?.name||id}"? This cannot be undone.`;document.getElementById('confBtn').onclick=async()=>{const tblMap={contact:'contacts',tech:'techs',sub:'subs'};await deleteFromDB(tblMap[type],id);if(type==='contact')D.contacts=D.contacts.filter(x=>x.id!==id);else if(type==='tech')D.techs=D.techs.filter(x=>x.id!==id);else if(type==='sub')D.subs=D.subs.filter(x=>x.id!==id);closeM('confirmMo');renderSec({contact:'contacts',tech:'techs',sub:'subs'}[type])};openM('confirmMo')}
 
-buildNav();
-renderSec('contacts');
+loadFromDB();
 </script>
 </body>
 </html>

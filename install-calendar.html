@@ -6,51 +6,25 @@
 <title>Freeflow Installation Calendar</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; color: #1a1a2e; }
 
-  body {
-    font-family: 'Segoe UI', Arial, sans-serif;
-    background: #f0f2f5;
-    color: #1a1a2e;
-  }
-
-  /* HEADER */
   .header {
-    background: #1a1a2e;
-    color: #fff;
-    padding: 14px 24px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    background: #1a1a2e; color: #fff; padding: 14px 24px;
+    display: flex; align-items: center; justify-content: space-between;
     border-bottom: 3px solid #e63946;
   }
   .header-left { display: flex; align-items: center; gap: 14px; }
-  .header-logo {
-    font-size: 20px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    color: #e63946;
-  }
+  .header-logo { font-size: 20px; font-weight: 700; letter-spacing: 1px; color: #e63946; }
   .header-title { font-size: 15px; color: #ccc; }
   .header-right { display: flex; align-items: center; gap: 10px; }
   .admin-badge {
-    background: #e63946;
-    color: #fff;
-    font-size: 11px;
-    font-weight: 700;
-    padding: 3px 10px;
-    border-radius: 12px;
-    letter-spacing: 1px;
-    display: none;
+    background: #e63946; color: #fff; font-size: 11px; font-weight: 700;
+    padding: 3px 10px; border-radius: 12px; letter-spacing: 1px; display: none;
   }
   .admin-badge.visible { display: inline-block; }
   .btn {
-    padding: 7px 16px;
-    border: none;
-    border-radius: 5px;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.15s;
+    padding: 7px 16px; border: none; border-radius: 5px;
+    font-size: 13px; font-weight: 600; cursor: pointer; transition: background 0.15s;
   }
   .btn-red { background: #e63946; color: #fff; }
   .btn-red:hover { background: #c1121f; }
@@ -61,374 +35,158 @@
   .btn-green { background: #2a9d5c; color: #fff; }
   .btn-green:hover { background: #1e7a45; }
 
-  /* NAV */
   .nav-bar {
-    background: #fff;
-    padding: 10px 24px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid #e0e0e0;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    background: #fff; padding: 10px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid #e0e0e0; box-shadow: 0 1px 4px rgba(0,0,0,0.06);
   }
-  .nav-month {
-    font-size: 20px;
-    font-weight: 700;
-    color: #1a1a2e;
-  }
+  .nav-month { font-size: 20px; font-weight: 700; color: #1a1a2e; }
   .nav-controls { display: flex; gap: 8px; align-items: center; }
 
-  /* STATUS BAR */
   .status-bar {
-    background: #fff8e1;
-    border-bottom: 1px solid #ffe082;
-    padding: 6px 24px;
-    font-size: 12px;
-    color: #7a5c00;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    background: #fff8e1; border-bottom: 1px solid #ffe082;
+    padding: 6px 24px; font-size: 12px; color: #7a5c00;
+    display: flex; align-items: center; gap: 8px;
   }
   .status-bar.hidden { display: none; }
-  .status-dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: #f4a623;
-    display: inline-block;
-  }
+  .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #f4a623; display: inline-block; }
 
-  /* CALENDAR GRID */
-  .calendar-wrap {
-    padding: 20px 24px;
-  }
-
-  .day-headers {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 4px;
-    margin-bottom: 4px;
-  }
+  .calendar-wrap { padding: 20px 24px; }
+  .day-headers { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-bottom: 4px; }
   .day-header {
-    text-align: center;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    color: #888;
-    padding: 6px 0;
-    text-transform: uppercase;
+    text-align: center; font-size: 11px; font-weight: 700;
+    letter-spacing: 1px; color: #888; padding: 6px 0; text-transform: uppercase;
   }
+  .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
 
-  .calendar-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 4px;
-  }
-
-  /* DAY CELL */
   .day-cell {
-    background: #fff;
-    border: 1px solid #e8e8e8;
-    border-radius: 6px;
-    min-height: 120px;
-    padding: 6px;
-    position: relative;
-    cursor: pointer;
+    background: #fff; border: 1px solid #e8e8e8; border-radius: 6px;
+    min-height: 120px; padding: 6px; cursor: pointer;
     transition: border-color 0.15s, box-shadow 0.15s;
   }
-  .day-cell:hover {
-    border-color: #e63946;
-    box-shadow: 0 2px 8px rgba(230,57,70,0.12);
-  }
-  .day-cell.other-month {
-    background: #f8f8f8;
-    opacity: 0.55;
-  }
-  .day-cell.today {
-    border-color: #e63946;
-    border-width: 2px;
-  }
-  .day-cell.has-jobs {
-    background: #fff9f9;
-  }
+  .day-cell:hover { border-color: #e63946; box-shadow: 0 2px 8px rgba(230,57,70,0.12); }
+  .day-cell.other-month { background: #f8f8f8; opacity: 0.55; }
+  .day-cell.today { border-color: #e63946; border-width: 2px; }
+  .day-cell.has-jobs { background: #fff9f9; }
 
-  .day-num {
-    font-size: 13px;
-    font-weight: 700;
-    color: #1a1a2e;
-    margin-bottom: 4px;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-  }
-  .day-num .today-dot {
-    width: 8px; height: 8px;
-    background: #e63946;
-    border-radius: 50%;
-    display: inline-block;
-  }
+  .day-num { font-size: 13px; font-weight: 700; color: #1a1a2e; margin-bottom: 4px; display: flex; align-items: center; gap: 5px; }
+  .today-dot { width: 8px; height: 8px; background: #e63946; border-radius: 50%; display: inline-block; }
 
-  /* JOB PILLS */
   .job-pill {
-    background: #1a1a2e;
-    color: #fff;
-    border-radius: 4px;
-    padding: 4px 6px;
-    margin-bottom: 3px;
-    font-size: 10px;
-    line-height: 1.4;
-    cursor: pointer;
+    background: #1a1a2e; color: #fff; border-radius: 4px;
+    padding: 4px 6px; margin-bottom: 3px; font-size: 10px; line-height: 1.4; cursor: pointer;
     transition: background 0.12s;
-    position: relative;
   }
   .job-pill:hover { background: #e63946; }
-  .job-pill .pill-jobnum {
-    font-weight: 700;
-    color: #f4a623;
-    font-size: 9px;
-    display: block;
-  }
-  .job-pill .pill-location {
-    font-weight: 600;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 100%;
-    display: block;
-  }
-  .job-pill .pill-techs {
-    color: #aaa;
-    font-size: 9px;
-    display: block;
-  }
-  .more-badge {
-    font-size: 10px;
-    color: #e63946;
-    font-weight: 700;
-    padding: 2px 0;
-    display: block;
-    text-align: right;
-  }
+  .pill-jobnum { font-weight: 700; color: #f4a623; font-size: 9px; display: block; }
+  .pill-location { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; display: block; }
+  .pill-techs { color: #aaa; font-size: 9px; display: block; }
+  .more-badge { font-size: 10px; color: #e63946; font-weight: 700; padding: 2px 0; display: block; text-align: right; }
 
-  /* MODAL OVERLAY */
   .modal-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.55);
-    z-index: 1000;
-    justify-content: center;
-    align-items: center;
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.55); z-index: 1000;
+    justify-content: center; align-items: center;
   }
   .modal-overlay.open { display: flex; }
-
   .modal {
-    background: #fff;
-    border-radius: 10px;
-    width: 95%;
-    max-width: 620px;
-    max-height: 90vh;
-    overflow-y: auto;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+    background: #fff; border-radius: 10px; width: 95%; max-width: 620px;
+    max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.35);
   }
   .modal-header {
-    background: #1a1a2e;
-    color: #fff;
-    padding: 16px 20px;
-    border-radius: 10px 10px 0 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    background: #1a1a2e; color: #fff; padding: 16px 20px;
+    border-radius: 10px 10px 0 0; display: flex; justify-content: space-between; align-items: center;
   }
   .modal-header h2 { font-size: 16px; font-weight: 700; }
   .modal-header .modal-date { font-size: 12px; color: #aaa; }
-  .modal-close {
-    background: none; border: none; color: #fff;
-    font-size: 22px; cursor: pointer; line-height: 1;
-    padding: 0 4px;
-  }
+  .modal-close { background: none; border: none; color: #fff; font-size: 22px; cursor: pointer; line-height: 1; padding: 0 4px; }
   .modal-body { padding: 20px; }
 
-  /* JOB CARDS IN MODAL */
   .job-card {
-    background: #f8f9fc;
-    border: 1px solid #e0e0e0;
-    border-left: 4px solid #1a1a2e;
-    border-radius: 6px;
-    padding: 14px 16px;
-    margin-bottom: 12px;
-    position: relative;
+    background: #f8f9fc; border: 1px solid #e0e0e0;
+    border-left: 4px solid #1a1a2e; border-radius: 6px;
+    padding: 14px 16px; margin-bottom: 12px;
   }
-  .job-card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 10px;
-  }
+  .job-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
   .job-num-badge {
-    background: #1a1a2e;
-    color: #f4a623;
-    font-size: 11px;
-    font-weight: 700;
-    padding: 3px 9px;
-    border-radius: 4px;
-    letter-spacing: 0.5px;
+    background: #1a1a2e; color: #f4a623; font-size: 11px; font-weight: 700;
+    padding: 3px 9px; border-radius: 4px; letter-spacing: 0.5px;
   }
   .job-card-actions { display: flex; gap: 6px; }
-  .btn-sm {
-    padding: 4px 10px;
-    font-size: 11px;
-    font-weight: 600;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
+  .btn-sm { padding: 4px 10px; font-size: 11px; font-weight: 600; border: none; border-radius: 4px; cursor: pointer; }
   .btn-edit { background: #3a3a5c; color: #fff; }
   .btn-edit:hover { background: #2a2a4c; }
   .btn-delete { background: #e63946; color: #fff; }
   .btn-delete:hover { background: #c1121f; }
 
   .job-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-  .job-field label {
-    display: block;
-    font-size: 10px;
-    font-weight: 700;
-    color: #888;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 2px;
-  }
-  .job-field span {
-    font-size: 13px;
-    color: #1a1a2e;
-    font-weight: 500;
-  }
+  .job-field label { display: block; font-size: 10px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
+  .job-field span { font-size: 13px; color: #1a1a2e; font-weight: 500; }
   .job-field.full { grid-column: 1 / -1; }
 
-  /* FORM */
   .form-group { margin-bottom: 14px; }
-  .form-group label {
-    display: block;
-    font-size: 12px;
-    font-weight: 700;
-    color: #555;
-    margin-bottom: 5px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
+  .form-group label { display: block; font-size: 12px; font-weight: 700; color: #555; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
   .form-group input, .form-group select, .form-group textarea {
-    width: 100%;
-    padding: 9px 12px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 13px;
-    color: #1a1a2e;
-    font-family: inherit;
-    transition: border-color 0.15s;
+    width: 100%; padding: 9px 12px; border: 1px solid #ddd; border-radius: 5px;
+    font-size: 13px; color: #1a1a2e; font-family: inherit; transition: border-color 0.15s;
   }
-  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-    outline: none;
-    border-color: #e63946;
-  }
-  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: #e63946; }
   .form-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 18px; }
 
-  /* TECH SELECTOR */
-  .tech-list {
-    display: flex; flex-wrap: wrap; gap: 6px;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    min-height: 42px;
-  }
+  .tech-list { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px; border: 1px solid #ddd; border-radius: 5px; min-height: 42px; }
   .tech-chip {
-    background: #1a1a2e;
-    color: #fff;
-    border: none;
-    border-radius: 14px;
-    padding: 4px 12px;
-    font-size: 12px;
-    cursor: pointer;
-    transition: background 0.12s;
+    background: #1a1a2e; color: #fff; border: none; border-radius: 14px;
+    padding: 4px 12px; font-size: 12px; cursor: pointer; transition: background 0.12s;
   }
   .tech-chip:hover { background: #3a3a5c; }
   .tech-chip.selected { background: #e63946; }
-  .tech-count {
-    font-size: 11px;
-    color: #888;
-    margin-top: 4px;
-    display: block;
-  }
+  .tech-count { font-size: 11px; color: #888; margin-top: 4px; display: block; }
 
-  /* LOGIN MODAL */
-  .login-box {
-    background: #fff;
-    border-radius: 10px;
-    padding: 32px;
-    width: 320px;
+  /* MANAGE TECHS MODAL */
+  .manage-modal {
+    background: #fff; border-radius: 10px; width: 95%; max-width: 480px;
     box-shadow: 0 20px 60px rgba(0,0,0,0.35);
-    text-align: center;
+  }
+  .tech-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 12px; border-bottom: 1px solid #f0f0f0; font-size: 13px;
+  }
+  .tech-row:last-child { border-bottom: none; }
+  .btn-remove-tech { background: #e63946; color: #fff; border: none; border-radius: 4px; padding: 3px 9px; font-size: 11px; cursor: pointer; font-weight: 700; }
+  .btn-remove-tech:hover { background: #c1121f; }
+  .add-tech-row { display: flex; gap: 8px; padding: 12px; border-top: 2px solid #f0f0f0; }
+  .add-tech-row input { flex: 1; padding: 8px 12px; border: 1px solid #ddd; border-radius: 5px; font-size: 13px; font-family: inherit; }
+  .add-tech-row input:focus { outline: none; border-color: #e63946; }
+
+  .login-box {
+    background: #fff; border-radius: 10px; padding: 32px; width: 320px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.35); text-align: center;
   }
   .login-box h2 { font-size: 18px; margin-bottom: 6px; color: #1a1a2e; }
   .login-box p { font-size: 13px; color: #888; margin-bottom: 20px; }
-  .login-box input {
-    width: 100%; padding: 10px 14px;
-    border: 1px solid #ddd; border-radius: 5px;
-    font-size: 14px; margin-bottom: 10px;
-    font-family: inherit;
-  }
+  .login-box input { width: 100%; padding: 10px 14px; border: 1px solid #ddd; border-radius: 5px; font-size: 14px; margin-bottom: 10px; font-family: inherit; }
   .login-error { color: #e63946; font-size: 12px; margin-top: 6px; display: none; }
 
-  /* DAY VIEW MODAL HEADER */
-  .day-modal-head {
-    display: flex; justify-content: space-between;
-    align-items: center; margin-bottom: 14px;
-  }
+  .day-modal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
   .day-modal-head h3 { font-size: 14px; color: #1a1a2e; }
-  .add-job-btn {
-    background: #e63946; color: #fff;
-    border: none; border-radius: 5px;
-    padding: 7px 14px; font-size: 12px;
-    font-weight: 700; cursor: pointer;
-    display: none;
-  }
+  .add-job-btn { background: #e63946; color: #fff; border: none; border-radius: 5px; padding: 7px 14px; font-size: 12px; font-weight: 700; cursor: pointer; display: none; }
   .add-job-btn.visible { display: inline-block; }
   .add-job-btn:hover { background: #c1121f; }
+  .empty-day { text-align: center; padding: 30px 0; color: #aaa; font-size: 13px; }
 
-  .empty-day {
-    text-align: center;
-    padding: 30px 0;
-    color: #aaa;
-    font-size: 13px;
-  }
-
-  /* Loading */
   .loading-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(255,255,255,0.7);
-    z-index: 2000;
-    justify-content: center;
-    align-items: center;
-    font-size: 14px;
-    color: #1a1a2e;
-    font-weight: 600;
+    display: none; position: fixed; inset: 0;
+    background: rgba(255,255,255,0.7); z-index: 2000;
+    justify-content: center; align-items: center;
+    font-size: 14px; color: #1a1a2e; font-weight: 600;
   }
   .loading-overlay.show { display: flex; }
-  .spinner {
-    width: 24px; height: 24px;
-    border: 3px solid #e63946;
-    border-top-color: transparent;
-    border-radius: 50%;
-    animation: spin 0.7s linear infinite;
-    margin-right: 10px;
-  }
+  .spinner { width: 24px; height: 24px; border: 3px solid #e63946; border-top-color: transparent; border-radius: 50%; animation: spin 0.7s linear infinite; margin-right: 10px; }
   @keyframes spin { to { transform: rotate(360deg); } }
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
 <div class="header">
   <div class="header-left">
     <div class="header-logo">FREEFLOW</div>
@@ -436,12 +194,12 @@
   </div>
   <div class="header-right">
     <span class="admin-badge" id="adminBadge">ADMIN</span>
+    <button class="btn btn-gray" id="manageTechsBtn" style="display:none" onclick="openManageTechs()">Manage Techs</button>
     <button class="btn btn-gray" id="loginBtn" onclick="openLogin()">Dispatcher Login</button>
     <button class="btn btn-gray" id="logoutBtn" style="display:none" onclick="logout()">Log Out</button>
   </div>
 </div>
 
-<!-- NAV BAR -->
 <div class="nav-bar">
   <div class="nav-controls">
     <button class="btn btn-white" onclick="changeMonth(-1)">&#8592; Prev</button>
@@ -452,13 +210,11 @@
   <div style="font-size:12px;color:#888;" id="jobCountLabel">Loading...</div>
 </div>
 
-<!-- STATUS BAR -->
 <div class="status-bar" id="statusBar">
   <span class="status-dot"></span>
   <span id="statusMsg">Connecting to database...</span>
 </div>
 
-<!-- CALENDAR -->
 <div class="calendar-wrap">
   <div class="day-headers">
     <div class="day-header">Sun</div>
@@ -486,6 +242,27 @@
   </div>
 </div>
 
+<!-- MANAGE TECHS MODAL -->
+<div class="modal-overlay" id="manageTechsModal">
+  <div class="manage-modal">
+    <div class="modal-header">
+      <div>
+        <div class="modal-date">Admin Only</div>
+        <h2>Manage Technicians</h2>
+      </div>
+      <button class="modal-close" onclick="closeManageTechs()">&#x2715;</button>
+    </div>
+    <div id="techRosterList" style="max-height:340px;overflow-y:auto;"></div>
+    <div class="add-tech-row">
+      <input type="text" id="newTechInput" placeholder="Add technician name..." onkeydown="if(event.key==='Enter')addTech()">
+      <button class="btn btn-green" onclick="addTech()">Add</button>
+    </div>
+    <div style="padding:12px;border-top:1px solid #eee;display:flex;justify-content:flex-end;">
+      <button class="btn btn-gray" onclick="closeManageTechs()">Done</button>
+    </div>
+  </div>
+</div>
+
 <!-- LOGIN MODAL -->
 <div class="modal-overlay" id="loginModal">
   <div class="login-box">
@@ -498,31 +275,39 @@
   </div>
 </div>
 
-<!-- LOADING -->
 <div class="loading-overlay" id="loadingOverlay">
   <div class="spinner"></div> Saving...
 </div>
 
 <script>
-// ===================== CONFIG =====================
 const SUPABASE_URL = 'https://bmfoiyesrmkheineqkdp.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJtZm9peWVzcm1raGVpbmVxa2RwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3NzY5MzUsImV4cCI6MjA5NDM1MjkzNX0.IgRpUyjWVTJm3f09IblG9N9kfaCLzoGXcPvZiKrTAko';
 const ADMIN_PASSWORD = 'freeflow2025';
 
-const TECHNICIANS = [
-  'Devin', 'Erik Stadlander', 'Kameron', 'Phil',
-  'Nicholas Almeida', 'Humam Almafraji', 'Robert Pexton', 'Bobby Danker',
-  'William Smith', 'Other'
+const DEFAULT_TECHNICIANS = [
+  'Erik','Humam','Phil','Mark','Devin',
+  'Robert Pexton','Bobby Danker','Jose','Andres',
+  'Cyrus','Omar','Jason','Nicholas'
 ];
 
-// ===================== STATE =====================
+let TECHNICIANS = loadTechs();
 let isAdmin = false;
 let currentYear, currentMonth;
-let jobs = []; // { id, job_date, job_number, location_name, address, techs (array), notes }
+let jobs = [];
 let selectedDayStr = null;
 let editingJobId = null;
 
-// ===================== DB HELPERS =====================
+function loadTechs() {
+  try {
+    const s = localStorage.getItem('ff_install_techs');
+    return s ? JSON.parse(s) : [...DEFAULT_TECHNICIANS];
+  } catch(e) { return [...DEFAULT_TECHNICIANS]; }
+}
+function saveTechs(list) {
+  TECHNICIANS = list;
+  localStorage.setItem('ff_install_techs', JSON.stringify(list));
+}
+
 async function dbFetch(path, method='GET', body=null) {
   const opts = {
     method,
@@ -530,33 +315,23 @@ async function dbFetch(path, method='GET', body=null) {
       'apikey': SUPABASE_KEY,
       'Authorization': 'Bearer ' + SUPABASE_KEY,
       'Content-Type': 'application/json',
-      'Prefer': method === 'POST' ? 'return=representation' : 'return=minimal'
+      'Prefer': (method === 'POST') ? 'return=representation' : 'return=minimal'
     }
   };
   if (body) opts.body = JSON.stringify(body);
   const res = await fetch(SUPABASE_URL + path, opts);
-  if (!res.ok) {
-    const err = await res.text();
-    throw new Error(err);
-  }
-  if (method === 'GET' || (method === 'POST' && opts.headers['Prefer'] === 'return=representation')) {
-    return res.json();
-  }
+  if (!res.ok) { const e = await res.text(); throw new Error(e); }
+  if (method === 'GET' || (method === 'POST' && opts.headers['Prefer'] === 'return=representation')) return res.json();
   return null;
 }
 
 async function loadJobs() {
   try {
     const data = await dbFetch('/rest/v1/install_jobs?select=*&order=job_date.asc');
-    jobs = data.map(r => ({
-      ...r,
-      techs: typeof r.techs === 'string' ? JSON.parse(r.techs) : (r.techs || [])
-    }));
+    jobs = data.map(r => ({ ...r, techs: typeof r.techs === 'string' ? JSON.parse(r.techs) : (r.techs || []) }));
     setStatus('Connected - ' + jobs.length + ' job(s) loaded', true);
     renderCalendar();
-  } catch(e) {
-    setStatus('Database error: ' + e.message, false);
-  }
+  } catch(e) { setStatus('Database error: ' + e.message, false); }
 }
 
 async function saveJob(job) {
@@ -580,9 +355,7 @@ async function saveJob(job) {
     }
     renderCalendar();
     openDayModal(selectedDayStr);
-  } catch(e) {
-    alert('Save failed: ' + e.message);
-  }
+  } catch(e) { alert('Save failed: ' + e.message); }
   showLoading(false);
 }
 
@@ -594,74 +367,48 @@ async function deleteJob(id) {
     jobs = jobs.filter(j => j.id !== id);
     renderCalendar();
     openDayModal(selectedDayStr);
-  } catch(e) {
-    alert('Delete failed: ' + e.message);
-  }
+  } catch(e) { alert('Delete failed: ' + e.message); }
   showLoading(false);
 }
 
-// ===================== CALENDAR RENDER =====================
 function renderCalendar() {
   const grid = document.getElementById('calendarGrid');
-  const monthLabel = document.getElementById('navMonth');
   grid.innerHTML = '';
-
   const today = new Date();
   const firstDay = new Date(currentYear, currentMonth, 1);
   const lastDay = new Date(currentYear, currentMonth + 1, 0);
   const startOffset = firstDay.getDay();
+  const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  document.getElementById('navMonth').textContent = monthNames[currentMonth] + ' ' + currentYear;
+  const monthJobs = jobs.filter(j => { const d = new Date(j.job_date + 'T00:00:00'); return d.getFullYear() === currentYear && d.getMonth() === currentMonth; });
+  document.getElementById('jobCountLabel').textContent = monthJobs.length + ' install job' + (monthJobs.length !== 1 ? 's' : '') + ' this month';
 
-  const monthNames = ['January','February','March','April','May','June',
-                      'July','August','September','October','November','December'];
-  monthLabel.textContent = monthNames[currentMonth] + ' ' + currentYear;
-
-  const monthJobs = jobs.filter(j => {
-    const d = new Date(j.job_date + 'T00:00:00');
-    return d.getFullYear() === currentYear && d.getMonth() === currentMonth;
-  });
-  document.getElementById('jobCountLabel').textContent =
-    monthJobs.length + ' install job' + (monthJobs.length !== 1 ? 's' : '') + ' this month';
-
-  // Prev month filler
   const prevLast = new Date(currentYear, currentMonth, 0).getDate();
   for (let i = startOffset - 1; i >= 0; i--) {
     const cell = document.createElement('div');
     cell.className = 'day-cell other-month';
-    const num = prevLast - i;
-    cell.innerHTML = '<div class="day-num" style="color:#ccc">' + num + '</div>';
+    cell.innerHTML = '<div class="day-num" style="color:#ccc">' + (prevLast - i) + '</div>';
     grid.appendChild(cell);
   }
-
-  // Current month days
   for (let d = 1; d <= lastDay.getDate(); d++) {
     const dateStr = currentYear + '-' + pad(currentMonth + 1) + '-' + pad(d);
     const dayJobs = jobs.filter(j => j.job_date === dateStr);
     const isToday = (d === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear());
-
     const cell = document.createElement('div');
     cell.className = 'day-cell' + (isToday ? ' today' : '') + (dayJobs.length > 0 ? ' has-jobs' : '');
     cell.onclick = () => openDayModal(dateStr);
-
     let inner = '<div class="day-num">' + d + (isToday ? '<span class="today-dot"></span>' : '') + '</div>';
-
-    const show = dayJobs.slice(0, 2);
-    show.forEach(j => {
-      const techStr = j.techs && j.techs.length ? j.techs.join(', ') : 'No techs assigned';
+    dayJobs.slice(0, 2).forEach(j => {
       inner += '<div class="job-pill">'
         + '<span class="pill-jobnum">' + (j.job_number || 'No #') + '</span>'
-        + '<span class="pill-location">' + (j.location_name || 'Unnamed Location') + '</span>'
-        + '<span class="pill-techs">' + techStr + '</span>'
+        + '<span class="pill-location">' + (j.location_name || 'Unnamed') + '</span>'
+        + '<span class="pill-techs">' + (j.techs && j.techs.length ? j.techs.join(', ') : 'No techs') + '</span>'
         + '</div>';
     });
-    if (dayJobs.length > 2) {
-      inner += '<span class="more-badge">+' + (dayJobs.length - 2) + ' more</span>';
-    }
-
+    if (dayJobs.length > 2) inner += '<span class="more-badge">+' + (dayJobs.length - 2) + ' more</span>';
     cell.innerHTML = inner;
     grid.appendChild(cell);
   }
-
-  // Next month filler
   const totalCells = startOffset + lastDay.getDate();
   const remaining = (7 - (totalCells % 7)) % 7;
   for (let d = 1; d <= remaining; d++) {
@@ -672,95 +419,64 @@ function renderCalendar() {
   }
 }
 
-// ===================== DAY MODAL =====================
 function openDayModal(dateStr) {
   selectedDayStr = dateStr;
   const dayJobs = jobs.filter(j => j.job_date === dateStr);
   const d = new Date(dateStr + 'T00:00:00');
   const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-  const monthNames = ['January','February','March','April','May','June',
-                      'July','August','September','October','November','December'];
-
-  document.getElementById('modalDateLabel').textContent =
-    dayNames[d.getDay()] + ', ' + monthNames[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
-
+  const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  document.getElementById('modalDateLabel').textContent = dayNames[d.getDay()] + ', ' + monthNames[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
   const body = document.getElementById('modalBody');
   let html = '<div class="day-modal-head">'
     + '<h3>' + dayJobs.length + ' job(s) scheduled</h3>'
     + (isAdmin ? '<button class="add-job-btn visible" onclick="openJobForm(null)">+ Add Job</button>' : '')
     + '</div>';
-
   if (dayJobs.length === 0) {
-    html += '<div class="empty-day">'
-      + (isAdmin ? 'No jobs scheduled. Click "+ Add Job" to add one.' : 'No jobs scheduled for this day.')
-      + '</div>';
+    html += '<div class="empty-day">' + (isAdmin ? 'No jobs scheduled. Click "+ Add Job" to add one.' : 'No jobs scheduled for this day.') + '</div>';
   } else {
     dayJobs.forEach(j => {
       const techStr = j.techs && j.techs.length ? j.techs.join(', ') : 'None assigned';
-      const techCount = j.techs ? j.techs.length : 0;
       html += '<div class="job-card">'
         + '<div class="job-card-header">'
         + '<span class="job-num-badge">JOB #' + (j.job_number || '--') + '</span>'
-        + (isAdmin ? '<div class="job-card-actions">'
-          + '<button class="btn-sm btn-edit" onclick="openJobForm(\'' + j.id + '\')">Edit</button>'
-          + '<button class="btn-sm btn-delete" onclick="deleteJob(\'' + j.id + '\')">Delete</button>'
-          + '</div>' : '')
+        + (isAdmin ? '<div class="job-card-actions"><button class="btn-sm btn-edit" onclick="openJobForm(\'' + j.id + '\')">Edit</button><button class="btn-sm btn-delete" onclick="deleteJob(\'' + j.id + '\')">Delete</button></div>' : '')
         + '</div>'
         + '<div class="job-fields">'
         + '<div class="job-field"><label>Location</label><span>' + (j.location_name || '--') + '</span></div>'
-        + '<div class="job-field"><label>Techs Assigned</label><span>' + techCount + ' tech(s)</span></div>'
+        + '<div class="job-field"><label>Techs Assigned</label><span>' + (j.techs ? j.techs.length : 0) + ' tech(s)</span></div>'
         + '<div class="job-field full"><label>Address</label><span>' + (j.address || '--') + '</span></div>'
         + '<div class="job-field full"><label>Technicians</label><span>' + techStr + '</span></div>'
         + (j.notes ? '<div class="job-field full"><label>Notes</label><span>' + j.notes + '</span></div>' : '')
         + '</div></div>';
     });
   }
-
   body.innerHTML = html;
   document.getElementById('dayModal').classList.add('open');
 }
 
-function closeModal() {
-  document.getElementById('dayModal').classList.remove('open');
-  editingJobId = null;
-}
+function closeModal() { document.getElementById('dayModal').classList.remove('open'); editingJobId = null; }
 
-// ===================== JOB FORM =====================
 function openJobForm(jobId) {
   editingJobId = jobId;
   const job = jobId ? jobs.find(j => j.id == jobId) : null;
   const selectedTechs = job ? (job.techs || []) : [];
-
   const techChips = TECHNICIANS.map(t =>
-    '<button class="tech-chip' + (selectedTechs.includes(t) ? ' selected' : '') + '" '
-    + 'onclick="toggleTech(this,\'' + t + '\')">' + t + '</button>'
+    '<button class="tech-chip' + (selectedTechs.includes(t) ? ' selected' : '') + '" onclick="toggleTech(this)">' + t + '</button>'
   ).join('');
-
   const body = document.getElementById('modalBody');
-  body.innerHTML = '<div style="margin-bottom:10px">'
-    + '<button class="btn btn-white btn-sm" onclick="openDayModal(selectedDayStr)">&#8592; Back to Day</button>'
-    + '</div>'
-    + '<div class="form-group"><label>Job Number</label>'
-    + '<input type="text" id="fJobNum" placeholder="e.g. 00045231" value="' + (job ? job.job_number : '') + '"></div>'
-    + '<div class="form-group"><label>Location Name</label>'
-    + '<input type="text" id="fLocName" placeholder="e.g. McDonald\'s - Springfield" value="' + (job ? job.location_name : '') + '"></div>'
-    + '<div class="form-group"><label>Address</label>'
-    + '<input type="text" id="fAddress" placeholder="e.g. 123 Main St, Springfield, MA" value="' + (job ? job.address : '') + '"></div>'
-    + '<div class="form-group"><label>Technicians (' + selectedTechs.length + ' selected)</label>'
-    + '<div class="tech-list" id="techList">' + techChips + '</div>'
-    + '<span class="tech-count" id="techCount">' + selectedTechs.length + ' tech(s) selected</span></div>'
-    + '<div class="form-group"><label>Notes (optional)</label>'
-    + '<textarea id="fNotes" rows="2" placeholder="Additional details...">' + (job ? (job.notes || '') : '') + '</textarea></div>'
-    + '<div class="form-actions">'
-    + '<button class="btn btn-white" onclick="openDayModal(selectedDayStr)">Cancel</button>'
-    + '<button class="btn btn-green" onclick="submitJobForm()">Save Job</button>'
-    + '</div>';
+  body.innerHTML = '<div style="margin-bottom:10px"><button class="btn btn-white btn-sm" onclick="openDayModal(selectedDayStr)">&#8592; Back to Day</button></div>'
+    + '<div class="form-group"><label>Job Number</label><input type="text" id="fJobNum" placeholder="e.g. 00045231" value="' + (job ? job.job_number || '' : '') + '"></div>'
+    + '<div class="form-group"><label>Location Name</label><input type="text" id="fLocName" placeholder="e.g. McDonalds - Springfield" value="' + (job ? job.location_name || '' : '') + '"></div>'
+    + '<div class="form-group"><label>Address</label><input type="text" id="fAddress" placeholder="e.g. 123 Main St, Springfield, MA" value="' + (job ? job.address || '' : '') + '"></div>'
+    + '<div class="form-group"><label>Technicians (<span id="techCountLabel">' + selectedTechs.length + '</span> selected)</label>'
+    + '<div class="tech-list" id="techList">' + techChips + '</div></div>'
+    + '<div class="form-group"><label>Notes (optional)</label><textarea id="fNotes" rows="2" placeholder="Additional details...">' + (job ? (job.notes || '') : '') + '</textarea></div>'
+    + '<div class="form-actions"><button class="btn btn-white" onclick="openDayModal(selectedDayStr)">Cancel</button><button class="btn btn-green" onclick="submitJobForm()">Save Job</button></div>';
 }
 
-function toggleTech(btn, name) {
+function toggleTech(btn) {
   btn.classList.toggle('selected');
-  const count = document.querySelectorAll('#techList .tech-chip.selected').length;
-  document.getElementById('techCount').textContent = count + ' tech(s) selected';
+  document.getElementById('techCountLabel').textContent = document.querySelectorAll('#techList .tech-chip.selected').length;
 }
 
 function submitJobForm() {
@@ -769,97 +485,88 @@ function submitJobForm() {
   const address = document.getElementById('fAddress').value.trim();
   const notes = document.getElementById('fNotes').value.trim();
   const techs = [...document.querySelectorAll('#techList .tech-chip.selected')].map(b => b.textContent);
-
   if (!locName) { alert('Location name is required.'); return; }
-
-  const job = {
-    id: editingJobId || null,
-    job_date: selectedDayStr,
-    job_number: jobNum,
-    location_name: locName,
-    address,
-    techs,
-    notes
-  };
-  saveJob(job);
+  saveJob({ id: editingJobId || null, job_date: selectedDayStr, job_number: jobNum, location_name: locName, address, techs, notes });
 }
 
-// ===================== AUTH =====================
-function openLogin() {
-  document.getElementById('loginModal').classList.add('open');
-  document.getElementById('pwInput').value = '';
-  document.getElementById('loginError').style.display = 'none';
-  setTimeout(() => document.getElementById('pwInput').focus(), 100);
+// MANAGE TECHS
+function openManageTechs() {
+  renderTechRoster();
+  document.getElementById('manageTechsModal').classList.add('open');
+}
+function closeManageTechs() {
+  document.getElementById('manageTechsModal').classList.remove('open');
+}
+function renderTechRoster() {
+  const list = document.getElementById('techRosterList');
+  if (TECHNICIANS.length === 0) {
+    list.innerHTML = '<div style="padding:16px;text-align:center;color:#aaa;font-size:13px;">No technicians. Add one below.</div>';
+    return;
+  }
+  list.innerHTML = TECHNICIANS.map((t, i) =>
+    '<div class="tech-row">'
+    + '<span style="font-weight:600">' + t + '</span>'
+    + '<button class="btn-remove-tech" onclick="removeTech(' + i + ')">Remove</button>'
+    + '</div>'
+  ).join('');
+}
+function removeTech(idx) {
+  if (!confirm('Remove ' + TECHNICIANS[idx] + ' from the list?')) return;
+  const updated = TECHNICIANS.filter((_, i) => i !== idx);
+  saveTechs(updated);
+  renderTechRoster();
+}
+function addTech() {
+  const input = document.getElementById('newTechInput');
+  const name = input.value.trim();
+  if (!name) return;
+  if (TECHNICIANS.includes(name)) { alert(name + ' is already on the list.'); return; }
+  const updated = [...TECHNICIANS, name];
+  saveTechs(updated);
+  input.value = '';
+  renderTechRoster();
 }
 
-function closeLoginModal() {
-  document.getElementById('loginModal').classList.remove('open');
-}
-
+// AUTH
+function openLogin() { document.getElementById('loginModal').classList.add('open'); document.getElementById('pwInput').value = ''; document.getElementById('loginError').style.display = 'none'; setTimeout(() => document.getElementById('pwInput').focus(), 100); }
+function closeLoginModal() { document.getElementById('loginModal').classList.remove('open'); }
 function doLogin() {
-  const pw = document.getElementById('pwInput').value;
-  if (pw === ADMIN_PASSWORD) {
+  if (document.getElementById('pwInput').value === ADMIN_PASSWORD) {
     isAdmin = true;
     document.getElementById('loginBtn').style.display = 'none';
     document.getElementById('logoutBtn').style.display = 'inline-block';
+    document.getElementById('manageTechsBtn').style.display = 'inline-block';
     document.getElementById('adminBadge').classList.add('visible');
     closeLoginModal();
-  } else {
-    document.getElementById('loginError').style.display = 'block';
-  }
+  } else { document.getElementById('loginError').style.display = 'block'; }
 }
-
 function logout() {
   isAdmin = false;
   document.getElementById('loginBtn').style.display = 'inline-block';
   document.getElementById('logoutBtn').style.display = 'none';
+  document.getElementById('manageTechsBtn').style.display = 'none';
   document.getElementById('adminBadge').classList.remove('visible');
 }
 
-// ===================== NAV =====================
 function changeMonth(dir) {
   currentMonth += dir;
   if (currentMonth > 11) { currentMonth = 0; currentYear++; }
   if (currentMonth < 0) { currentMonth = 11; currentYear--; }
   renderCalendar();
 }
-
-function goToday() {
-  const t = new Date();
-  currentYear = t.getFullYear();
-  currentMonth = t.getMonth();
-  renderCalendar();
-}
-
-// ===================== UTILS =====================
+function goToday() { const t = new Date(); currentYear = t.getFullYear(); currentMonth = t.getMonth(); renderCalendar(); }
 function pad(n) { return String(n).padStart(2, '0'); }
-
 function setStatus(msg, ok) {
   const bar = document.getElementById('statusBar');
-  const msgEl = document.getElementById('statusMsg');
-  msgEl.textContent = msg;
-  if (ok) {
-    bar.classList.add('hidden');
-  } else {
-    bar.style.background = '#ffeaea';
-    bar.style.borderColor = '#f5c6cb';
-    bar.style.color = '#b00020';
-  }
+  document.getElementById('statusMsg').textContent = msg;
+  if (ok) { bar.classList.add('hidden'); } else { bar.style.background = '#ffeaea'; bar.style.borderColor = '#f5c6cb'; bar.style.color = '#b00020'; }
 }
+function showLoading(show) { document.getElementById('loadingOverlay').classList.toggle('show', show); }
 
-function showLoading(show) {
-  document.getElementById('loadingOverlay').classList.toggle('show', show);
-}
+document.getElementById('dayModal').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
+document.getElementById('loginModal').addEventListener('click', function(e) { if (e.target === this) closeLoginModal(); });
+document.getElementById('manageTechsModal').addEventListener('click', function(e) { if (e.target === this) closeManageTechs(); });
 
-// Click overlay to close modals
-document.getElementById('dayModal').addEventListener('click', function(e) {
-  if (e.target === this) closeModal();
-});
-document.getElementById('loginModal').addEventListener('click', function(e) {
-  if (e.target === this) closeLoginModal();
-});
-
-// ===================== INIT =====================
 const now = new Date();
 currentYear = now.getFullYear();
 currentMonth = now.getMonth();

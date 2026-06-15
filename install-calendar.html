@@ -36,33 +36,43 @@
   .status-bar.hidden { display: none; }
   .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #f4a623; display: inline-block; }
 
+  /* LEGEND */
+  .legend { display: flex; gap: 14px; flex-wrap: wrap; padding: 10px 24px; background: #fff; border-bottom: 1px solid #e0e0e0; font-size: 11px; color: #666; }
+  .legend-item { display: flex; align-items: center; gap: 5px; }
+  .legend-swatch { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+
   .calendar-wrap { padding: 20px 24px; }
   .day-headers { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-bottom: 4px; }
   .day-header { text-align: center; font-size: 11px; font-weight: 700; letter-spacing: 1px; color: #888; padding: 6px 0; text-transform: uppercase; }
   .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
 
-  .day-cell { background: #fff; border: 1px solid #e8e8e8; border-radius: 6px; min-height: 120px; padding: 6px; cursor: pointer; transition: border-color 0.15s, box-shadow 0.15s; }
+  .day-cell { background: #fff; border: 1px solid #e8e8e8; border-radius: 6px; min-height: 130px; padding: 6px; cursor: pointer; transition: border-color 0.15s, box-shadow 0.15s; }
   .day-cell:hover { border-color: #e63946; box-shadow: 0 2px 8px rgba(230,57,70,0.12); }
   .day-cell.other-month { background: #f8f8f8; opacity: 0.55; }
   .day-cell.today { border-color: #e63946; border-width: 2px; }
-  .day-cell.has-jobs { background: #fff9f9; }
   .day-num { font-size: 13px; font-weight: 700; color: #1a1a2e; margin-bottom: 4px; display: flex; align-items: center; gap: 5px; }
   .today-dot { width: 8px; height: 8px; background: #e63946; border-radius: 50%; display: inline-block; }
 
-  .job-pill { background: #1a1a2e; color: #fff; border-radius: 4px; padding: 4px 6px; margin-bottom: 3px; font-size: 10px; line-height: 1.4; }
-  .pill-jobnum { font-weight: 700; color: #f4a623; font-size: 9px; display: block; }
+  .job-pill { color: #1a1a2e; border-radius: 4px; padding: 4px 6px; margin-bottom: 3px; font-size: 10px; line-height: 1.4; border-left: 4px solid #999; }
+  .job-pill.st-pending { background: #fff7e0; border-left-color: #f4a623; }
+  .job-pill.st-partial { background: #eafbf0; border-left-color: #6fcf97; }
+  .job-pill.st-full { background: #d8f3e2; border-left-color: #1e7a45; }
+  .job-pill.st-completed { background: #fde2e2; border-left-color: #e63946; }
+  .job-pill.st-cancelled { background: #ececec; border-left-color: #999; opacity: 0.6; filter: grayscale(60%); }
+  .pill-jobnum { font-weight: 700; color: #b35900; font-size: 9px; display: block; }
+  .job-pill.st-full .pill-jobnum, .job-pill.st-partial .pill-jobnum { color: #1e7a45; }
+  .job-pill.st-completed .pill-jobnum { color: #c1121f; }
+  .job-pill.st-cancelled .pill-jobnum { color: #888; }
   .pill-location { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; display: block; }
-  .pill-techs { color: #aaa; font-size: 9px; display: block; }
-  .pill-status { display: flex; gap: 4px; margin-top: 3px; }
-  .pill-check { font-size: 9px; padding: 1px 5px; border-radius: 3px; font-weight: 700; }
-  .pill-check.on { background: #2a9d5c; color: #fff; }
-  .pill-check.off { background: #444; color: #888; }
+  .pill-techs { color: #666; font-size: 9px; display: block; }
+  .pill-tags { display: flex; gap: 3px; margin-top: 3px; flex-wrap: wrap; }
+  .pill-tag { font-size: 8px; padding: 1px 4px; border-radius: 3px; font-weight: 700; background: rgba(0,0,0,0.08); }
   .more-badge { font-size: 10px; color: #e63946; font-weight: 700; padding: 2px 0; display: block; text-align: right; }
 
   /* MODAL */
   .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 1000; justify-content: center; align-items: center; }
   .modal-overlay.open { display: flex; }
-  .modal { background: #fff; border-radius: 10px; width: 95%; max-width: 640px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.35); }
+  .modal { background: #fff; border-radius: 10px; width: 95%; max-width: 660px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.35); }
   .modal-header { background: #1a1a2e; color: #fff; padding: 16px 20px; border-radius: 10px 10px 0 0; display: flex; justify-content: space-between; align-items: center; }
   .modal-header h2 { font-size: 16px; font-weight: 700; }
   .modal-header .modal-date { font-size: 12px; color: #aaa; }
@@ -70,9 +80,13 @@
   .modal-body { padding: 20px; }
 
   /* JOB CARD */
-  .job-card { background: #f8f9fc; border: 1px solid #e0e0e0; border-left: 4px solid #1a1a2e; border-radius: 6px; padding: 14px 16px; margin-bottom: 12px; }
-  .job-card.disp-done { border-left-color: #f4a623; }
-  .job-card.both-done { border-left-color: #2a9d5c; }
+  .job-card { border: 1px solid #e0e0e0; border-left: 5px solid #999; border-radius: 6px; padding: 14px 16px; margin-bottom: 14px; transition: all 0.2s; }
+  .job-card.st-pending { background: #fffbf0; border-left-color: #f4a623; }
+  .job-card.st-partial { background: #f2fcf5; border-left-color: #6fcf97; }
+  .job-card.st-full { background: #e3f7ea; border-left-color: #1e7a45; }
+  .job-card.st-completed { background: #fdecec; border-left-color: #e63946; }
+  .job-card.st-cancelled { background: #efefef; border-left-color: #999; opacity: 0.55; filter: grayscale(70%); }
+
   .job-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
   .job-num-badge { background: #1a1a2e; color: #f4a623; font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 4px; letter-spacing: 0.5px; }
   .job-card-actions { display: flex; gap: 6px; }
@@ -85,26 +99,36 @@
   .job-field span { font-size: 13px; color: #1a1a2e; font-weight: 500; }
   .job-field.full { grid-column: 1 / -1; }
 
-  /* CHECKBOX STRIP */
-  .status-strip { display: flex; gap: 10px; border-top: 1px solid #e8e8e8; padding-top: 10px; }
+  .notes-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+  .notes-box { background: rgba(255,255,255,0.6); border: 1px solid #e0e0e0; border-radius: 5px; padding: 8px 10px; }
+  .notes-box label { display: block; font-size: 10px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; }
+  .notes-box span { font-size: 12px; color: #1a1a2e; white-space: pre-wrap; }
+  .notes-box span.empty { color: #bbb; font-style: italic; }
+
+  /* STATUS BOXES */
+  .status-strip { display: flex; gap: 8px; border-top: 1px solid rgba(0,0,0,0.08); padding-top: 10px; flex-wrap: wrap; }
+  .status-strip.admin-strip { margin-top: 8px; border-top: 1px dashed rgba(0,0,0,0.15); }
   .status-box {
-    flex: 1; display: flex; align-items: center; gap: 8px;
-    background: #f0f0f0; border: 2px solid #ddd; border-radius: 6px;
+    flex: 1; min-width: 130px; display: flex; align-items: center; gap: 8px;
+    background: rgba(255,255,255,0.7); border: 2px solid #ddd; border-radius: 6px;
     padding: 8px 12px; cursor: pointer; transition: all 0.15s; user-select: none;
   }
   .status-box:hover { border-color: #aaa; }
-  .status-box.checked { background: #eafaf2; border-color: #2a9d5c; }
-  .status-box.checked.warehouse { background: #fff3e0; border-color: #f4a623; }
   .status-check {
     width: 20px; height: 20px; border-radius: 4px; border: 2px solid #bbb;
     display: flex; align-items: center; justify-content: center;
     font-size: 13px; font-weight: 900; color: transparent; background: #fff;
     flex-shrink: 0; transition: all 0.15s;
   }
+  .status-box.checked { background: #eafaf2; border-color: #2a9d5c; }
   .status-box.checked .status-check { background: #2a9d5c; border-color: #2a9d5c; color: #fff; }
-  .status-box.checked.warehouse .status-check { background: #f4a623; border-color: #f4a623; color: #fff; }
+  .status-box.admin-box.checked.complete { background: #fdecec; border-color: #e63946; }
+  .status-box.admin-box.checked.complete .status-check { background: #e63946; border-color: #e63946; color: #fff; }
+  .status-box.admin-box.checked.cancel { background: #e8e8e8; border-color: #888; }
+  .status-box.admin-box.checked.cancel .status-check { background: #888; border-color: #888; color: #fff; }
   .status-label { font-size: 12px; font-weight: 700; color: #555; line-height: 1.3; }
   .status-label span { display: block; font-size: 10px; font-weight: 400; color: #999; }
+  .admin-strip-label { font-size: 10px; font-weight: 700; color: #aaa; text-transform: uppercase; letter-spacing: 0.5px; width: 100%; margin-bottom: 6px; }
 
   /* FORM */
   .form-group { margin-bottom: 14px; }
@@ -112,6 +136,7 @@
   .form-group input, .form-group textarea { width: 100%; padding: 9px 12px; border: 1px solid #ddd; border-radius: 5px; font-size: 13px; color: #1a1a2e; font-family: inherit; transition: border-color 0.15s; }
   .form-group input:focus, .form-group textarea:focus { outline: none; border-color: #e63946; }
   .form-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 18px; }
+  .form-notes-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
 
   .tech-list { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px; border: 1px solid #ddd; border-radius: 5px; min-height: 42px; }
   .tech-chip { background: #1a1a2e; color: #fff; border: none; border-radius: 14px; padding: 4px 12px; font-size: 12px; cursor: pointer; transition: background 0.12s; }
@@ -144,6 +169,11 @@
   .loading-overlay.show { display: flex; }
   .spinner { width: 24px; height: 24px; border: 3px solid #e63946; border-top-color: transparent; border-radius: 50%; animation: spin 0.7s linear infinite; margin-right: 10px; }
   @keyframes spin { to { transform: rotate(360deg); } }
+
+  @media (max-width: 700px) {
+    .notes-grid, .form-notes-grid { grid-template-columns: 1fr; }
+    .status-strip { flex-direction: column; }
+  }
 </style>
 </head>
 <body>
@@ -174,6 +204,14 @@
 <div class="status-bar" id="statusBar">
   <span class="status-dot"></span>
   <span id="statusMsg">Connecting to database...</span>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><span class="legend-swatch" style="background:#f4a623"></span> Not confirmed yet</div>
+  <div class="legend-item"><span class="legend-swatch" style="background:#6fcf97"></span> Partially confirmed</div>
+  <div class="legend-item"><span class="legend-swatch" style="background:#1e7a45"></span> Fully confirmed</div>
+  <div class="legend-item"><span class="legend-swatch" style="background:#e63946"></span> Completed</div>
+  <div class="legend-item"><span class="legend-swatch" style="background:#999"></span> Cancelled</div>
 </div>
 
 <div class="calendar-wrap">
@@ -222,7 +260,7 @@
 <div class="modal-overlay" id="loginModal">
   <div class="login-box">
     <h2>Dispatcher Login</h2>
-    <p>Enter the admin password to add, edit, or delete jobs.</p>
+    <p>Enter the admin password to add, edit, delete, complete, or cancel jobs.</p>
     <input type="password" id="pwInput" placeholder="Password" onkeydown="if(event.key==='Enter')doLogin()">
     <button class="btn btn-red" style="width:100%;margin-top:4px" onclick="doLogin()">Sign In</button>
     <div class="login-error" id="loginError">Incorrect password. Try again.</div>
@@ -285,6 +323,16 @@ async function loadJobs() {
   } catch(e) { setStatus('Database error: ' + e.message, false); }
 }
 
+// ===== STATUS HELPERS =====
+function getJobStatusClass(j) {
+  if (j.cancelled) return 'st-cancelled';
+  if (j.completed) return 'st-completed';
+  const count = [j.dispatcher_confirmed, j.parts_confirmed, j.warehouse_ready].filter(Boolean).length;
+  if (count === 0) return 'st-pending';
+  if (count === 3) return 'st-full';
+  return 'st-partial';
+}
+
 async function saveJob(job) {
   showLoading(true);
   try {
@@ -294,9 +342,14 @@ async function saveJob(job) {
       location_name: job.location_name,
       address: job.address,
       techs: JSON.stringify(job.techs),
-      notes: job.notes || '',
+      notes_dispatch: job.notes_dispatch || '',
+      notes_parts: job.notes_parts || '',
+      notes_warehouse: job.notes_warehouse || '',
       dispatcher_confirmed: job.dispatcher_confirmed || false,
-      warehouse_ready: job.warehouse_ready || false
+      parts_confirmed: job.parts_confirmed || false,
+      warehouse_ready: job.warehouse_ready || false,
+      completed: job.completed || false,
+      cancelled: job.cancelled || false
     };
     if (job.id) {
       await dbFetch('/rest/v1/install_jobs?id=eq.' + job.id, 'PATCH', payload);
@@ -361,20 +414,25 @@ function renderCalendar() {
     const dayJobs = jobs.filter(j => j.job_date === dateStr);
     const isToday = (d === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear());
     const cell = document.createElement('div');
-    cell.className = 'day-cell' + (isToday ? ' today' : '') + (dayJobs.length > 0 ? ' has-jobs' : '');
+    cell.className = 'day-cell' + (isToday ? ' today' : '');
     cell.onclick = () => openDayModal(dateStr);
     let inner = '<div class="day-num">' + d + (isToday ? '<span class="today-dot"></span>' : '') + '</div>';
     dayJobs.slice(0, 2).forEach(j => {
-      const dc = j.dispatcher_confirmed;
-      const wr = j.warehouse_ready;
-      inner += '<div class="job-pill">'
+      const statusClass = getJobStatusClass(j);
+      let tags = '';
+      if (j.cancelled) tags += '<span class="pill-tag">CANCELLED</span>';
+      else if (j.completed) tags += '<span class="pill-tag">DONE</span>';
+      else {
+        if (j.dispatcher_confirmed) tags += '<span class="pill-tag">DISP</span>';
+        if (j.parts_confirmed) tags += '<span class="pill-tag">PARTS</span>';
+        if (j.warehouse_ready) tags += '<span class="pill-tag">WH</span>';
+      }
+      inner += '<div class="job-pill ' + statusClass + '">'
         + '<span class="pill-jobnum">' + (j.job_number || 'No #') + '</span>'
         + '<span class="pill-location">' + (j.location_name || 'Unnamed') + '</span>'
         + '<span class="pill-techs">' + (j.techs && j.techs.length ? j.techs.join(', ') : 'No techs') + '</span>'
-        + '<div class="pill-status">'
-        + '<span class="pill-check ' + (dc ? 'on' : 'off') + '">' + (dc ? 'DISP' : 'disp') + '</span>'
-        + '<span class="pill-check ' + (wr ? 'on' : 'off') + '">' + (wr ? 'WH' : 'wh') + '</span>'
-        + '</div></div>';
+        + (tags ? '<div class="pill-tags">' + tags + '</div>' : '')
+        + '</div>';
     });
     if (dayJobs.length > 2) inner += '<span class="more-badge">+' + (dayJobs.length - 2) + ' more</span>';
     cell.innerHTML = inner;
@@ -388,6 +446,11 @@ function renderCalendar() {
     cell.innerHTML = '<div class="day-num" style="color:#ccc">' + d + '</div>';
     grid.appendChild(cell);
   }
+}
+
+function notesBlock(label, text) {
+  const safe = (text || '').trim();
+  return '<div class="notes-box"><label>' + label + '</label><span' + (safe ? '' : ' class="empty"') + '>' + (safe ? safe : 'No notes') + '</span></div>';
 }
 
 function openDayModal(dateStr) {
@@ -410,9 +473,13 @@ function openDayModal(dateStr) {
     dayJobs.forEach(j => {
       const techStr = j.techs && j.techs.length ? j.techs.join(', ') : 'None assigned';
       const dc = j.dispatcher_confirmed || false;
+      const pc = j.parts_confirmed || false;
       const wr = j.warehouse_ready || false;
-      const cardClass = 'job-card' + (dc && wr ? ' both-done' : dc ? ' disp-done' : '');
-      html += '<div class="' + cardClass + '">'
+      const comp = j.completed || false;
+      const canc = j.cancelled || false;
+      const statusClass = getJobStatusClass(j);
+
+      html += '<div class="job-card ' + statusClass + '">'
         + '<div class="job-card-header">'
         + '<span class="job-num-badge">JOB #' + (j.job_number || '--') + '</span>'
         + (isAdmin ? '<div class="job-card-actions"><button class="btn-sm btn-edit" onclick="openJobForm(\'' + j.id + '\')">Edit</button><button class="btn-sm btn-delete" onclick="deleteJob(\'' + j.id + '\')">Delete</button></div>' : '')
@@ -422,18 +489,39 @@ function openDayModal(dateStr) {
         + '<div class="job-field"><label>Techs Assigned</label><span>' + (j.techs ? j.techs.length : 0) + ' tech(s)</span></div>'
         + '<div class="job-field full"><label>Address</label><span>' + (j.address || '--') + '</span></div>'
         + '<div class="job-field full"><label>Technicians</label><span>' + techStr + '</span></div>'
-        + (j.notes ? '<div class="job-field full"><label>Notes</label><span>' + j.notes + '</span></div>' : '')
+        + '</div>'
+        + '<div class="notes-grid">'
+        + notesBlock('Dispatch Notes', j.notes_dispatch)
+        + notesBlock('Parts Notes', j.notes_parts)
+        + notesBlock('Warehouse Notes', j.notes_warehouse)
         + '</div>'
         + '<div class="status-strip">'
         + '<div class="status-box' + (dc ? ' checked' : '') + '" onclick="event.stopPropagation();toggleCheck(\'' + j.id + '\', \'dispatcher_confirmed\')">'
         + '<div class="status-check">' + (dc ? '&#10003;' : '') + '</div>'
         + '<div class="status-label">Job Confirmed<span>' + (dc ? 'Confirmed' : 'Tap to confirm') + '</span></div>'
         + '</div>'
-        + '<div class="status-box warehouse' + (wr ? ' checked' : '') + '" onclick="event.stopPropagation();toggleCheck(\'' + j.id + '\', \'warehouse_ready\')">'
+        + '<div class="status-box' + (pc ? ' checked' : '') + '" onclick="event.stopPropagation();toggleCheck(\'' + j.id + '\', \'parts_confirmed\')">'
+        + '<div class="status-check">' + (pc ? '&#10003;' : '') + '</div>'
+        + '<div class="status-label">Parts Confirmed<span>' + (pc ? 'Confirmed' : 'Tap to confirm') + '</span></div>'
+        + '</div>'
+        + '<div class="status-box' + (wr ? ' checked' : '') + '" onclick="event.stopPropagation();toggleCheck(\'' + j.id + '\', \'warehouse_ready\')">'
         + '<div class="status-check">' + (wr ? '&#10003;' : '') + '</div>'
         + '<div class="status-label">Equipment Confirmed<span>' + (wr ? 'Confirmed' : 'Tap to confirm') + '</span></div>'
         + '</div>'
         + '</div>'
+        + (isAdmin
+          ? '<div class="status-strip admin-strip">'
+            + '<div class="admin-strip-label">Admin Only</div>'
+            + '<div class="status-box admin-box complete' + (comp ? ' checked' : '') + '" onclick="event.stopPropagation();toggleCheck(\'' + j.id + '\', \'completed\')">'
+            + '<div class="status-check">' + (comp ? '&#10003;' : '') + '</div>'
+            + '<div class="status-label">Mark Complete<span>' + (comp ? 'Completed' : 'Tap when finished') + '</span></div>'
+            + '</div>'
+            + '<div class="status-box admin-box cancel' + (canc ? ' checked' : '') + '" onclick="event.stopPropagation();toggleCheck(\'' + j.id + '\', \'cancelled\')">'
+            + '<div class="status-check">' + (canc ? '&#10003;' : '') + '</div>'
+            + '<div class="status-label">Cancelled<span>' + (canc ? 'Cancelled' : 'Tap if cancelled') + '</span></div>'
+            + '</div>'
+            + '</div>'
+          : '')
         + '</div>';
     });
   }
@@ -457,7 +545,12 @@ function openJobForm(jobId) {
     + '<div class="form-group"><label>Address</label><input type="text" id="fAddress" placeholder="e.g. 123 Main St, Springfield, MA" value="' + (job ? job.address || '' : '') + '"></div>'
     + '<div class="form-group"><label>Technicians (<span id="techCountLabel">' + selectedTechs.length + '</span> selected)</label>'
     + '<div class="tech-list" id="techList">' + techChips + '</div></div>'
-    + '<div class="form-group"><label>Notes (optional)</label><textarea id="fNotes" rows="2" placeholder="Additional details...">' + (job ? (job.notes || '') : '') + '</textarea></div>'
+    + '<div class="form-group"><label>Notes</label>'
+    + '<div class="form-notes-grid">'
+    + '<div><label style="font-size:10px;">Dispatch</label><textarea id="fNotesDispatch" rows="3" placeholder="Dispatch notes...">' + (job ? (job.notes_dispatch || '') : '') + '</textarea></div>'
+    + '<div><label style="font-size:10px;">Parts</label><textarea id="fNotesParts" rows="3" placeholder="Parts notes...">' + (job ? (job.notes_parts || '') : '') + '</textarea></div>'
+    + '<div><label style="font-size:10px;">Warehouse</label><textarea id="fNotesWarehouse" rows="3" placeholder="Warehouse notes...">' + (job ? (job.notes_warehouse || '') : '') + '</textarea></div>'
+    + '</div></div>'
     + '<div class="form-actions"><button class="btn btn-white" onclick="openDayModal(selectedDayStr)">Cancel</button><button class="btn btn-green" onclick="submitJobForm()">Save Job</button></div>';
 }
 
@@ -470,7 +563,9 @@ function submitJobForm() {
   const jobNum = document.getElementById('fJobNum').value.trim();
   const locName = document.getElementById('fLocName').value.trim();
   const address = document.getElementById('fAddress').value.trim();
-  const notes = document.getElementById('fNotes').value.trim();
+  const notesDispatch = document.getElementById('fNotesDispatch').value.trim();
+  const notesParts = document.getElementById('fNotesParts').value.trim();
+  const notesWarehouse = document.getElementById('fNotesWarehouse').value.trim();
   const techs = [...document.querySelectorAll('#techList .tech-chip.selected')].map(b => b.textContent);
   if (!locName) { alert('Location name is required.'); return; }
   const existing = editingJobId ? jobs.find(j => j.id == editingJobId) : null;
@@ -479,9 +574,15 @@ function submitJobForm() {
     job_date: selectedDayStr,
     job_number: jobNum,
     location_name: locName,
-    address, techs, notes,
+    address, techs,
+    notes_dispatch: notesDispatch,
+    notes_parts: notesParts,
+    notes_warehouse: notesWarehouse,
     dispatcher_confirmed: existing ? existing.dispatcher_confirmed : false,
-    warehouse_ready: existing ? existing.warehouse_ready : false
+    parts_confirmed: existing ? existing.parts_confirmed : false,
+    warehouse_ready: existing ? existing.warehouse_ready : false,
+    completed: existing ? existing.completed : false,
+    cancelled: existing ? existing.cancelled : false
   });
 }
 
@@ -521,6 +622,7 @@ function doLogin() {
     document.getElementById('manageTechsBtn').style.display = 'inline-block';
     document.getElementById('adminBadge').classList.add('visible');
     closeLoginModal();
+    if (document.getElementById('dayModal').classList.contains('open')) openDayModal(selectedDayStr);
   } else { document.getElementById('loginError').style.display = 'block'; }
 }
 function logout() {
@@ -529,6 +631,7 @@ function logout() {
   document.getElementById('logoutBtn').style.display = 'none';
   document.getElementById('manageTechsBtn').style.display = 'none';
   document.getElementById('adminBadge').classList.remove('visible');
+  if (document.getElementById('dayModal').classList.contains('open')) openDayModal(selectedDayStr);
 }
 
 function changeMonth(dir) {

@@ -8,172 +8,191 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; color: #1a1a2e; }
 
-  .header {
-    background: #1a1a2e; color: #fff; padding: 14px 24px;
-    display: flex; align-items: center; justify-content: space-between;
-    border-bottom: 3px solid #e63946;
-  }
-  .header-left { display: flex; align-items: center; gap: 14px; }
-  .header-logo { font-size: 20px; font-weight: 700; letter-spacing: 1px; color: #e63946; }
-  .header-title { font-size: 15px; color: #ccc; }
-  .header-right { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-  .admin-badge {
-    background: #e63946; color: #fff; font-size: 11px; font-weight: 700;
-    padding: 3px 10px; border-radius: 12px; letter-spacing: 1px; display: none;
-  }
+  .header { background: #1a1a2e; color: #fff; padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 3px solid #e63946; }
+  .header-left { display: flex; align-items: center; gap: 12px; }
+  .header-logo { font-size: 18px; font-weight: 700; letter-spacing: 1px; color: #e63946; }
+  .header-title { font-size: 14px; color: #ccc; }
+  .header-right { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .admin-badge { background: #e63946; color: #fff; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 12px; letter-spacing: 1px; display: none; }
   .admin-badge.visible { display: inline-block; }
-  .btn { padding: 7px 16px; border: none; border-radius: 5px; font-size: 13px; font-weight: 600; cursor: pointer; transition: background 0.15s; }
+  .btn { padding: 6px 13px; border: none; border-radius: 5px; font-size: 12px; font-weight: 600; cursor: pointer; transition: background 0.15s; }
   .btn-red { background: #e63946; color: #fff; } .btn-red:hover { background: #c1121f; }
   .btn-gray { background: #3a3a5c; color: #fff; } .btn-gray:hover { background: #2a2a4c; }
   .btn-white { background: #fff; color: #1a1a2e; border: 1px solid #ccc; } .btn-white:hover { background: #f5f5f5; }
   .btn-green { background: #2a9d5c; color: #fff; } .btn-green:hover { background: #1e7a45; }
 
-  .nav-bar { background: #fff; padding: 10px 24px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #e0e0e0; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
-  .nav-month { font-size: 20px; font-weight: 700; color: #1a1a2e; }
-  .nav-controls { display: flex; gap: 8px; align-items: center; }
+  .nav-bar { background: #fff; padding: 8px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #e0e0e0; }
+  .nav-month { font-size: 18px; font-weight: 700; color: #1a1a2e; }
+  .nav-controls { display: flex; gap: 6px; }
 
-  .status-bar { background: #fff8e1; border-bottom: 1px solid #ffe082; padding: 6px 24px; font-size: 12px; color: #7a5c00; display: flex; align-items: center; gap: 8px; }
+  .status-bar { background: #fff8e1; border-bottom: 1px solid #ffe082; padding: 5px 20px; font-size: 11px; color: #7a5c00; display: flex; align-items: center; gap: 6px; }
   .status-bar.hidden { display: none; }
-  .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #f4a623; display: inline-block; }
+  .status-dot { width: 7px; height: 7px; border-radius: 50%; background: #f4a623; display: inline-block; }
 
-  /* LEGEND */
-  .legend { display: flex; gap: 14px; flex-wrap: wrap; padding: 10px 24px; background: #fff; border-bottom: 1px solid #e0e0e0; font-size: 11px; color: #666; }
-  .legend-item { display: flex; align-items: center; gap: 5px; }
-  .legend-swatch { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+  .legend { display: flex; gap: 12px; flex-wrap: wrap; padding: 7px 20px; background: #fff; border-bottom: 1px solid #e0e0e0; font-size: 10px; color: #666; align-items: center; }
+  .legend-item { display: flex; align-items: center; gap: 4px; }
+  .legend-swatch { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
 
-  .calendar-wrap { padding: 20px 24px; }
-  .day-headers { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-bottom: 4px; }
-  .day-header { text-align: center; font-size: 11px; font-weight: 700; letter-spacing: 1px; color: #888; padding: 6px 0; text-transform: uppercase; }
-  .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+  .calendar-wrap { padding: 14px 20px; }
+  .day-headers { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; margin-bottom: 3px; }
+  .day-header { text-align: center; font-size: 10px; font-weight: 700; letter-spacing: 1px; color: #888; padding: 4px 0; text-transform: uppercase; }
+  .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
 
-  .day-cell { background: #fff; border: 1px solid #e8e8e8; border-radius: 6px; min-height: 130px; padding: 6px; cursor: pointer; transition: border-color 0.15s, box-shadow 0.15s; }
-  .day-cell:hover { border-color: #e63946; box-shadow: 0 2px 8px rgba(230,57,70,0.12); }
-  .day-cell.other-month { background: #f8f8f8; opacity: 0.55; }
+  .day-cell { background: #fff; border: 1px solid #e8e8e8; border-radius: 5px; min-height: 110px; padding: 5px; cursor: pointer; transition: border-color 0.15s; }
+  .day-cell:hover { border-color: #e63946; }
+  .day-cell.other-month { background: #f8f8f8; opacity: 0.5; }
   .day-cell.today { border-color: #e63946; border-width: 2px; }
-  .day-num { font-size: 13px; font-weight: 700; color: #1a1a2e; margin-bottom: 4px; display: flex; align-items: center; gap: 5px; }
-  .today-dot { width: 8px; height: 8px; background: #e63946; border-radius: 50%; display: inline-block; }
+  .day-num { font-size: 12px; font-weight: 700; color: #1a1a2e; margin-bottom: 3px; display: flex; align-items: center; gap: 4px; }
+  .today-dot { width: 7px; height: 7px; background: #e63946; border-radius: 50%; display: inline-block; }
 
-  .job-pill { color: #1a1a2e; border-radius: 4px; padding: 4px 6px; margin-bottom: 3px; font-size: 10px; line-height: 1.4; border-left: 4px solid #999; }
+  .job-pill { border-radius: 3px; padding: 3px 5px; margin-bottom: 2px; font-size: 9px; line-height: 1.4; border-left: 3px solid #999; position: relative; }
   .job-pill.st-pending { background: #fff7e0; border-left-color: #f4a623; }
   .job-pill.st-partial { background: #f0fbf4; border-left-color: #a8e6c1; }
   .job-pill.st-full { background: #c2e8d0; border-left-color: #14532d; }
   .job-pill.st-completed { background: #fde2e2; border-left-color: #e63946; }
-  .job-pill.st-cancelled { background: #ececec; border-left-color: #999; opacity: 0.6; filter: grayscale(60%); }
-  .pill-jobnum { font-weight: 700; color: #b35900; font-size: 9px; display: block; }
-  .job-pill.st-full .pill-jobnum, .job-pill.st-partial .pill-jobnum { color: #1e7a45; }
+  .job-pill.st-cancelled { background: #ececec; border-left-color: #999; opacity: 0.55; filter: grayscale(60%); }
+  .pill-jobnum { font-weight: 700; color: #b35900; font-size: 8px; display: block; }
+  .job-pill.st-full .pill-jobnum { color: #14532d; }
   .job-pill.st-completed .pill-jobnum { color: #c1121f; }
   .job-pill.st-cancelled .pill-jobnum { color: #888; }
   .pill-location { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; display: block; }
-  .pill-techs { color: #666; font-size: 9px; display: block; }
-  .pill-tags { display: flex; gap: 3px; margin-top: 3px; flex-wrap: wrap; }
-  .pill-tag { font-size: 8px; padding: 1px 4px; border-radius: 3px; font-weight: 700; background: rgba(0,0,0,0.08); }
-  .more-badge { font-size: 10px; color: #e63946; font-weight: 700; padding: 2px 0; display: block; text-align: right; }
+  .pill-techs { color: #666; font-size: 8px; display: block; }
+  .pill-tags { display: flex; gap: 2px; margin-top: 2px; flex-wrap: wrap; }
+  .pill-tag { font-size: 7px; padding: 1px 3px; border-radius: 2px; font-weight: 700; background: rgba(0,0,0,0.08); }
+  .more-badge { font-size: 9px; color: #e63946; font-weight: 700; padding: 1px 0; display: block; text-align: right; }
+
+  /* UPDATE DOT on pill */
+  .update-dot {
+    position: absolute; top: -4px; right: -4px;
+    width: 9px; height: 9px; background: #e63946; border-radius: 50%;
+    border: 1.5px solid #fff; display: none;
+  }
+  .update-dot.visible { display: block; }
 
   /* MODAL */
-  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 1000; justify-content: center; align-items: center; }
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; }
   .modal-overlay.open { display: flex; }
-  .modal { background: #fff; border-radius: 10px; width: 95%; max-width: 660px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.35); }
-  .modal-header { background: #1a1a2e; color: #fff; padding: 16px 20px; border-radius: 10px 10px 0 0; display: flex; justify-content: space-between; align-items: center; }
-  .modal-header h2 { font-size: 16px; font-weight: 700; }
-  .modal-header .modal-date { font-size: 12px; color: #aaa; }
-  .modal-close { background: none; border: none; color: #fff; font-size: 22px; cursor: pointer; line-height: 1; padding: 0 4px; }
-  .modal-body { padding: 20px; }
+  .modal { background: #fff; border-radius: 8px; width: 95%; max-width: 640px; max-height: 92vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+  .modal-header { background: #1a1a2e; color: #fff; padding: 14px 18px; border-radius: 8px 8px 0 0; display: flex; justify-content: space-between; align-items: center; }
+  .modal-header h2 { font-size: 15px; font-weight: 700; }
+  .modal-header .modal-date { font-size: 11px; color: #aaa; }
+  .modal-close { background: none; border: none; color: #fff; font-size: 20px; cursor: pointer; line-height: 1; }
+  .modal-body { padding: 16px; }
 
   /* JOB CARD */
-  .job-card { border: 1px solid #e0e0e0; border-left: 5px solid #999; border-radius: 6px; padding: 14px 16px; margin-bottom: 14px; transition: all 0.2s; }
+  .job-card { border: 1px solid #e0e0e0; border-left: 4px solid #999; border-radius: 6px; padding: 12px 14px; margin-bottom: 12px; position: relative; }
   .job-card.st-pending { background: #fffbf0; border-left-color: #f4a623; }
   .job-card.st-partial { background: #f3fcf6; border-left-color: #a8e6c1; }
   .job-card.st-full { background: #b9e3c9; border-left-color: #14532d; }
   .job-card.st-completed { background: #fdecec; border-left-color: #e63946; }
   .job-card.st-cancelled { background: #efefef; border-left-color: #999; opacity: 0.55; filter: grayscale(70%); }
 
-  .job-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
-  .job-num-badge { background: #1a1a2e; color: #f4a623; font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 4px; letter-spacing: 0.5px; }
-  .job-card-actions { display: flex; gap: 6px; }
-  .btn-sm { padding: 4px 10px; font-size: 11px; font-weight: 600; border: none; border-radius: 4px; cursor: pointer; }
+  /* UPDATE DOT on card */
+  .card-update-dot {
+    position: absolute; top: -6px; right: -6px;
+    width: 14px; height: 14px; background: #e63946; border-radius: 50%;
+    border: 2px solid #fff; display: none; cursor: pointer;
+    align-items: center; justify-content: center;
+    font-size: 8px; color: #fff; font-weight: 900;
+    z-index: 10;
+  }
+  .card-update-dot.visible { display: flex; }
+  .card-update-dot:hover { background: #c1121f; }
+
+  .job-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+  .job-card-header-left { display: flex; align-items: center; gap: 7px; }
+  .job-num-badge { background: #1a1a2e; color: #f4a623; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 3px; }
+  .job-card-actions { display: flex; gap: 5px; }
+  .btn-sm { padding: 3px 9px; font-size: 10px; font-weight: 600; border: none; border-radius: 3px; cursor: pointer; }
   .btn-edit { background: #3a3a5c; color: #fff; } .btn-edit:hover { background: #2a2a4c; }
   .btn-delete { background: #e63946; color: #fff; } .btn-delete:hover { background: #c1121f; }
 
-  .job-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
-  .job-field label { display: block; font-size: 10px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
-  .job-field span { font-size: 13px; color: #1a1a2e; font-weight: 500; }
-  .job-field.full { grid-column: 1 / -1; }
+  /* INFO ROW */
+  .info-row { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 8px; }
+  .info-item label { display: block; font-size: 9px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 1px; }
+  .info-item span { font-size: 12px; color: #1a1a2e; font-weight: 500; }
+  .info-item.full { grid-column: 1/-1; }
 
-  .notes-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 12px; }
-  .notes-box { background: rgba(255,255,255,0.6); border: 1px solid #e0e0e0; border-radius: 5px; padding: 8px 10px; }
-  .notes-box label { display: block; font-size: 10px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; }
-  .notes-box span { font-size: 12px; color: #1a1a2e; white-space: pre-wrap; }
-  .notes-box span.empty { color: #bbb; font-style: italic; }
+  /* NOTES ROW */
+  .notes-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-bottom: 8px; }
+  .notes-box { background: rgba(255,255,255,0.55); border: 1px solid rgba(0,0,0,0.08); border-radius: 4px; padding: 6px 8px; }
+  .notes-box label { display: block; font-size: 9px; font-weight: 700; color: #888; text-transform: uppercase; margin-bottom: 2px; }
+  .notes-box span { font-size: 11px; color: #1a1a2e; white-space: pre-wrap; }
+  .notes-box span.empty { color: #bbb; font-style: italic; font-size: 10px; }
 
-  /* STATUS BOXES */
-  .status-strip { display: flex; gap: 8px; border-top: 1px solid rgba(0,0,0,0.08); padding-top: 10px; flex-wrap: wrap; }
-  .status-strip.admin-strip { margin-top: 8px; border-top: 1px dashed rgba(0,0,0,0.15); }
-  .status-box {
-    flex: 1; min-width: 130px; display: flex; align-items: center; gap: 8px;
-    background: rgba(255,255,255,0.7); border: 2px solid #ddd; border-radius: 6px;
-    padding: 8px 12px; cursor: pointer; transition: all 0.15s; user-select: none;
-  }
+  /* EQUIPMENT CHECKLIST */
+  .equip-section { background: rgba(255,255,255,0.55); border: 1px solid rgba(0,0,0,0.08); border-radius: 4px; padding: 8px 10px; margin-bottom: 8px; }
+  .equip-title { font-size: 9px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 6px; }
+  .equip-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
+  .equip-item { display: flex; align-items: center; gap: 5px; font-size: 11px; }
+  .equip-item input[type="checkbox"] { width: 13px; height: 13px; cursor: pointer; flex-shrink: 0; accent-color: #1a1a2e; }
+  .equip-item.has-count { display: flex; align-items: center; gap: 4px; }
+  .equip-count { width: 32px; padding: 2px 4px; border: 1px solid #ccc; border-radius: 3px; font-size: 11px; text-align: center; font-family: inherit; }
+  .equip-count:focus { outline: none; border-color: #e63946; }
+  .equip-label { font-size: 11px; color: #1a1a2e; flex: 1; }
+
+  /* STATUS STRIPS */
+  .status-strip { display: flex; gap: 6px; margin-bottom: 6px; }
+  .status-box { flex: 1; display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.7); border: 1.5px solid #ddd; border-radius: 5px; padding: 6px 8px; cursor: pointer; transition: all 0.15s; user-select: none; }
   .status-box:hover { border-color: #aaa; }
-  .status-check {
-    width: 20px; height: 20px; border-radius: 4px; border: 2px solid #bbb;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 13px; font-weight: 900; color: transparent; background: #fff;
-    flex-shrink: 0; transition: all 0.15s;
-  }
+  .status-check { width: 16px; height: 16px; border-radius: 3px; border: 1.5px solid #bbb; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 900; color: transparent; background: #fff; flex-shrink: 0; transition: all 0.15s; }
   .status-box.checked { background: #eafaf2; border-color: #2a9d5c; }
   .status-box.checked .status-check { background: #2a9d5c; border-color: #2a9d5c; color: #fff; }
   .status-box.admin-box.checked.complete { background: #fdecec; border-color: #e63946; }
   .status-box.admin-box.checked.complete .status-check { background: #e63946; border-color: #e63946; color: #fff; }
   .status-box.admin-box.checked.cancel { background: #e8e8e8; border-color: #888; }
   .status-box.admin-box.checked.cancel .status-check { background: #888; border-color: #888; color: #fff; }
-  .status-label { font-size: 12px; font-weight: 700; color: #555; line-height: 1.3; }
-  .status-label span { display: block; font-size: 10px; font-weight: 400; color: #999; }
-  .admin-strip-label { font-size: 10px; font-weight: 700; color: #aaa; text-transform: uppercase; letter-spacing: 0.5px; width: 100%; margin-bottom: 6px; }
+  .status-label { font-size: 11px; font-weight: 700; color: #555; line-height: 1.2; }
+  .status-label span { display: block; font-size: 9px; font-weight: 400; color: #999; }
+  .admin-strip { border-top: 1px dashed rgba(0,0,0,0.12); padding-top: 6px; margin-top: 2px; }
+  .admin-strip-label { font-size: 9px; font-weight: 700; color: #bbb; text-transform: uppercase; margin-bottom: 4px; }
 
   /* FORM */
-  .form-group { margin-bottom: 14px; }
-  .form-group label { display: block; font-size: 12px; font-weight: 700; color: #555; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
-  .form-group input, .form-group textarea { width: 100%; padding: 9px 12px; border: 1px solid #ddd; border-radius: 5px; font-size: 13px; color: #1a1a2e; font-family: inherit; transition: border-color 0.15s; }
+  .form-group { margin-bottom: 12px; }
+  .form-group label { display: block; font-size: 11px; font-weight: 700; color: #555; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.4px; }
+  .form-group input, .form-group textarea { width: 100%; padding: 8px 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px; color: #1a1a2e; font-family: inherit; }
   .form-group input:focus, .form-group textarea:focus { outline: none; border-color: #e63946; }
-  .form-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 18px; }
-  .form-notes-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  .form-row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .form-row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+  .form-row3 label { font-size: 10px; font-weight: 700; color: #666; margin-bottom: 3px; display: block; }
+  .form-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 14px; }
 
-  .tech-list { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px; border: 1px solid #ddd; border-radius: 5px; min-height: 42px; }
-  .tech-chip { background: #1a1a2e; color: #fff; border: none; border-radius: 14px; padding: 4px 12px; font-size: 12px; cursor: pointer; transition: background 0.12s; }
+  .tech-list { display: flex; flex-wrap: wrap; gap: 5px; padding: 7px; border: 1px solid #ddd; border-radius: 4px; min-height: 38px; }
+  .tech-chip { background: #1a1a2e; color: #fff; border: none; border-radius: 12px; padding: 3px 10px; font-size: 11px; cursor: pointer; transition: background 0.12s; }
   .tech-chip:hover { background: #3a3a5c; }
   .tech-chip.selected { background: #e63946; }
 
+  /* EQUIP FORM */
+  .equip-form-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; padding: 8px; border: 1px solid #ddd; border-radius: 4px; background: #fafafa; }
+  .equip-form-item { display: flex; align-items: center; gap: 5px; font-size: 11px; }
+  .equip-form-item input[type="checkbox"] { width: 13px; height: 13px; accent-color: #1a1a2e; cursor: pointer; }
+  .equip-form-count { width: 34px; padding: 2px 4px; border: 1px solid #ccc; border-radius: 3px; font-size: 11px; text-align: center; font-family: inherit; }
+
   /* MANAGE TECHS */
-  .manage-modal { background: #fff; border-radius: 10px; width: 95%; max-width: 480px; box-shadow: 0 20px 60px rgba(0,0,0,0.35); }
-  .tech-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; border-bottom: 1px solid #f0f0f0; font-size: 13px; }
+  .manage-modal { background: #fff; border-radius: 8px; width: 95%; max-width: 420px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+  .tech-row { display: flex; align-items: center; justify-content: space-between; padding: 7px 12px; border-bottom: 1px solid #f0f0f0; font-size: 12px; }
   .tech-row:last-child { border-bottom: none; }
-  .btn-remove-tech { background: #e63946; color: #fff; border: none; border-radius: 4px; padding: 3px 9px; font-size: 11px; cursor: pointer; font-weight: 700; }
-  .btn-remove-tech:hover { background: #c1121f; }
-  .add-tech-row { display: flex; gap: 8px; padding: 12px; border-top: 2px solid #f0f0f0; }
-  .add-tech-row input { flex: 1; padding: 8px 12px; border: 1px solid #ddd; border-radius: 5px; font-size: 13px; font-family: inherit; }
-  .add-tech-row input:focus { outline: none; border-color: #e63946; }
+  .btn-remove-tech { background: #e63946; color: #fff; border: none; border-radius: 3px; padding: 2px 8px; font-size: 10px; cursor: pointer; font-weight: 700; }
+  .add-tech-row { display: flex; gap: 6px; padding: 10px; border-top: 1px solid #f0f0f0; }
+  .add-tech-row input { flex: 1; padding: 7px 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px; font-family: inherit; }
 
   /* LOGIN */
-  .login-box { background: #fff; border-radius: 10px; padding: 32px; width: 320px; box-shadow: 0 20px 60px rgba(0,0,0,0.35); text-align: center; }
-  .login-box h2 { font-size: 18px; margin-bottom: 6px; color: #1a1a2e; }
-  .login-box p { font-size: 13px; color: #888; margin-bottom: 20px; }
-  .login-box input { width: 100%; padding: 10px 14px; border: 1px solid #ddd; border-radius: 5px; font-size: 14px; margin-bottom: 10px; font-family: inherit; }
-  .login-error { color: #e63946; font-size: 12px; margin-top: 6px; display: none; }
+  .login-box { background: #fff; border-radius: 8px; padding: 28px; width: 300px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); text-align: center; }
+  .login-box h2 { font-size: 16px; margin-bottom: 5px; color: #1a1a2e; }
+  .login-box p { font-size: 12px; color: #888; margin-bottom: 16px; }
+  .login-box input { width: 100%; padding: 9px 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; margin-bottom: 8px; font-family: inherit; }
+  .login-error { color: #e63946; font-size: 11px; margin-top: 4px; display: none; }
 
-  .day-modal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
-  .add-job-btn { background: #e63946; color: #fff; border: none; border-radius: 5px; padding: 7px 14px; font-size: 12px; font-weight: 700; cursor: pointer; display: none; }
-  .add-job-btn.visible { display: inline-block; } .add-job-btn:hover { background: #c1121f; }
-  .empty-day { text-align: center; padding: 30px 0; color: #aaa; font-size: 13px; }
+  .day-modal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .day-modal-head h3 { font-size: 13px; color: #1a1a2e; }
+  .add-job-btn { background: #e63946; color: #fff; border: none; border-radius: 4px; padding: 6px 12px; font-size: 11px; font-weight: 700; cursor: pointer; display: none; }
+  .add-job-btn.visible { display: inline-block; }
+  .empty-day { text-align: center; padding: 24px 0; color: #aaa; font-size: 12px; }
 
-  .loading-overlay { display: none; position: fixed; inset: 0; background: rgba(255,255,255,0.7); z-index: 2000; justify-content: center; align-items: center; font-size: 14px; color: #1a1a2e; font-weight: 600; }
+  .loading-overlay { display: none; position: fixed; inset: 0; background: rgba(255,255,255,0.7); z-index: 2000; justify-content: center; align-items: center; font-size: 13px; color: #1a1a2e; font-weight: 600; }
   .loading-overlay.show { display: flex; }
-  .spinner { width: 24px; height: 24px; border: 3px solid #e63946; border-top-color: transparent; border-radius: 50%; animation: spin 0.7s linear infinite; margin-right: 10px; }
+  .spinner { width: 22px; height: 22px; border: 3px solid #e63946; border-top-color: transparent; border-radius: 50%; animation: spin 0.7s linear infinite; margin-right: 8px; }
   @keyframes spin { to { transform: rotate(360deg); } }
-
-  @media (max-width: 700px) {
-    .notes-grid, .form-notes-grid { grid-template-columns: 1fr; }
-    .status-strip { flex-direction: column; }
-  }
 </style>
 </head>
 <body>
@@ -198,20 +217,20 @@
     <button class="btn btn-white" onclick="changeMonth(1)">Next &#8594;</button>
   </div>
   <div class="nav-month" id="navMonth">--</div>
-  <div style="font-size:12px;color:#888;" id="jobCountLabel">Loading...</div>
+  <div style="font-size:11px;color:#888;" id="jobCountLabel">Loading...</div>
 </div>
 
 <div class="status-bar" id="statusBar">
-  <span class="status-dot"></span>
-  <span id="statusMsg">Connecting to database...</span>
+  <span class="status-dot"></span><span id="statusMsg">Connecting to database...</span>
 </div>
 
 <div class="legend">
-  <div class="legend-item"><span class="legend-swatch" style="background:#f4a623"></span> Not confirmed yet</div>
+  <div class="legend-item"><span class="legend-swatch" style="background:#f4a623"></span> Not confirmed</div>
   <div class="legend-item"><span class="legend-swatch" style="background:#a8e6c1"></span> Partially confirmed</div>
   <div class="legend-item"><span class="legend-swatch" style="background:#14532d"></span> Fully confirmed</div>
   <div class="legend-item"><span class="legend-swatch" style="background:#e63946"></span> Completed</div>
   <div class="legend-item"><span class="legend-swatch" style="background:#999"></span> Cancelled</div>
+  <div class="legend-item"><span style="width:9px;height:9px;background:#e63946;border-radius:50%;display:inline-block;"></span> Unread update</div>
 </div>
 
 <div class="calendar-wrap">
@@ -228,10 +247,7 @@
 <div class="modal-overlay" id="dayModal">
   <div class="modal">
     <div class="modal-header">
-      <div>
-        <div class="modal-date" id="modalDateLabel">--</div>
-        <h2>Installation Jobs</h2>
-      </div>
+      <div><div class="modal-date" id="modalDateLabel">--</div><h2>Installation Jobs</h2></div>
       <button class="modal-close" onclick="closeModal()">&#x2715;</button>
     </div>
     <div class="modal-body" id="modalBody"></div>
@@ -245,12 +261,12 @@
       <div><div class="modal-date">Admin Only</div><h2>Manage Technicians</h2></div>
       <button class="modal-close" onclick="closeManageTechs()">&#x2715;</button>
     </div>
-    <div id="techRosterList" style="max-height:340px;overflow-y:auto;"></div>
+    <div id="techRosterList" style="max-height:300px;overflow-y:auto;"></div>
     <div class="add-tech-row">
       <input type="text" id="newTechInput" placeholder="Add technician name..." onkeydown="if(event.key==='Enter')addTech()">
       <button class="btn btn-green" onclick="addTech()">Add</button>
     </div>
-    <div style="padding:12px;border-top:1px solid #eee;display:flex;justify-content:flex-end;">
+    <div style="padding:10px;border-top:1px solid #eee;display:flex;justify-content:flex-end;">
       <button class="btn btn-gray" onclick="closeManageTechs()">Done</button>
     </div>
   </div>
@@ -263,8 +279,8 @@
     <p>Enter the admin password to add, edit, delete, complete, or cancel jobs.</p>
     <input type="password" id="pwInput" placeholder="Password" onkeydown="if(event.key==='Enter')doLogin()">
     <button class="btn btn-red" style="width:100%;margin-top:4px" onclick="doLogin()">Sign In</button>
-    <div class="login-error" id="loginError">Incorrect password. Try again.</div>
-    <button class="btn btn-white" style="width:100%;margin-top:10px;font-size:12px;" onclick="closeLoginModal()">Cancel</button>
+    <div class="login-error" id="loginError">Incorrect password.</div>
+    <button class="btn btn-white" style="width:100%;margin-top:8px;font-size:11px;" onclick="closeLoginModal()">Cancel</button>
   </div>
 </div>
 
@@ -274,6 +290,19 @@
 const SUPABASE_URL = 'https://obcszotrnmpofppnjiuc.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9iY3N6b3Rybm1wb2ZwcG5qaXVjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODExNzQ2NTAsImV4cCI6MjA5Njc1MDY1MH0._MEVd6e3RwcjjPBsCB9sWfFxKyD3KcubdjKYtrE7h2k';
 const ADMIN_PASSWORD = 'freeflow2025';
+
+const EQUIP_ITEMS = [
+  { key: 'ladder_6ft',    label: '6ft Ladder',          hasCount: true },
+  { key: 'ladder_8ft',    label: '8ft Ladder',          hasCount: true },
+  { key: 'ladder_10ft',   label: '10ft Ladder',         hasCount: true },
+  { key: 'ladder_12ft',   label: '12ft Ladder',         hasCount: true },
+  { key: 'lift_blue',     label: 'Blue Ice Maker Lift', hasCount: false },
+  { key: 'lift_red_sm',   label: 'Red Small Lift',      hasCount: false },
+  { key: 'lift_red_lg',   label: 'Red Big Lift',        hasCount: false },
+  { key: 'blower_rope',   label: 'Blower & Rope',       hasCount: false },
+  { key: 'pallet_jack',   label: 'Freestyle Pallet Jack', hasCount: false },
+  { key: 'other_small',   label: 'Other:',              hasCount: false, hasText: true },
+];
 
 const DEFAULT_TECHNICIANS = [
   'Erik','Humam','Phil','Mark','Devin',
@@ -287,6 +316,23 @@ let currentYear, currentMonth;
 let jobs = [];
 let selectedDayStr = null;
 let editingJobId = null;
+
+// Track which job IDs have been seen (cleared = read)
+let seenUpdates = loadSeen();
+function loadSeen() { try { return JSON.parse(localStorage.getItem('ff_seen') || '{}'); } catch(e) { return {}; } }
+function saveSeen() { localStorage.setItem('ff_seen', JSON.stringify(seenUpdates)); }
+function hasUnread(job) {
+  if (!job.updated_at) return false;
+  const seen = seenUpdates[job.id];
+  if (!seen) return true;
+  return new Date(job.updated_at) > new Date(seen);
+}
+function markRead(jobId) {
+  seenUpdates[jobId] = new Date().toISOString();
+  saveSeen();
+  renderCalendar();
+  if (selectedDayStr) openDayModal(selectedDayStr);
+}
 
 function loadTechs() {
   try { const s = localStorage.getItem('ff_install_techs'); return s ? JSON.parse(s) : [...DEFAULT_TECHNICIANS]; }
@@ -316,14 +362,14 @@ async function loadJobs() {
     const data = await dbFetch('/rest/v1/install_jobs?select=*&order=job_date.asc');
     jobs = data.map(r => ({
       ...r,
-      techs: typeof r.techs === 'string' ? JSON.parse(r.techs) : (r.techs || [])
+      techs: typeof r.techs === 'string' ? JSON.parse(r.techs) : (r.techs || []),
+      equipment: typeof r.equipment === 'string' ? JSON.parse(r.equipment) : (r.equipment || {})
     }));
     setStatus('Connected - ' + jobs.length + ' job(s) loaded', true);
     renderCalendar();
   } catch(e) { setStatus('Database error: ' + e.message, false); }
 }
 
-// ===== STATUS HELPERS =====
 function getJobStatusClass(j) {
   if (j.cancelled) return 'st-cancelled';
   if (j.completed) return 'st-completed';
@@ -331,6 +377,23 @@ function getJobStatusClass(j) {
   if (count === 0) return 'st-pending';
   if (count === 3) return 'st-full';
   return 'st-partial';
+}
+
+function buildEquipPayload() {
+  const eq = {};
+  EQUIP_ITEMS.forEach(item => {
+    const cb = document.getElementById('eq_' + item.key);
+    if (cb) eq[item.key] = cb.checked;
+    if (item.hasCount) {
+      const cnt = document.getElementById('eqc_' + item.key);
+      if (cnt) eq[item.key + '_count'] = parseInt(cnt.value) || 0;
+    }
+    if (item.hasText) {
+      const txt = document.getElementById('eqt_' + item.key);
+      if (txt) eq[item.key + '_text'] = txt.value.trim();
+    }
+  });
+  return eq;
 }
 
 async function saveJob(job) {
@@ -342,6 +405,7 @@ async function saveJob(job) {
       location_name: job.location_name,
       address: job.address,
       techs: JSON.stringify(job.techs),
+      equipment: JSON.stringify(job.equipment || {}),
       notes_dispatch: job.notes_dispatch || '',
       notes_parts: job.notes_parts || '',
       notes_warehouse: job.notes_warehouse || '',
@@ -349,15 +413,19 @@ async function saveJob(job) {
       parts_confirmed: job.parts_confirmed || false,
       warehouse_ready: job.warehouse_ready || false,
       completed: job.completed || false,
-      cancelled: job.cancelled || false
+      cancelled: job.cancelled || false,
+      updated_at: new Date().toISOString()
     };
     if (job.id) {
       await dbFetch('/rest/v1/install_jobs?id=eq.' + job.id, 'PATCH', payload);
       const idx = jobs.findIndex(j => j.id === job.id);
-      if (idx !== -1) jobs[idx] = { ...jobs[idx], ...payload, techs: job.techs };
+      if (idx !== -1) jobs[idx] = { ...jobs[idx], ...payload, techs: job.techs, equipment: job.equipment || {} };
     } else {
       const result = await dbFetch('/rest/v1/install_jobs', 'POST', payload);
-      jobs.push({ ...result[0], techs: job.techs });
+      const newJob = { ...result[0], techs: job.techs, equipment: job.equipment || {} };
+      jobs.push(newJob);
+      seenUpdates[newJob.id] = new Date().toISOString();
+      saveSeen();
     }
     renderCalendar();
     openDayModal(selectedDayStr);
@@ -370,12 +438,30 @@ async function toggleCheck(jobId, field) {
   if (!job) return;
   const newVal = !job[field];
   try {
-    const patch = {}; patch[field] = newVal;
+    const patch = { updated_at: new Date().toISOString() };
+    patch[field] = newVal;
     await dbFetch('/rest/v1/install_jobs?id=eq.' + jobId, 'PATCH', patch);
     job[field] = newVal;
+    job.updated_at = patch.updated_at;
+    // Don't mark as unread for the person who just toggled - they already know
+    seenUpdates[jobId] = new Date().toISOString();
+    saveSeen();
     renderCalendar();
     openDayModal(selectedDayStr);
   } catch(e) { alert('Update failed: ' + e.message); }
+}
+
+async function saveEquipment(jobId) {
+  const eq = buildEquipPayload();
+  try {
+    await dbFetch('/rest/v1/install_jobs?id=eq.' + jobId, 'PATCH', { equipment: JSON.stringify(eq), updated_at: new Date().toISOString() });
+    const job = jobs.find(j => j.id === jobId);
+    if (job) { job.equipment = eq; job.updated_at = new Date().toISOString(); }
+    seenUpdates[jobId] = new Date().toISOString();
+    saveSeen();
+    renderCalendar();
+    openDayModal(selectedDayStr);
+  } catch(e) { alert('Equipment save failed: ' + e.message); }
 }
 
 async function deleteJob(id) {
@@ -418,7 +504,8 @@ function renderCalendar() {
     cell.onclick = () => openDayModal(dateStr);
     let inner = '<div class="day-num">' + d + (isToday ? '<span class="today-dot"></span>' : '') + '</div>';
     dayJobs.slice(0, 2).forEach(j => {
-      const statusClass = getJobStatusClass(j);
+      const sc = getJobStatusClass(j);
+      const unread = hasUnread(j);
       let tags = '';
       if (j.cancelled) tags += '<span class="pill-tag">CANCELLED</span>';
       else if (j.completed) tags += '<span class="pill-tag">DONE</span>';
@@ -427,7 +514,8 @@ function renderCalendar() {
         if (j.parts_confirmed) tags += '<span class="pill-tag">PARTS</span>';
         if (j.warehouse_ready) tags += '<span class="pill-tag">WH</span>';
       }
-      inner += '<div class="job-pill ' + statusClass + '">'
+      inner += '<div class="job-pill ' + sc + '" style="position:relative">'
+        + '<div class="update-dot' + (unread ? ' visible' : '') + '"></div>'
         + '<span class="pill-jobnum">' + (j.job_number || 'No #') + '</span>'
         + '<span class="pill-location">' + (j.location_name || 'Unnamed') + '</span>'
         + '<span class="pill-techs">' + (j.techs && j.techs.length ? j.techs.join(', ') : 'No techs') + '</span>'
@@ -448,9 +536,35 @@ function renderCalendar() {
   }
 }
 
-function notesBlock(label, text) {
-  const safe = (text || '').trim();
-  return '<div class="notes-box"><label>' + label + '</label><span' + (safe ? '' : ' class="empty"') + '>' + (safe ? safe : 'No notes') + '</span></div>';
+function equipDisplay(eq) {
+  if (!eq || !Object.keys(eq).length) return '<span class="empty">No equipment selected</span>';
+  let html = '';
+  EQUIP_ITEMS.forEach(item => {
+    if (eq[item.key]) {
+      const cnt = item.hasCount && eq[item.key + '_count'] ? ' x' + eq[item.key + '_count'] : '';
+      const txt = item.hasText && eq[item.key + '_text'] ? ': ' + eq[item.key + '_text'] : '';
+      const displayLabel = item.hasText ? 'Other' + txt : item.label + cnt;
+      html += '<span style="display:inline-block;background:#1a1a2e;color:#fff;font-size:9px;padding:2px 6px;border-radius:3px;margin:1px 2px;">' + displayLabel + '</span>';
+    }
+  });
+  return html || '<span class="empty">No equipment selected</span>';
+}
+
+function equipForm(jobId, eq) {
+  eq = eq || {};
+  let html = '<div class="equip-form-grid">';
+  EQUIP_ITEMS.forEach(item => {
+    html += '<div class="equip-form-item">'
+      + '<input type="checkbox" id="eq_' + item.key + '"' + (eq[item.key] ? ' checked' : '') + '>'
+      + '<label for="eq_' + item.key + '" style="font-size:11px;cursor:pointer;">' + item.label + '</label>';
+    if (item.hasCount) html += '<input class="equip-form-count" type="number" id="eqc_' + item.key + '" min="0" max="99" value="' + (eq[item.key + '_count'] || 0) + '">';
+    if (item.hasText) html += '<input type="text" id="eqt_' + item.key + '" placeholder="describe..." value="' + (eq[item.key + '_text'] || '') + '" style="flex:1;padding:2px 5px;border:1px solid #ccc;border-radius:3px;font-size:11px;font-family:inherit;">';
+    html += '</div>';
+  });
+  html += '</div>';
+  html += '<div style="display:flex;justify-content:flex-end;margin-top:6px;">'
+    + '<button class="btn btn-green" style="font-size:11px;padding:5px 12px;" onclick="saveEquipment(\'' + jobId + '\')">Save Equipment</button></div>';
+  return html;
 }
 
 function openDayModal(dateStr) {
@@ -460,15 +574,12 @@ function openDayModal(dateStr) {
   const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
   const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
   document.getElementById('modalDateLabel').textContent = dayNames[d.getDay()] + ', ' + monthNames[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
-
   const body = document.getElementById('modalBody');
-  let html = '<div class="day-modal-head">'
-    + '<h3>' + dayJobs.length + ' job(s) scheduled</h3>'
-    + (isAdmin ? '<button class="add-job-btn visible" onclick="openJobForm(null)">+ Add Job</button>' : '')
-    + '</div>';
+  let html = '<div class="day-modal-head"><h3>' + dayJobs.length + ' job(s) scheduled</h3>'
+    + (isAdmin ? '<button class="add-job-btn visible" onclick="openJobForm(null)">+ Add Job</button>' : '') + '</div>';
 
-  if (dayJobs.length === 0) {
-    html += '<div class="empty-day">' + (isAdmin ? 'No jobs scheduled. Click "+ Add Job" to add one.' : 'No jobs scheduled for this day.') + '</div>';
+  if (!dayJobs.length) {
+    html += '<div class="empty-day">' + (isAdmin ? 'No jobs. Click "+ Add Job" to add one.' : 'No jobs scheduled.') + '</div>';
   } else {
     dayJobs.forEach(j => {
       const techStr = j.techs && j.techs.length ? j.techs.join(', ') : 'None assigned';
@@ -477,50 +588,52 @@ function openDayModal(dateStr) {
       const wr = j.warehouse_ready || false;
       const comp = j.completed || false;
       const canc = j.cancelled || false;
-      const statusClass = getJobStatusClass(j);
+      const sc = getJobStatusClass(j);
+      const unread = hasUnread(j);
+      const eq = j.equipment || {};
 
-      html += '<div class="job-card ' + statusClass + '">'
+      html += '<div class="job-card ' + sc + '">'
+        // Update dot - click to clear
+        + '<div class="card-update-dot' + (unread ? ' visible' : '') + '" title="Click to mark as read" onclick="event.stopPropagation();markRead(\'' + j.id + '\')">&#10003;</div>'
+        // Header
         + '<div class="job-card-header">'
+        + '<div class="job-card-header-left">'
         + '<span class="job-num-badge">JOB #' + (j.job_number || '--') + '</span>'
+        + (canc ? '<span style="font-size:10px;color:#888;font-weight:700;">CANCELLED</span>' : '')
+        + (comp ? '<span style="font-size:10px;color:#e63946;font-weight:700;">COMPLETED</span>' : '')
+        + '</div>'
         + (isAdmin ? '<div class="job-card-actions"><button class="btn-sm btn-edit" onclick="openJobForm(\'' + j.id + '\')">Edit</button><button class="btn-sm btn-delete" onclick="deleteJob(\'' + j.id + '\')">Delete</button></div>' : '')
         + '</div>'
-        + '<div class="job-fields">'
-        + '<div class="job-field"><label>Location</label><span>' + (j.location_name || '--') + '</span></div>'
-        + '<div class="job-field"><label>Techs Assigned</label><span>' + (j.techs ? j.techs.length : 0) + ' tech(s)</span></div>'
-        + '<div class="job-field full"><label>Address</label><span>' + (j.address || '--') + '</span></div>'
-        + '<div class="job-field full"><label>Technicians</label><span>' + techStr + '</span></div>'
+        // Info
+        + '<div class="info-row">'
+        + '<div class="info-item"><label>Location</label><span>' + (j.location_name || '--') + '</span></div>'
+        + '<div class="info-item"><label>Techs</label><span>' + (j.techs ? j.techs.length : 0) + ' - ' + techStr + '</span></div>'
+        + '<div class="info-item full"><label>Address</label><span>' + (j.address || '--') + '</span></div>'
         + '</div>'
-        + '<div class="notes-grid">'
-        + notesBlock('Dispatch Notes', j.notes_dispatch)
-        + notesBlock('Parts Notes', j.notes_parts)
-        + notesBlock('Warehouse Notes', j.notes_warehouse)
+        // Notes
+        + '<div class="notes-row">'
+        + '<div class="notes-box"><label>Dispatch</label><span' + (j.notes_dispatch ? '' : ' class="empty"') + '>' + (j.notes_dispatch || 'No notes') + '</span></div>'
+        + '<div class="notes-box"><label>Parts</label><span' + (j.notes_parts ? '' : ' class="empty"') + '>' + (j.notes_parts || 'No notes') + '</span></div>'
+        + '<div class="notes-box"><label>Warehouse</label><span' + (j.notes_warehouse ? '' : ' class="empty"') + '>' + (j.notes_warehouse || 'No notes') + '</span></div>'
         + '</div>'
+        // Equipment
+        + '<div class="equip-section">'
+        + '<div class="equip-title">Equipment Needed</div>'
+        + '<div>' + equipDisplay(eq) + '</div>'
+        + (isAdmin ? '<div style="margin-top:8px;border-top:1px solid rgba(0,0,0,0.08);padding-top:8px;">' + equipForm(j.id, eq) + '</div>' : '')
+        + '</div>'
+        // 3 public checkboxes
         + '<div class="status-strip">'
-        + '<div class="status-box' + (dc ? ' checked' : '') + '" onclick="event.stopPropagation();toggleCheck(\'' + j.id + '\', \'dispatcher_confirmed\')">'
-        + '<div class="status-check">' + (dc ? '&#10003;' : '') + '</div>'
-        + '<div class="status-label">Job Confirmed<span>' + (dc ? 'Confirmed' : 'Tap to confirm') + '</span></div>'
+        + checkBox(j.id, 'dispatcher_confirmed', dc, 'Job Confirmed', dc ? 'Confirmed' : 'Tap to confirm', false, false)
+        + checkBox(j.id, 'parts_confirmed', pc, 'Parts Confirmed', pc ? 'Confirmed' : 'Tap to confirm', false, false)
+        + checkBox(j.id, 'warehouse_ready', wr, 'Equipment Confirmed', wr ? 'Confirmed' : 'Tap to confirm', false, false)
         + '</div>'
-        + '<div class="status-box' + (pc ? ' checked' : '') + '" onclick="event.stopPropagation();toggleCheck(\'' + j.id + '\', \'parts_confirmed\')">'
-        + '<div class="status-check">' + (pc ? '&#10003;' : '') + '</div>'
-        + '<div class="status-label">Parts Confirmed<span>' + (pc ? 'Confirmed' : 'Tap to confirm') + '</span></div>'
-        + '</div>'
-        + '<div class="status-box' + (wr ? ' checked' : '') + '" onclick="event.stopPropagation();toggleCheck(\'' + j.id + '\', \'warehouse_ready\')">'
-        + '<div class="status-check">' + (wr ? '&#10003;' : '') + '</div>'
-        + '<div class="status-label">Equipment Confirmed<span>' + (wr ? 'Confirmed' : 'Tap to confirm') + '</span></div>'
-        + '</div>'
-        + '</div>'
+        // Admin checkboxes
         + (isAdmin
-          ? '<div class="status-strip admin-strip">'
-            + '<div class="admin-strip-label">Admin Only</div>'
-            + '<div class="status-box admin-box complete' + (comp ? ' checked' : '') + '" onclick="event.stopPropagation();toggleCheck(\'' + j.id + '\', \'completed\')">'
-            + '<div class="status-check">' + (comp ? '&#10003;' : '') + '</div>'
-            + '<div class="status-label">Mark Complete<span>' + (comp ? 'Completed' : 'Tap when finished') + '</span></div>'
-            + '</div>'
-            + '<div class="status-box admin-box cancel' + (canc ? ' checked' : '') + '" onclick="event.stopPropagation();toggleCheck(\'' + j.id + '\', \'cancelled\')">'
-            + '<div class="status-check">' + (canc ? '&#10003;' : '') + '</div>'
-            + '<div class="status-label">Cancelled<span>' + (canc ? 'Cancelled' : 'Tap if cancelled') + '</span></div>'
-            + '</div>'
-            + '</div>'
+          ? '<div class="admin-strip"><div class="admin-strip-label">Admin Only</div><div class="status-strip">'
+            + checkBox(j.id, 'completed', comp, 'Mark Complete', comp ? 'Completed' : 'Tap when done', true, 'complete')
+            + checkBox(j.id, 'cancelled', canc, 'Cancelled', canc ? 'Cancelled' : 'Tap if cancelled', true, 'cancel')
+            + '</div></div>'
           : '')
         + '</div>';
     });
@@ -529,55 +642,71 @@ function openDayModal(dateStr) {
   document.getElementById('dayModal').classList.add('open');
 }
 
+function checkBox(jobId, field, checked, label, sub, isAdmin, extraClass) {
+  const cls = 'status-box' + (isAdmin ? ' admin-box' : '') + (extraClass ? ' ' + extraClass : '') + (checked ? ' checked' : '');
+  return '<div class="' + cls + '" onclick="event.stopPropagation();toggleCheck(\'' + jobId + '\',\'' + field + '\')">'
+    + '<div class="status-check">' + (checked ? '&#10003;' : '') + '</div>'
+    + '<div class="status-label">' + label + '<span>' + sub + '</span></div>'
+    + '</div>';
+}
+
 function closeModal() { document.getElementById('dayModal').classList.remove('open'); editingJobId = null; }
 
 function openJobForm(jobId) {
   editingJobId = jobId;
   const job = jobId ? jobs.find(j => j.id == jobId) : null;
-  const selectedTechs = job ? (job.techs || []) : [];
+  const sel = job ? (job.techs || []) : [];
   const techChips = TECHNICIANS.map(t =>
-    '<button class="tech-chip' + (selectedTechs.includes(t) ? ' selected' : '') + '" onclick="toggleTech(this)">' + t + '</button>'
+    '<button class="tech-chip' + (sel.includes(t) ? ' selected' : '') + '" onclick="toggleTech(this)">' + t + '</button>'
   ).join('');
+  const eq = job ? (job.equipment || {}) : {};
+  let equipHtml = '<div class="equip-form-grid">';
+  EQUIP_ITEMS.forEach(item => {
+    equipHtml += '<div class="equip-form-item">'
+      + '<input type="checkbox" id="eq_' + item.key + '"' + (eq[item.key] ? ' checked' : '') + '>'
+      + '<label for="eq_' + item.key + '" style="font-size:11px;cursor:pointer;">' + item.label + '</label>';
+    if (item.hasCount) equipHtml += '<input class="equip-form-count" type="number" id="eqc_' + item.key + '" min="0" max="99" value="' + (eq[item.key + '_count'] || 0) + '">';
+    if (item.hasText) equipHtml += '<input type="text" id="eqt_' + item.key + '" placeholder="describe..." value="' + (eq[item.key + '_text'] || '') + '" style="flex:1;padding:2px 5px;border:1px solid #ccc;border-radius:3px;font-size:11px;font-family:inherit;">';
+    equipHtml += '</div>';
+  });
+  equipHtml += '</div>';
+
   const body = document.getElementById('modalBody');
-  body.innerHTML = '<div style="margin-bottom:10px"><button class="btn btn-white btn-sm" onclick="openDayModal(selectedDayStr)">&#8592; Back to Day</button></div>'
-    + '<div class="form-group"><label>Job Number</label><input type="text" id="fJobNum" placeholder="e.g. 00045231" value="' + (job ? job.job_number || '' : '') + '"></div>'
-    + '<div class="form-group"><label>Location Name</label><input type="text" id="fLocName" placeholder="e.g. McDonalds - Springfield" value="' + (job ? job.location_name || '' : '') + '"></div>'
-    + '<div class="form-group"><label>Address</label><input type="text" id="fAddress" placeholder="e.g. 123 Main St, Springfield, MA" value="' + (job ? job.address || '' : '') + '"></div>'
-    + '<div class="form-group"><label>Technicians (<span id="techCountLabel">' + selectedTechs.length + '</span> selected)</label>'
+  body.innerHTML = '<div style="margin-bottom:10px"><button class="btn btn-white btn-sm" onclick="openDayModal(selectedDayStr)">&#8592; Back</button></div>'
+    + '<div class="form-row2" style="margin-bottom:12px;">'
+    + '<div class="form-group" style="margin:0"><label>Job Number</label><input type="text" id="fJobNum" value="' + (job ? job.job_number || '' : '') + '" placeholder="e.g. 00045231"></div>'
+    + '<div class="form-group" style="margin:0"><label>Location Name</label><input type="text" id="fLocName" value="' + (job ? job.location_name || '' : '') + '" placeholder="e.g. McDonalds - Springfield"></div>'
+    + '</div>'
+    + '<div class="form-group"><label>Address</label><input type="text" id="fAddress" value="' + (job ? job.address || '' : '') + '" placeholder="e.g. 123 Main St, Springfield, MA"></div>'
+    + '<div class="form-group"><label>Technicians (<span id="techCountLabel">' + sel.length + '</span> selected)</label>'
     + '<div class="tech-list" id="techList">' + techChips + '</div></div>'
+    + '<div class="form-group"><label>Equipment Needed</label>' + equipHtml + '</div>'
     + '<div class="form-group"><label>Notes</label>'
-    + '<div class="form-notes-grid">'
-    + '<div><label style="font-size:10px;">Dispatch</label><textarea id="fNotesDispatch" rows="3" placeholder="Dispatch notes...">' + (job ? (job.notes_dispatch || '') : '') + '</textarea></div>'
-    + '<div><label style="font-size:10px;">Parts</label><textarea id="fNotesParts" rows="3" placeholder="Parts notes...">' + (job ? (job.notes_parts || '') : '') + '</textarea></div>'
-    + '<div><label style="font-size:10px;">Warehouse</label><textarea id="fNotesWarehouse" rows="3" placeholder="Warehouse notes...">' + (job ? (job.notes_warehouse || '') : '') + '</textarea></div>'
+    + '<div class="form-row3">'
+    + '<div><label>Dispatch</label><textarea id="fNotesDispatch" rows="2">' + (job ? job.notes_dispatch || '' : '') + '</textarea></div>'
+    + '<div><label>Parts</label><textarea id="fNotesParts" rows="2">' + (job ? job.notes_parts || '' : '') + '</textarea></div>'
+    + '<div><label>Warehouse</label><textarea id="fNotesWarehouse" rows="2">' + (job ? job.notes_warehouse || '' : '') + '</textarea></div>'
     + '</div></div>'
     + '<div class="form-actions"><button class="btn btn-white" onclick="openDayModal(selectedDayStr)">Cancel</button><button class="btn btn-green" onclick="submitJobForm()">Save Job</button></div>';
 }
 
-function toggleTech(btn) {
-  btn.classList.toggle('selected');
-  document.getElementById('techCountLabel').textContent = document.querySelectorAll('#techList .tech-chip.selected').length;
-}
+function toggleTech(btn) { btn.classList.toggle('selected'); document.getElementById('techCountLabel').textContent = document.querySelectorAll('#techList .tech-chip.selected').length; }
 
 function submitJobForm() {
-  const jobNum = document.getElementById('fJobNum').value.trim();
   const locName = document.getElementById('fLocName').value.trim();
-  const address = document.getElementById('fAddress').value.trim();
-  const notesDispatch = document.getElementById('fNotesDispatch').value.trim();
-  const notesParts = document.getElementById('fNotesParts').value.trim();
-  const notesWarehouse = document.getElementById('fNotesWarehouse').value.trim();
-  const techs = [...document.querySelectorAll('#techList .tech-chip.selected')].map(b => b.textContent);
   if (!locName) { alert('Location name is required.'); return; }
   const existing = editingJobId ? jobs.find(j => j.id == editingJobId) : null;
   saveJob({
     id: editingJobId || null,
     job_date: selectedDayStr,
-    job_number: jobNum,
+    job_number: document.getElementById('fJobNum').value.trim(),
     location_name: locName,
-    address, techs,
-    notes_dispatch: notesDispatch,
-    notes_parts: notesParts,
-    notes_warehouse: notesWarehouse,
+    address: document.getElementById('fAddress').value.trim(),
+    techs: [...document.querySelectorAll('#techList .tech-chip.selected')].map(b => b.textContent),
+    equipment: buildEquipPayload(),
+    notes_dispatch: document.getElementById('fNotesDispatch').value.trim(),
+    notes_parts: document.getElementById('fNotesParts').value.trim(),
+    notes_warehouse: document.getElementById('fNotesWarehouse').value.trim(),
     dispatcher_confirmed: existing ? existing.dispatcher_confirmed : false,
     parts_confirmed: existing ? existing.parts_confirmed : false,
     warehouse_ready: existing ? existing.warehouse_ready : false,
@@ -591,24 +720,15 @@ function openManageTechs() { renderTechRoster(); document.getElementById('manage
 function closeManageTechs() { document.getElementById('manageTechsModal').classList.remove('open'); }
 function renderTechRoster() {
   const list = document.getElementById('techRosterList');
-  if (!TECHNICIANS.length) { list.innerHTML = '<div style="padding:16px;text-align:center;color:#aaa;font-size:13px;">No technicians. Add one below.</div>'; return; }
-  list.innerHTML = TECHNICIANS.map((t, i) =>
-    '<div class="tech-row"><span style="font-weight:600">' + t + '</span><button class="btn-remove-tech" onclick="removeTech(' + i + ')">Remove</button></div>'
-  ).join('');
+  if (!TECHNICIANS.length) { list.innerHTML = '<div style="padding:14px;text-align:center;color:#aaa;font-size:12px;">No technicians. Add one below.</div>'; return; }
+  list.innerHTML = TECHNICIANS.map((t, i) => '<div class="tech-row"><span>' + t + '</span><button class="btn-remove-tech" onclick="removeTech(' + i + ')">Remove</button></div>').join('');
 }
-function removeTech(idx) {
-  if (!confirm('Remove ' + TECHNICIANS[idx] + '?')) return;
-  saveTechs(TECHNICIANS.filter((_, i) => i !== idx));
-  renderTechRoster();
-}
+function removeTech(idx) { if (!confirm('Remove ' + TECHNICIANS[idx] + '?')) return; saveTechs(TECHNICIANS.filter((_, i) => i !== idx)); renderTechRoster(); }
 function addTech() {
   const input = document.getElementById('newTechInput');
   const name = input.value.trim();
-  if (!name) return;
-  if (TECHNICIANS.includes(name)) { alert(name + ' is already on the list.'); return; }
-  saveTechs([...TECHNICIANS, name]);
-  input.value = '';
-  renderTechRoster();
+  if (!name || TECHNICIANS.includes(name)) return;
+  saveTechs([...TECHNICIANS, name]); input.value = ''; renderTechRoster();
 }
 
 // AUTH
@@ -634,19 +754,10 @@ function logout() {
   if (document.getElementById('dayModal').classList.contains('open')) openDayModal(selectedDayStr);
 }
 
-function changeMonth(dir) {
-  currentMonth += dir;
-  if (currentMonth > 11) { currentMonth = 0; currentYear++; }
-  if (currentMonth < 0) { currentMonth = 11; currentYear--; }
-  renderCalendar();
-}
+function changeMonth(dir) { currentMonth += dir; if (currentMonth > 11) { currentMonth = 0; currentYear++; } if (currentMonth < 0) { currentMonth = 11; currentYear--; } renderCalendar(); }
 function goToday() { const t = new Date(); currentYear = t.getFullYear(); currentMonth = t.getMonth(); renderCalendar(); }
 function pad(n) { return String(n).padStart(2, '0'); }
-function setStatus(msg, ok) {
-  const bar = document.getElementById('statusBar');
-  document.getElementById('statusMsg').textContent = msg;
-  if (ok) { bar.classList.add('hidden'); } else { bar.style.background = '#ffeaea'; bar.style.borderColor = '#f5c6cb'; bar.style.color = '#b00020'; }
-}
+function setStatus(msg, ok) { const bar = document.getElementById('statusBar'); document.getElementById('statusMsg').textContent = msg; if (ok) bar.classList.add('hidden'); else { bar.style.background = '#ffeaea'; bar.style.borderColor = '#f5c6cb'; bar.style.color = '#b00020'; } }
 function showLoading(show) { document.getElementById('loadingOverlay').classList.toggle('show', show); }
 
 document.getElementById('dayModal').addEventListener('click', function(e) { if (e.target === this) closeModal(); });

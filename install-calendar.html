@@ -345,7 +345,7 @@
 <div class="modal-overlay" id="manageTechsModal">
   <div class="manage-modal">
     <div class="modal-header">
-      <div><div class="modal-date">Admin Only</div><h2>Manage Technicians</h2></div>
+      <div><div class="modal-date">Admin Only - shared with everyone</div><h2>Manage Technicians</h2></div>
       <button class="modal-close" onclick="closeManageTechs()">&#x2715;</button>
     </div>
     <div id="techRosterList" style="max-height:300px;overflow-y:auto;"></div>
@@ -440,9 +440,9 @@ const EQUIP_ITEMS = [
 ];
 
 const DEFAULT_TECHNICIANS = [
-  'Erik','Humam','Phil','Mark','Devin',
-  'Robert Pexton','Bobby Danker','Jose','Andres',
-  'Cyrus','Omar','Jason','Nicholas'
+  'Humam','Phil','Mark','Devin','Robert Pexton','Bobby Danker',
+  'Jose','Andres','Cyrus','Nicholas','John','Antoine','Eliza',
+  'Qais','Dana','William'
 ];
 
 let TECHNICIANS = loadTechs();
@@ -469,11 +469,15 @@ function markRead(jobId) {
   if (selectedDayStr) openDayModal(selectedDayStr);
 }
 
-function loadTechs() {
-  try { const s = localStorage.getItem('ff_install_techs'); return s ? JSON.parse(s) : [...DEFAULT_TECHNICIANS]; }
-  catch(e) { return [...DEFAULT_TECHNICIANS]; }
+// Roster is shared for everyone via the install_techs table (falls back to the default list)
+function loadTechs() { return [...DEFAULT_TECHNICIANS]; }
+function saveTechs(list) { TECHNICIANS = list; }
+async function loadRoster() {
+  try {
+    const rows = await dbFetch('/rest/v1/install_techs?select=name,position&order=position.asc,name.asc');
+    if (rows && rows.length) TECHNICIANS = rows.map(r => r.name);
+  } catch (e) { console.warn('Roster not loaded:', e.message); }
 }
-function saveTechs(list) { TECHNICIANS = list; localStorage.setItem('ff_install_techs', JSON.stringify(list)); }
 
 async function dbFetch(path, method='GET', body=null) {
   const opts = {
@@ -1056,12 +1060,22 @@ function renderTechRoster() {
   if (!TECHNICIANS.length) { list.innerHTML = '<div style="padding:14px;text-align:center;color:#aaa;font-size:12px;">No technicians. Add one below.</div>'; return; }
   list.innerHTML = TECHNICIANS.map((t, i) => '<div class="tech-row"><span>' + t + '</span><button class="btn-remove-tech" onclick="removeTech(' + i + ')">Remove</button></div>').join('');
 }
-function removeTech(idx) { if (!confirm('Remove ' + TECHNICIANS[idx] + '?')) return; saveTechs(TECHNICIANS.filter((_, i) => i !== idx)); renderTechRoster(); }
-function addTech() {
+async function removeTech(idx) {
+  const name = TECHNICIANS[idx];
+  if (!confirm('Remove ' + name + '?')) return;
+  try {
+    await dbFetch('/rest/v1/install_techs?name=eq.' + encodeURIComponent(name), 'DELETE');
+    saveTechs(TECHNICIANS.filter((_, i) => i !== idx)); renderTechRoster();
+  } catch (e) { alert('Could not remove: ' + e.message); }
+}
+async function addTech() {
   const input = document.getElementById('newTechInput');
   const name = input.value.trim();
   if (!name || TECHNICIANS.includes(name)) return;
-  saveTechs([...TECHNICIANS, name]); input.value = ''; renderTechRoster();
+  try {
+    await dbFetch('/rest/v1/install_techs', 'POST', { name, position: TECHNICIANS.length + 1 });
+    saveTechs([...TECHNICIANS, name]); input.value = ''; renderTechRoster();
+  } catch (e) { alert('Could not add: ' + e.message); }
 }
 
 // AUTH
@@ -1102,6 +1116,7 @@ const now = new Date();
 currentYear = now.getFullYear();
 currentMonth = now.getMonth();
 renderCalendar();
+loadRoster();
 loadJobs();
 loadTimeOff();
 </script>

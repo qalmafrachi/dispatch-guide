@@ -193,6 +193,87 @@
   .loading-overlay.show { display: flex; }
   .spinner { width: 22px; height: 22px; border: 3px solid #e63946; border-top-color: transparent; border-radius: 50%; animation: spin 0.7s linear infinite; margin-right: 8px; }
   @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ===== TIME OFF ===== */
+  .nav-right { display: flex; align-items: center; gap: 10px; }
+  .btn-off { background: #fff; color: #1a1a2e; border: 1px solid #d5d8de; border-radius: 14px; padding: 4px 11px; font-size: 11px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; }
+  .btn-off:hover { border-color: #1a1a2e; }
+  .btn-off .plus { font-weight: 800; color: #e63946; }
+  .off-today { font-size: 10px; color: #666; display: flex; align-items: center; gap: 4px; }
+  .off-today b { color: #1a1a2e; font-weight: 700; }
+
+  .off-row { display: flex; gap: 0; margin-left: auto; }
+  .off-av { width: 17px; height: 17px; border-radius: 50%; background: #eef0f4; color: #4a4f5c; font-size: 7.5px; font-weight: 800; display: flex; align-items: center; justify-content: center; border: 1.5px solid #8a93a6; margin-left: -4px; letter-spacing: -0.2px; }
+  .off-av:first-child { margin-left: 0; }
+  .off-av.t-sick { border-color: #f4a623; background: #fff6e3; }
+  .off-av.t-other { border-color: #b8bcc6; background: #f6f6f6; }
+  .off-av.more { background: #1a1a2e; color: #fff; border-color: #1a1a2e; }
+
+  .day-off-bar { display: flex; align-items: center; flex-wrap: wrap; gap: 5px; background: #f6f7f9; border: 1px solid #e6e8ec; border-radius: 6px; padding: 6px 8px; margin-bottom: 12px; }
+  .day-off-label { font-size: 9px; font-weight: 800; letter-spacing: 0.6px; color: #888; margin-right: 2px; }
+  .off-pill { display: inline-flex; align-items: center; gap: 5px; background: #fff; border: 1px solid #dde0e6; border-radius: 12px; padding: 2px 4px 2px 8px; font-size: 11px; font-weight: 600; color: #1a1a2e; }
+  .off-pill .type-dot { width: 6px; height: 6px; border-radius: 50%; background: #8a93a6; }
+  .off-pill .type-dot.t-sick { background: #f4a623; }
+  .off-pill .type-dot.t-other { background: #b8bcc6; }
+  .off-pill .off-note { font-weight: 400; color: #888; font-size: 10px; }
+  .off-pill .off-x { border: none; background: none; color: #aaa; font-size: 12px; cursor: pointer; line-height: 1; padding: 0 3px; }
+  .off-pill .off-x:hover { color: #e63946; }
+  .day-off-add { border: none; background: none; color: #e63946; font-size: 11px; font-weight: 700; cursor: pointer; margin-left: auto; }
+  .tech-off-warn { font-size: 10px; color: #b00020; background: #fff0f0; border: 1px solid #f5c6cb; border-radius: 4px; padding: 3px 7px; margin-bottom: 8px; }
+
+  .tech-chip.is-off { background: #fff; color: #888; border: 1px dashed #b8bcc6; }
+  .tech-chip.is-off.selected { background: #e63946; color: #fff; border-style: solid; border-color: #e63946; }
+  .tech-chip .chip-off { font-size: 8px; font-weight: 800; margin-left: 4px; opacity: 0.8; }
+
+  .to-modal { background: #fff; border-radius: 10px; width: 95%; max-width: 400px; max-height: 92vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+  .to-body { padding: 14px 16px 16px; }
+  .to-label { font-size: 9px; font-weight: 800; letter-spacing: 0.6px; color: #888; text-transform: uppercase; margin: 0 0 6px; display: flex; justify-content: space-between; }
+  .to-section { margin-bottom: 14px; }
+  .to-techs { display: flex; flex-wrap: wrap; gap: 5px; }
+  .to-tech { background: #f1f2f5; color: #1a1a2e; border: 1px solid transparent; border-radius: 14px; padding: 4px 10px; font-size: 11px; font-weight: 600; cursor: pointer; }
+  .to-tech:hover { border-color: #c9ccd3; }
+  .to-tech.selected { background: #1a1a2e; color: #fff; }
+
+  .to-quick { display: flex; gap: 5px; margin-bottom: 8px; }
+  .to-quick button { flex: 1; background: #fff; border: 1px solid #dde0e6; border-radius: 5px; padding: 4px 0; font-size: 10px; font-weight: 600; color: #444; cursor: pointer; }
+  .to-quick button:hover { border-color: #1a1a2e; color: #1a1a2e; }
+  .mini-cal { border: 1px solid #e6e8ec; border-radius: 8px; padding: 8px; }
+  .mini-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-size: 12px; font-weight: 700; }
+  .mini-head button { background: none; border: none; font-size: 14px; cursor: pointer; color: #555; padding: 0 6px; }
+  .mini-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+  .mini-dow { text-align: center; font-size: 8px; font-weight: 700; color: #aaa; padding: 2px 0; }
+  .mini-day { position: relative; text-align: center; font-size: 11px; padding: 6px 0; border-radius: 5px; cursor: pointer; color: #1a1a2e; user-select: none; }
+  .mini-day:hover { background: #f1f2f5; }
+  .mini-day.blank { cursor: default; }
+  .mini-day.blank:hover { background: none; }
+  .mini-day.past { color: #bbb; }
+  .mini-day.today { font-weight: 800; color: #e63946; }
+  .mini-day.in-range { background: #ffe3e5; border-radius: 0; }
+  .mini-day.r-start, .mini-day.r-end { background: #e63946; color: #fff; font-weight: 700; }
+  .mini-day.r-start { border-radius: 5px 0 0 5px; }
+  .mini-day.r-end { border-radius: 0 5px 5px 0; }
+  .mini-day.r-start.r-end { border-radius: 5px; }
+  .mini-day .had-off { position: absolute; bottom: 2px; left: 50%; transform: translateX(-50%); width: 4px; height: 4px; border-radius: 50%; background: #8a93a6; }
+  .mini-day.r-start .had-off, .mini-day.r-end .had-off { background: #fff; }
+  .to-range-sum { font-size: 11px; color: #555; margin-top: 7px; min-height: 15px; }
+  .to-range-sum b { color: #1a1a2e; }
+
+  .to-type { display: flex; background: #f1f2f5; border-radius: 6px; padding: 2px; gap: 2px; }
+  .to-type button { flex: 1; border: none; background: none; border-radius: 5px; padding: 5px 0; font-size: 11px; font-weight: 600; color: #666; cursor: pointer; }
+  .to-type button.active { background: #fff; color: #1a1a2e; box-shadow: 0 1px 2px rgba(0,0,0,0.12); }
+  .to-note { width: 100%; margin-top: 6px; padding: 6px 9px; border: 1px solid #dde0e6; border-radius: 5px; font-size: 11px; font-family: inherit; }
+  .to-note:focus, .to-note:focus-visible { outline: none; border-color: #e63946; }
+  .to-save { width: 100%; background: #e63946; color: #fff; border: none; border-radius: 6px; padding: 9px; font-size: 12px; font-weight: 700; cursor: pointer; }
+  .to-save:disabled { background: #e7c4c7; cursor: not-allowed; }
+
+  .to-upcoming { border-top: 1px solid #eee; margin-top: 14px; padding-top: 10px; }
+  .to-up-row { display: flex; align-items: center; gap: 8px; padding: 5px 0; font-size: 11px; border-bottom: 1px solid #f4f4f4; }
+  .to-up-row:last-child { border-bottom: none; }
+  .to-up-row .nm { font-weight: 700; color: #1a1a2e; min-width: 92px; }
+  .to-up-row .dt { color: #555; flex: 1; }
+  .to-up-row .off-x { border: none; background: none; color: #bbb; cursor: pointer; font-size: 13px; }
+  .to-up-row .off-x:hover { color: #e63946; }
+  .to-empty { font-size: 11px; color: #aaa; padding: 4px 0; }
 </style>
 </head>
 <body>
@@ -217,7 +298,11 @@
     <button class="btn btn-white" onclick="changeMonth(1)">Next &#8594;</button>
   </div>
   <div class="nav-month" id="navMonth">--</div>
-  <div style="font-size:11px;color:#888;" id="jobCountLabel">Loading...</div>
+  <div class="nav-right">
+    <div class="off-today" id="offTodayLabel"></div>
+    <div style="font-size:11px;color:#888;" id="jobCountLabel">Loading...</div>
+    <button class="btn-off" onclick="openTimeOff()"><span class="plus">+</span> Time Off</button>
+  </div>
 </div>
 
 <div class="status-bar" id="statusBar">
@@ -231,6 +316,8 @@
   <div class="legend-item"><span class="legend-swatch" style="background:#e63946"></span> Completed</div>
   <div class="legend-item"><span class="legend-swatch" style="background:#999"></span> Cancelled</div>
   <div class="legend-item"><span style="width:9px;height:9px;background:#e63946;border-radius:50%;display:inline-block;"></span> Unread update</div>
+  <div class="legend-item"><span class="off-av" style="width:13px;height:13px;font-size:6px;">AB</span> Tech off (PTO)</div>
+  <div class="legend-item"><span class="off-av t-sick" style="width:13px;height:13px;font-size:6px;">AB</span> Tech off (Sick)</div>
 </div>
 
 <div class="calendar-wrap">
@@ -281,6 +368,54 @@
     <button class="btn btn-red" style="width:100%;margin-top:4px" onclick="doLogin()">Sign In</button>
     <div class="login-error" id="loginError">Incorrect password.</div>
     <button class="btn btn-white" style="width:100%;margin-top:8px;font-size:11px;" onclick="closeLoginModal()">Cancel</button>
+  </div>
+</div>
+
+<!-- TIME OFF MODAL -->
+<div class="modal-overlay" id="timeOffModal">
+  <div class="to-modal">
+    <div class="modal-header">
+      <div><div class="modal-date">Technician availability</div><h2>Mark Time Off</h2></div>
+      <button class="modal-close" onclick="closeTimeOff()">&#x2715;</button>
+    </div>
+    <div class="to-body">
+      <div class="to-section">
+        <div class="to-label"><span>Who</span><span id="toTechCount"></span></div>
+        <div class="to-techs" id="toTechs"></div>
+      </div>
+      <div class="to-section">
+        <div class="to-label"><span>When</span><span style="font-weight:600;letter-spacing:0;text-transform:none;color:#aaa;">tap a day, or tap two for a range</span></div>
+        <div class="to-quick">
+          <button onclick="quickRange('today')">Today</button>
+          <button onclick="quickRange('tomorrow')">Tomorrow</button>
+          <button onclick="quickRange('restweek')">Rest of week</button>
+          <button onclick="quickRange('nextweek')">Next week</button>
+        </div>
+        <div class="mini-cal">
+          <div class="mini-head">
+            <button onclick="miniNav(-1)">&#8249;</button>
+            <span id="miniTitle"></span>
+            <button onclick="miniNav(1)">&#8250;</button>
+          </div>
+          <div class="mini-grid" id="miniGrid"></div>
+        </div>
+        <div class="to-range-sum" id="toRangeSum"></div>
+      </div>
+      <div class="to-section">
+        <div class="to-label"><span>Type</span></div>
+        <div class="to-type" id="toType">
+          <button data-type="PTO" class="active" onclick="setOffType('PTO')">PTO</button>
+          <button data-type="Sick" onclick="setOffType('Sick')">Sick</button>
+          <button data-type="Other" onclick="setOffType('Other')">Other</button>
+        </div>
+        <input class="to-note" id="toNote" maxlength="60" placeholder="Note (optional)">
+      </div>
+      <button class="to-save" id="toSave" onclick="saveTimeOff()" disabled>Select a tech and a date</button>
+      <div class="to-upcoming">
+        <div class="to-label"><span>Upcoming time off</span></div>
+        <div id="toUpcoming"></div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -487,6 +622,10 @@ function renderCalendar() {
   document.getElementById('navMonth').textContent = monthNames[currentMonth] + ' ' + currentYear;
   const monthJobs = jobs.filter(j => { const d = new Date(j.job_date + 'T00:00:00'); return d.getFullYear() === currentYear && d.getMonth() === currentMonth; });
   document.getElementById('jobCountLabel').textContent = monthJobs.length + ' install job' + (monthJobs.length !== 1 ? 's' : '') + ' this month';
+  const offNow = offOn(toDateStr(today));
+  document.getElementById('offTodayLabel').innerHTML = offNow.length
+    ? 'Off today: <b>' + offNow.map(o => esc(o.tech)).join(', ') + '</b>'
+    : '';
 
   const prevLast = new Date(currentYear, currentMonth, 0).getDate();
   for (let i = startOffset - 1; i >= 0; i--) {
@@ -502,7 +641,7 @@ function renderCalendar() {
     const cell = document.createElement('div');
     cell.className = 'day-cell' + (isToday ? ' today' : '');
     cell.onclick = () => openDayModal(dateStr);
-    let inner = '<div class="day-num">' + d + (isToday ? '<span class="today-dot"></span>' : '') + '</div>';
+    let inner = '<div class="day-num">' + d + (isToday ? '<span class="today-dot"></span>' : '') + offAvatars(dateStr) + '</div>';
     dayJobs.slice(0, 2).forEach(j => {
       const sc = getJobStatusClass(j);
       const unread = hasUnread(j);
@@ -578,6 +717,18 @@ function openDayModal(dateStr) {
   let html = '<div class="day-modal-head"><h3>' + dayJobs.length + ' job(s) scheduled</h3>'
     + (isAdmin ? '<button class="add-job-btn visible" onclick="openJobForm(null)">+ Add Job</button>' : '') + '</div>';
 
+  const dayOff = offOn(dateStr);
+  const offNames = dayOff.map(o => o.tech);
+  html += '<div class="day-off-bar"><span class="day-off-label">OFF</span>'
+    + (dayOff.length
+        ? dayOff.map(o => '<span class="off-pill" title="' + esc(fmtRange(o.start_date, o.end_date)) + '">'
+            + '<span class="type-dot ' + typeClass(o.off_type) + '"></span>' + esc(o.tech)
+            + (o.note ? ' <span class="off-note">' + esc(o.note) + '</span>' : '')
+            + (o.start_date !== o.end_date ? ' <span class="off-note">' + esc(fmtRange(o.start_date, o.end_date)) + '</span>' : '')
+            + '<button class="off-x" title="Remove" onclick="removeTimeOff(\'' + o.id + '\')">&#x2715;</button></span>').join('')
+        : '<span style="font-size:11px;color:#aaa;">Everyone available</span>')
+    + '<button class="day-off-add" onclick="openTimeOff(\'' + dateStr + '\')">+ Time off</button></div>';
+
   if (!dayJobs.length) {
     html += '<div class="empty-day">' + (isAdmin ? 'No jobs. Click "+ Add Job" to add one.' : 'No jobs scheduled.') + '</div>';
   } else {
@@ -604,6 +755,10 @@ function openDayModal(dateStr) {
         + '</div>'
         + (isAdmin ? '<div class="job-card-actions"><button class="btn-sm btn-edit" onclick="openJobForm(\'' + j.id + '\')">Edit</button><button class="btn-sm btn-delete" onclick="deleteJob(\'' + j.id + '\')">Delete</button></div>' : '')
         + '</div>'
+        // Off-tech warning
+        + ((j.techs || []).filter(t => offNames.includes(t)).length && !canc
+            ? '<div class="tech-off-warn">Heads up: ' + esc((j.techs || []).filter(t => offNames.includes(t)).join(', ')) + ' marked off this day</div>'
+            : '')
         // Info
         + '<div class="info-row">'
         + '<div class="info-item"><label>Location</label><span>' + (j.location_name || '--') + '</span></div>'
@@ -656,9 +811,13 @@ function openJobForm(jobId) {
   editingJobId = jobId;
   const job = jobId ? jobs.find(j => j.id == jobId) : null;
   const sel = job ? (job.techs || []) : [];
-  const techChips = TECHNICIANS.map(t =>
-    '<button class="tech-chip' + (sel.includes(t) ? ' selected' : '') + '" onclick="toggleTech(this)">' + t + '</button>'
-  ).join('');
+  const offNames = offOn(selectedDayStr).map(o => o.tech);
+  const techChips = TECHNICIANS.map(t => {
+    const off = offNames.includes(t);
+    return '<button class="tech-chip' + (sel.includes(t) ? ' selected' : '') + (off ? ' is-off' : '') + '" data-name="' + esc(t) + '"'
+      + (off ? ' title="' + esc(t) + ' is marked off this day"' : '') + ' onclick="toggleTech(this)">' + esc(t)
+      + (off ? '<span class="chip-off">OFF</span>' : '') + '</button>';
+  }).join('');
   const eq = job ? (job.equipment || {}) : {};
   let equipHtml = '<div class="equip-form-grid">';
   EQUIP_ITEMS.forEach(item => {
@@ -702,7 +861,7 @@ function submitJobForm() {
     job_number: document.getElementById('fJobNum').value.trim(),
     location_name: locName,
     address: document.getElementById('fAddress').value.trim(),
-    techs: [...document.querySelectorAll('#techList .tech-chip.selected')].map(b => b.textContent),
+    techs: [...document.querySelectorAll('#techList .tech-chip.selected')].map(b => b.dataset.name),
     equipment: buildEquipPayload(),
     notes_dispatch: document.getElementById('fNotesDispatch').value.trim(),
     notes_parts: document.getElementById('fNotesParts').value.trim(),
@@ -713,6 +872,180 @@ function submitJobForm() {
     completed: existing ? existing.completed : false,
     cancelled: existing ? existing.cancelled : false
   });
+}
+
+// ===== TIME OFF =====
+let timeOff = [];
+const toState = { techs: [], start: null, end: null, type: 'PTO', miniY: 0, miniM: 0 };
+
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c])); }
+function toDateStr(d) { return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); }
+function parseDate(s) { return new Date(s + 'T00:00:00'); }
+function addDays(s, n) { const d = parseDate(s); d.setDate(d.getDate() + n); return toDateStr(d); }
+function typeClass(t) { return t === 'Sick' ? 't-sick' : (t === 'Other' ? 't-other' : ''); }
+function initials(name) {
+  const parts = String(name).trim().split(/\s+/);
+  return (parts.length > 1 ? parts[0][0] + parts[parts.length - 1][0] : parts[0].slice(0, 2)).toUpperCase();
+}
+function fmtShort(s) { const d = parseDate(s); return ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][d.getDay()] + ' ' + (d.getMonth() + 1) + '/' + d.getDate(); }
+function fmtRange(a, b) { return a === b ? fmtShort(a) : fmtShort(a) + ' - ' + fmtShort(b); }
+function dayCount(a, b) { return Math.round((parseDate(b) - parseDate(a)) / 86400000) + 1; }
+function dayViewOpen() { return document.getElementById('dayModal').classList.contains('open') && !document.getElementById('techList'); }
+function offOn(dateStr) { return timeOff.filter(o => o.start_date <= dateStr && o.end_date >= dateStr); }
+
+function offAvatars(dateStr) {
+  const list = offOn(dateStr);
+  if (!list.length) return '';
+  const shown = list.slice(0, 3);
+  const title = 'Off: ' + list.map(o => o.tech + (o.off_type && o.off_type !== 'PTO' ? ' (' + o.off_type + ')' : '')).join(', ');
+  return '<span class="off-row" title="' + esc(title) + '">'
+    + shown.map(o => '<span class="off-av ' + typeClass(o.off_type) + '">' + esc(initials(o.tech)) + '</span>').join('')
+    + (list.length > 3 ? '<span class="off-av more">+' + (list.length - 3) + '</span>' : '')
+    + '</span>';
+}
+
+async function loadTimeOff() {
+  try {
+    const since = addDays(toDateStr(new Date()), -120);
+    timeOff = await dbFetch('/rest/v1/tech_time_off?select=*&end_date=gte.' + since + '&order=start_date.asc');
+    renderCalendar();
+    if (dayViewOpen()) openDayModal(selectedDayStr);
+  } catch (e) {
+    console.warn('Time off not loaded:', e.message);
+  }
+}
+
+function openTimeOff(prefillDate) {
+  const base = prefillDate ? parseDate(prefillDate) : new Date();
+  toState.techs = [];
+  toState.start = prefillDate || null;
+  toState.end = prefillDate || null;
+  toState.type = 'PTO';
+  toState.miniY = base.getFullYear();
+  toState.miniM = base.getMonth();
+  document.getElementById('toNote').value = '';
+  setOffType('PTO');
+  renderToTechs();
+  renderMiniCal();
+  renderToUpcoming();
+  updateToSummary();
+  document.getElementById('timeOffModal').classList.add('open');
+}
+function closeTimeOff() { document.getElementById('timeOffModal').classList.remove('open'); }
+
+function renderToTechs() {
+  document.getElementById('toTechs').innerHTML = TECHNICIANS.map(t =>
+    '<button class="to-tech' + (toState.techs.includes(t) ? ' selected' : '') + '" data-name="' + esc(t) + '" onclick="toggleToTech(this)">' + esc(t) + '</button>'
+  ).join('');
+  document.getElementById('toTechCount').textContent = toState.techs.length ? toState.techs.length + ' selected' : '';
+}
+function toggleToTech(btn) {
+  const n = btn.dataset.name;
+  toState.techs = toState.techs.includes(n) ? toState.techs.filter(x => x !== n) : [...toState.techs, n];
+  renderToTechs(); renderMiniCal(); updateToSummary();
+}
+
+function miniNav(dir) {
+  toState.miniM += dir;
+  if (toState.miniM > 11) { toState.miniM = 0; toState.miniY++; }
+  if (toState.miniM < 0) { toState.miniM = 11; toState.miniY--; }
+  renderMiniCal();
+}
+function renderMiniCal() {
+  const y = toState.miniY, m = toState.miniM;
+  const names = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  document.getElementById('miniTitle').textContent = names[m] + ' ' + y;
+  const first = new Date(y, m, 1).getDay();
+  const days = new Date(y, m + 1, 0).getDate();
+  const todayStr = toDateStr(new Date());
+  let html = ['S','M','T','W','T','F','S'].map(d => '<div class="mini-dow">' + d + '</div>').join('');
+  for (let i = 0; i < first; i++) html += '<div class="mini-day blank"></div>';
+  for (let d = 1; d <= days; d++) {
+    const ds = y + '-' + pad(m + 1) + '-' + pad(d);
+    let cls = 'mini-day';
+    if (ds < todayStr) cls += ' past';
+    if (ds === todayStr) cls += ' today';
+    if (toState.start && toState.end && ds >= toState.start && ds <= toState.end) cls += ' in-range';
+    if (ds === toState.start) cls += ' r-start';
+    if (ds === toState.end) cls += ' r-end';
+    const already = toState.techs.length && offOn(ds).some(o => toState.techs.includes(o.tech));
+    html += '<div class="' + cls + '" onclick="pickMiniDay(\'' + ds + '\')">' + d + (already ? '<span class="had-off"></span>' : '') + '</div>';
+  }
+  document.getElementById('miniGrid').innerHTML = html;
+}
+function pickMiniDay(ds) {
+  // First tap = single day. Second tap later than start = extend to range. Otherwise restart.
+  if (toState.start && toState.start === toState.end && ds > toState.start) {
+    toState.end = ds;
+  } else {
+    toState.start = ds; toState.end = ds;
+  }
+  renderMiniCal(); updateToSummary();
+}
+function quickRange(kind) {
+  const t = new Date(); const ts = toDateStr(t); const dow = t.getDay();
+  if (kind === 'today') { toState.start = ts; toState.end = ts; }
+  if (kind === 'tomorrow') { const s = addDays(ts, 1); toState.start = s; toState.end = s; }
+  if (kind === 'restweek') { toState.start = ts; toState.end = addDays(ts, Math.max(0, 5 - dow)); }
+  if (kind === 'nextweek') { const mon = addDays(ts, ((8 - dow) % 7) || 7); toState.start = mon; toState.end = addDays(mon, 4); }
+  const sd = parseDate(toState.start);
+  toState.miniY = sd.getFullYear(); toState.miniM = sd.getMonth();
+  renderMiniCal(); updateToSummary();
+}
+function setOffType(t) {
+  toState.type = t;
+  document.querySelectorAll('#toType button').forEach(b => b.classList.toggle('active', b.dataset.type === t));
+}
+function updateToSummary() {
+  const sum = document.getElementById('toRangeSum');
+  const btn = document.getElementById('toSave');
+  if (toState.start) {
+    const n = dayCount(toState.start, toState.end);
+    sum.innerHTML = '<b>' + fmtRange(toState.start, toState.end) + '</b> &middot; ' + n + ' day' + (n > 1 ? 's' : '')
+      + (toState.start === toState.end ? ' <span style="color:#aaa">(tap a later day to extend)</span>' : '');
+  } else sum.innerHTML = '';
+  const ready = toState.techs.length && toState.start;
+  btn.disabled = !ready;
+  btn.textContent = !toState.techs.length ? 'Select a tech' : (!toState.start ? 'Select a date' :
+    'Mark ' + (toState.techs.length === 1 ? toState.techs[0] : toState.techs.length + ' techs') + ' off');
+}
+
+async function saveTimeOff() {
+  if (!toState.techs.length || !toState.start) return;
+  const note = document.getElementById('toNote').value.trim();
+  const rows = toState.techs.map(t => ({ tech: t, start_date: toState.start, end_date: toState.end, off_type: toState.type, note }));
+  showLoading(true);
+  try {
+    const result = await dbFetch('/rest/v1/tech_time_off', 'POST', rows);
+    timeOff = timeOff.concat(result).sort((a, b) => a.start_date.localeCompare(b.start_date));
+    renderCalendar();
+    if (dayViewOpen()) openDayModal(selectedDayStr);
+    closeTimeOff();
+  } catch (e) { alert('Could not save time off: ' + e.message); }
+  showLoading(false);
+}
+
+async function removeTimeOff(id) {
+  const o = timeOff.find(x => x.id === id);
+  if (!o || !confirm('Remove time off for ' + o.tech + ' (' + fmtRange(o.start_date, o.end_date) + ')?')) return;
+  try {
+    await dbFetch('/rest/v1/tech_time_off?id=eq.' + id, 'DELETE');
+    timeOff = timeOff.filter(x => x.id !== id);
+    renderCalendar();
+    if (dayViewOpen()) openDayModal(selectedDayStr);
+    if (document.getElementById('timeOffModal').classList.contains('open')) { renderToUpcoming(); renderMiniCal(); }
+  } catch (e) { alert('Could not remove: ' + e.message); }
+}
+
+function renderToUpcoming() {
+  const todayStr = toDateStr(new Date());
+  const list = timeOff.filter(o => o.end_date >= todayStr).slice(0, 12);
+  document.getElementById('toUpcoming').innerHTML = list.length
+    ? list.map(o => '<div class="to-up-row"><span class="off-pill" style="border:none;padding:0;background:none;"><span class="type-dot ' + typeClass(o.off_type) + '"></span></span>'
+        + '<span class="nm">' + esc(o.tech) + '</span>'
+        + '<span class="dt">' + esc(fmtRange(o.start_date, o.end_date)) + (o.note ? ' &middot; <span style="color:#999">' + esc(o.note) + '</span>' : '') + '</span>'
+        + '<button class="off-x" title="Remove" onclick="removeTimeOff(\'' + o.id + '\')">&#x2715;</button></div>').join('')
+    : '<div class="to-empty">Nobody scheduled off.</div>';
 }
 
 // MANAGE TECHS
@@ -763,12 +1096,14 @@ function showLoading(show) { document.getElementById('loadingOverlay').classList
 document.getElementById('dayModal').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
 document.getElementById('loginModal').addEventListener('click', function(e) { if (e.target === this) closeLoginModal(); });
 document.getElementById('manageTechsModal').addEventListener('click', function(e) { if (e.target === this) closeManageTechs(); });
+document.getElementById('timeOffModal').addEventListener('click', function(e) { if (e.target === this) closeTimeOff(); });
 
 const now = new Date();
 currentYear = now.getFullYear();
 currentMonth = now.getMonth();
 renderCalendar();
 loadJobs();
+loadTimeOff();
 </script>
 </body>
 </html>
